@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
 
-    <title></title>
+    <title>index</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -21,56 +21,67 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav ml-auto">
-            <div class="navbar-nav">
-              <a class="nav-item nav-link active" href="#">S'inscrire<span class="sr-only">(current)</span></a>
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Connexion  </button>
-            <!-- The Modal -->
-            <div class="modal fade" id="myModal">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <!-- Modal Header -->
-                  <div class="modal-header">
-                    <div class="modal-body">
-                      <div class="container">
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <div class="well well-sm">
-                              <form>
-                                <div class="row">
-                                  <div class="col-sm-12">
-                                    <div class="form-group">
-                                      <label for="name">Identifiant</label>
-                                      <input type="text" class="form-control" placeholder="Pseudo" required="required" />
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="mdp">Mot de passe</label>
-                                      <div class="input-group">
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-                                        <input type="email" class="form-control" placeholder="0000000" required="required" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                  <div class="col-sm-12">
-                                    <button type="submit" class="btn btn-primary pull-right" id="btnContactUs">Se connecter</button>
-                                  </div>
-                                </div>
-                              </form>
-                            </div>
-                          </div>
-                        </div>
+              <div class="navbar-nav">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">S'inscrire </button>
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Bienvenue dans la communauté des GiveMan</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
                       </div>
+                      <div class="modal-body">
+                       <form>
+                         <div class="form-group row">
+                             <label for="lastname" class="col-sm-4 col-form-label">Identifiant :</label>
+                             <div class="col-sm-6">
+                                 <input type="text" class="form-control" id="lastname">
+                             </div>
+                         </div>
+                         <div class="form-group row">
+                             <label for="fisrtname" class="col-sm-4 col-form-label">Mot de passe :</label>
+                             <div class="col-sm-6">
+                                 <input type="text" class="form-control" id="firstname">
+                             </div>
+                         </div>
+                         <div class="form-group row">
+                             <label for="postal" class="col-sm-4 col-form-label">Confirmer mot de passe :</label>
+                             <div class="col-sm-6">
+                                 <input type="text" class="form-control" id="postal">
+                             </div>
+                         </div>
+                         <div class="form-group row">
+                             <label for="city" class="col-sm-4 col-form-label">Email :</label>
+                             <div class="col-sm-6">
+                                 <input type="text" class="form-control" id="city">
+                             </div>
+                         </div>
+                         <div class="form-group row">
+                             <label for="email" class="col-sm-4 col-form-label">Confirmer Email : </label>
+                             <div class="col-sm-6">
+                                 <input type="text" class="form-control" id="email">
+                             </div>
+                         </div>
+                      </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-primary">Valider</button>
+                        </div>
                     </div>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                   </div>
                 </div>
+
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Connexion  </button>
+
+
+
+
               </div>
-            </div>
-          </div>      
+            </ul>  
           </div>
-        </ul>
-      </div>
-        </nav>
+    </nav>
 <!-- searchbar , plus image à ajouter pour que la bar soit par dessus .-->
     <div class="position relative">
       <img src="http://via.placeholder.com/900x275">
@@ -81,14 +92,14 @@
         </form>
       </div>
     </div>
-  <!--                            -----------------                 -->
+  
     <div class="row">
       <div class="col-xs-3"></div>
       <div class="col-xs-6"></div>
       <!-- implémenter la vidéo ici -->
       <div class="col-xs-3"></div>
     </div>
-  <!--                            ----------------                 -->
+ 
 
     <div>
       <h3>Nos domaines de compétences </h3>
@@ -126,7 +137,7 @@
       </div>
     </div>
 
-    <!--                                       ------------                      -------->
+    
       <div>
         <h3>Un giveman , qu'est ce que c'est ?</h3>
           <ul>
@@ -138,7 +149,7 @@
           </ul>
       </div>
 
-    <!--                                       -------------                      ---->
+    
       <div class="row">
         <div class="col-xs-3"></div>
         <div class="col-xs-6"></div>

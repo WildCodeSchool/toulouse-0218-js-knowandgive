@@ -23,54 +23,94 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav ml-auto">
-          <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="#">S'inscrire<span class="sr-only">(current)</span></a>
 
-
-
-
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Connexion  </button>
-
-
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Connexion</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    
-                    <form>
-                      <div class="form-group row">
-                        <label for="identifiant" class="col-sm-4 col-form-label"><i class="fa fa-user"> </i> Identifiant</label>
-                        <div class="col-sm-6">
-                          <input type="text" class="form-control" id="identifiant">
-                        </div>
+            <div class="navbar-nav">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">S'inscrire </button>
+              <!-- Modal -->
+              <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Bienvenue dans la communauté des GiveMan</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                     <form>
+                       <div class="form-group row">
+                           <label for="lastname" class="col-sm-4 col-form-label">Identifiant :</label>
+                           <div class="col-sm-6">
+                               <input type="text" class="form-control" id="lastname">
+                           </div>
+                       </div>
+                       <div class="form-group row">
+                           <label for="fisrtname" class="col-sm-4 col-form-label">Mot de passe :</label>
+                           <div class="col-sm-6">
+                               <input type="text" class="form-control" id="firstname">
+                           </div>
+                       </div>
+                       <div class="form-group row">
+                           <label for="postal" class="col-sm-4 col-form-label">Confirmer mot de passe :</label>
+                           <div class="col-sm-6">
+                               <input type="text" class="form-control" id="postal">
+                           </div>
+                       </div>
+                       <div class="form-group row">
+                           <label for="city" class="col-sm-4 col-form-label">Email :</label>
+                           <div class="col-sm-6">
+                               <input type="text" class="form-control" id="city">
+                           </div>
+                       </div>
+                       <div class="form-group row">
+                           <label for="email" class="col-sm-4 col-form-label">Confirmer Email : </label>
+                           <div class="col-sm-6">
+                               <input type="text" class="form-control" id="email">
+                           </div>
+                       </div>
+                    </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Valider</button>
                       </div>
-                      <div class="form-group row">
-                        <label for="motDePasse" class="col-sm-4 col-form-label"><i class="fa fa-key"> </i> Mot de passe</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control" id="motDePasse">
-                        </div>
-                      </div>
-                    </form>
-                    
-
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Valider</button>
                   </div>
                 </div>
               </div>
-            </div>
-            
 
 
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Connexion  </button>
 
-          </div>
+
+              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Connexion</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      
+                      <form>
+                        <div class="form-group row">
+                          <label for="identifiant" class="col-sm-4 col-form-label"><i class="fa fa-user"> </i> Identifiant</label>
+                          <div class="col-sm-6">
+                            <input type="text" class="form-control" id="identifiant">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="motDePasse" class="col-sm-4 col-form-label"><i class="fa fa-key"> </i> Mot de passe</label>
+                          <div class="col-sm-6">
+                              <input type="text" class="form-control" id="motDePasse">
+                          </div>
+                        </div>
+                      </form>      
+  
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary">Valider</button>
+
+                     </div>
         </ul>
       </div>
     </nav>
@@ -84,14 +124,9 @@
         </form>
       </div>
     </div>
-  <!--                                           -->
-    <div class="row">
-      <div class="col-xs-3"></div>
-      <div class="col-xs-6"></div>
-      <!-- implémenter la vidéo ici -->
-      <div class="col-xs-3"></div>
+    <div class="row video">
+<!-- Vidéo -->
     </div>
-  <!--                                          -->
 
     <div class="competences">
       <h3>Les <b>domaines</b> les plus <b>populaires</b></h3>
@@ -133,7 +168,6 @@
     </div>
   </div>
 
-    <!--                                       ------------                      -------->
       <div class="giveman">
         <h3>Un <b>giveman</b> , qu'est ce que c'est ?</h3>
           <ul>
@@ -143,8 +177,6 @@
             <li><img src="img/giveman.png" alt="vignette valeur 4" width="3%">Valeur 4</li>
             <li><img src="img/giveman.png" alt="vignette valeur 5" width="3%">Valeur 5</li>
           </ul>
-
-    <!--                                       -------------                      ---->
           <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
             <img src="img/giveman.png" alt="giveman" width="10%">
             Toi aussi, deviens un giveman !

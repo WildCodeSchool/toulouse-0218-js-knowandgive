@@ -71,7 +71,7 @@
 
   <form autocomplete="off" action="/action_page.php">
     <div class="autocomplete" style="width:300px;">
-      <input id="myInput" type="text" name="myCountry" placeholder="Rechercher des compétences">
+      <input id="myInput" type="text" name="Skill" placeholder="Rechercher des compétences">
     </div>
     <input type="submit">
   </form>
@@ -85,7 +85,7 @@
   	function autocomplete(inp, arr) {			/* Cette fonction comporte deux arguments , le champs d'écriture ainsi que l'array pour l'auto complétion */
 
   	  var currentFocus;
-  	  /*VA S EXECUTER LORSQU UN EVENEMENT AURA LIEU , ICI , LE FAIT DE RENSIGNER LE CHAMP */
+  	  /*VA S EXECUTER LORSQU UN EVENEMENT AURA LIEU , ICI , LE FAIT DE RENSEIGNER LE CHAMP */
   	  inp.addEventListener("input", function(e) {
   	      var a, b, i, val = this.value;
   	      /*close any already open lists of autocompleted values*/

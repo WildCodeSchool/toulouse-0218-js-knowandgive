@@ -25,9 +25,9 @@ const html = `
     
 <!-- searchbar , plus image à ajouter pour que la bar soit par dessus .-->
     
-    <div class="row video">
-<!-- Vidéo -->
-    </div>
+    // <div class="row video">
+    // <iframe width="560" height="315" src="https://www.youtube.com/embed/SOcwXwxl4UU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    // </div>
 
     
 

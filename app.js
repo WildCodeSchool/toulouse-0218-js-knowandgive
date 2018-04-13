@@ -105,7 +105,7 @@ const navbarHtml = `<nav class="navbar navbar-expand-lg">
 const searchbarHtml = `<div class="row position">
       <img src="img/echange_cerveau.png" alt="imageSearch"/>
       <div id="searchbar">
-        <form action="#" class="formulaire">
+        <form id="search-form" action="#" class="formulaire">
           <div class="autocomplete">
             <!-- <input class="champ" type="text" value="Search(...)"/> -->
             <input id="myInput" type="text" name="Skill" placeholder="Rechercher des compétences">
@@ -196,8 +196,13 @@ const charteGivemanHtml = `<div class="giveman">
           </button>
       </div>
 `
+function resultKeyword(keyword) {
+  return "resultats pour " + keyword
+}
 
-const searchPageHtml = `<h1>search</h1>`
+function showResultForKeyword(keyword) {
+  mainDiv.innerHTML = resultKeyword(keyword)
+}
 
 const render = mainHTML => {
   mainDiv.innerHTML = navbarHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml
@@ -206,7 +211,7 @@ const render = mainHTML => {
 
 
 const search = () => {
-  mainDiv.innerHTML = navbarHtml + searchPageHtml + footerHtml
+  mainDiv.innerHTML = navbarHtml + searchPageHtml() + footerHtml
 }
 
  
@@ -242,10 +247,24 @@ const home = () => {
       console.log(data)
     })
   })
+
+
+  const autocompleteInput = document.getElementById("myInput")
+  const searchForm = document.getElementById("search-form")
+  console.log(searchForm)
+  searchForm.addEventListener('submit', event => {
+    event.preventDefault()
+    showResultForKeyword(autocompleteInput.value)
+    // const inputElements = searchForm.getElementsByTagName('input')
+    // console.log(searchForm.getElementsByTagName('input'))
+
+  })
+
+
   var skill = ["Jardinage", "Plomberie", "Batiment", "Plaquiste", "Carreleur", "Menuiserie","Electricité", "Cuisine", "Musique", "Informatique", "Bricolage", "Mécanique"];
     /* FIN DE LA PARTIE MOTS CLEFS */
 
-  autocomplete(document.getElementById("myInput"), skill);
+  autocomplete(autocompleteInput, skill);
 }
 
 // home()

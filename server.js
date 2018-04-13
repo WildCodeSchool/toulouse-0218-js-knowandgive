@@ -1,3 +1,8 @@
+const express = require('express')
+const app = express()
+app.use(express.static(__dirname))
+
+const html = `
 <!doctype html>
 <html lang="en">
   <head>
@@ -19,9 +24,9 @@
     
 <!-- searchbar , plus image à ajouter pour que la bar soit par dessus .-->
     
-    <div class="row video">
-<!-- Vidéo -->
-    </div>
+    // <div class="row video">
+    // <iframe width="560" height="315" src="https://www.youtube.com/embed/SOcwXwxl4UU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    // </div>
 
     
 
@@ -42,3 +47,19 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
       <script src="app.js"></script>
 </html>
+`
+
+app.get('*', (rep, res) => {
+    res.send(html)
+    res.end()
+})
+
+app.post('/connexion-url', (req, res) => {
+    console.log(req.body)
+    res.json({
+        success : true
+    })
+})
+
+console.log('Server listening on http://127.0.0.1:4000')
+app.listen(4000)

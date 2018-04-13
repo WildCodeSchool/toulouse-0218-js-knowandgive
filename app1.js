@@ -1,6 +1,6 @@
 const mainDiv = document.getElementById('main')
 
-const navbarHtml = `<nav class="navbar navbar-expand-lg">
+const navbarHtml = /* @html */`<nav class="navbar navbar-expand-lg">
       <img class="logo" src="img/logo.png">
       <a class="navbar-brand" href="#">Know & Give</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,7 +76,7 @@ const navbarHtml = `<nav class="navbar navbar-expand-lg">
                       </button>
                     </div>
                     <div class="modal-body">
-                      
+
                       <form>
                         <div class="form-group row">
                           <label for="identifiant" class="col-sm-4 col-form-label"><i class="fa fa-user"> </i> Identifiant</label>
@@ -90,8 +90,8 @@ const navbarHtml = `<nav class="navbar navbar-expand-lg">
                               <input type="text" class="form-control" id="motDePasse">
                           </div>
                         </div>
-                      </form>      
-  
+                      </form>
+
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-primary">Valider</button>
@@ -102,7 +102,7 @@ const navbarHtml = `<nav class="navbar navbar-expand-lg">
     </nav>
 `
 
-const searchbarHtml = `<div class="row position">
+const searchbarHtml = /* @html */ `<div class="row position">
       <img src="img/echange_cerveau.png" alt="imageSearch"/>
       <div id="searchbar">
         <form action="#" class="formulaire">
@@ -113,7 +113,7 @@ const searchbarHtml = `<div class="row position">
     </div>
 `
 
-const competencesHtml = `<div class="competences">
+const competencesHtml = /* @html */ `<div class="competences">
       <h3>Les <b>domaines</b> les plus <b>populaires</b></h3>
       <div class = "row items">
       <div class = "col-md-3">
@@ -154,11 +154,11 @@ const competencesHtml = `<div class="competences">
   </div>
 `
 
-const footerHtml = `<footer class="footer">
+const footerHtml = /* @html */ `<footer class="footer">
     <div class="container">
         <div class="row justify-content-md-center">
           <div class="col-md-6  col-lg-3 ">
-              
+
             <ul class="nav">
                 <li class="nav-item"><a href="" class="nav-link"><img src="img/facebook.png" alt="facebook" width="13px"></a></li>
                 <li class="nav-item"><a href="" class="nav-link"><img src="img/instagram.png" alt="instagram" width="35px"></a></li>
@@ -167,12 +167,12 @@ const footerHtml = `<footer class="footer">
             </ul>
             <br>
             <p>By Wild Code School</p>
-          </div> 
+          </div>
         </div>
     </div>
   </footer>
 `
-const charteGivemanHtml = `<div class="giveman">
+const charteGivemanHtml = /* @html */ `<div class="giveman">
         <h3>Un <b>giveman</b> , qu'est ce que c'est ?</h3>
           <ul>
             <li><img src="img/giveman.png" alt="vignette valeur 1" width="3%">valeur 1</li>

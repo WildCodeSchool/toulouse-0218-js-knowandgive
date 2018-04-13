@@ -103,7 +103,7 @@ const navbarHtml = `<nav class="navbar navbar-expand-lg">
 `
 
 const searchbarHtml = `<div class="row position">
-      <img src="img/echange_cerveau.png" alt="imageSearch"/>
+      <img src="img/banniere-know-and-give.png" alt="imageSearch"/>
       <div id="searchbar">
         <form action="#" class="formulaire">
           <input class="champ" type="text" value="Search(...)"/>

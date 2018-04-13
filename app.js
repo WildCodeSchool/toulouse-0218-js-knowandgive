@@ -106,8 +106,11 @@ const searchbarHtml = `<div class="row position">
       <img src="img/echange_cerveau.png" alt="imageSearch"/>
       <div id="searchbar">
         <form action="#" class="formulaire">
-          <input class="champ" type="text" value="Search(...)"/>
-            <input class="bouton" type="button" value="Je recherche" />
+          <div class="autocomplete">
+            <!-- <input class="champ" type="text" value="Search(...)"/> -->
+            <input id="myInput" type="text" name="Skill" placeholder="Rechercher des compétences">
+            <input class="bouton" type="submit" value="Je recherche" /> 
+          </div>
         </form>
       </div>
     </div>
@@ -189,12 +192,17 @@ const charteGivemanHtml = `<div class="giveman">
       </div>
 `
 
+const searchPageHtml = `<h1>search</h1>`
+
 const render = mainHTML => {
   mainDiv.innerHTML = navbarHtml + searchbarHtml + competencesHtml + charteGivemanHtml + footerHtml
 }
 
 
 
+const search = () => {
+  mainDiv.innerHTML = navbarHtml + searchPageHtml + footerHtml
+}
 
  
 const home = () => {
@@ -229,5 +237,14 @@ const home = () => {
       console.log(data)
     })
   })
+  var skill = ["Jardinage", "Plomberie", "Batiment", "Plaquiste", "Carreleur", "Menuiserie","Electricité", "Cuisine", "Musique", "Informatique", "Bricolage", "Mécanique"];
+    /* FIN DE LA PARTIE MOTS CLEFS */
+
+  autocomplete(document.getElementById("myInput"), skill);
 }
-home()
+// home()
+// 
+page('/', home)
+page('/search', search)
+// page('*', notfound)
+page()

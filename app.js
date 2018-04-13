@@ -55,7 +55,7 @@ const navbarHtml = `<nav class="navbar navbar-expand-lg">
                        </div>
                     </div>
                     <div class="modal-footer">
-                      <input type="button" class="btn btn-primary"><a class="renvoi-page-perso btn btn-primary" href="pagePerso.html">Valider</a></input>
+                      <button type="button" class="btn btn-primary"><a class="renvoi-page-perso btn btn-primary" href="pagePerso.html">Valider</a></input>
                     </div>
                   </form>
                   </div>
@@ -94,7 +94,7 @@ const navbarHtml = `<nav class="navbar navbar-expand-lg">
   
                     </div>
                     <div class="modal-footer">
-                      <input type="submit" class="btn btn-primary" value="Valider"></input>
+                      <input type="submit" class="btn btn-primary" value="Valider" />
                     </div>
                   </form>  
         </ul>
@@ -115,6 +115,11 @@ const searchbarHtml = `<div class="row position">
       </div>
     </div>
 `
+const presentationHtml = `<div class="video">
+    <p><i>"Il y a une naissance en toute connaissance."</i> - Pascal Quignard</p>
+    <iframe width="672" height="378" src="https://www.youtube.com/embed/SOcwXwxl4UU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    `
 
 const competencesHtml = `<div class="competences">
       <h3>Les <b>domaines</b> les plus <b>populaires</b></h3>
@@ -195,7 +200,7 @@ const charteGivemanHtml = `<div class="giveman">
 const searchPageHtml = `<h1>search</h1>`
 
 const render = mainHTML => {
-  mainDiv.innerHTML = navbarHtml + searchbarHtml + competencesHtml + charteGivemanHtml + footerHtml
+  mainDiv.innerHTML = navbarHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml
 }
 
 
@@ -242,9 +247,11 @@ const home = () => {
 
   autocomplete(document.getElementById("myInput"), skill);
 }
+
 // home()
 // 
 page('/', home)
 page('/search', search)
 // page('*', notfound)
 page()
+

@@ -1,6 +1,6 @@
 const mainDiv = document.getElementById('main')
 
-const navbarHtml = `<nav class="navbar navbar-expand-lg">
+const navbarHtml = /* @html */ `<nav class="navbar navbar-expand-lg">
       <img class="logo" src="img/logo.png">
       <a class="navbar-brand" href="#">Know & Give</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -102,7 +102,7 @@ const navbarHtml = `<nav class="navbar navbar-expand-lg">
     </nav>
 `
 
-const searchbarHtml = `<div class="row position">
+const searchbarHtml = /* @html */`<div class="row position">
       <img src="img/banniere-know-and-give.png" alt="imageSearch"/>
       <div id="searchbar">
         <form action="#" class="formulaire">
@@ -112,13 +112,13 @@ const searchbarHtml = `<div class="row position">
       </div>
     </div>
 `
-const presentationHtml = `<div class="video">
+const presentationHtml = /* @html */ `<div class="video">
     <p><i>"Il y a une naissance en toute connaissance."</i> - Pascal Quignard</p>
     <iframe width="672" height="378" src="https://www.youtube.com/embed/SOcwXwxl4UU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
     `
 
-const competencesHtml = `<div class="competences">
+const competencesHtml = /* @html */ `<div class="competences">
       <h3>Les <b>domaines</b> les plus <b>populaires</b></h3>
       <div class = "row items">
       <div class = "col-md-3">
@@ -159,7 +159,7 @@ const competencesHtml = `<div class="competences">
   </div>
 `
 
-const footerHtml = `<footer class="footer">
+const footerHtml = /* @html */ `<footer class="footer">
     <div class="container">
         <div class="row justify-content-md-center">
           <div class="col-md-6  col-lg-3 ">
@@ -177,7 +177,7 @@ const footerHtml = `<footer class="footer">
     </div>
   </footer>
 `
-const charteGivemanHtml = `<div class="giveman">
+const charteGivemanHtml = /* @html */ `<div class="giveman">
         <h3>Un <b>giveman</b> , qu'est ce que c'est ?</h3>
           <ul>
             <li><img src="img/giveman.png" alt="vignette valeur 1" width="3%">valeur 1</li>

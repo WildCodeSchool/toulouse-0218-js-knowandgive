@@ -49,16 +49,38 @@ const html = `
 </html>
 `
 
+
 app.get('*', (rep, res) => {
     res.send(html)
     res.end()
 })
 
+const users = []
+let id = 1
+
 app.post('/connexion-url', (req, res) => {
     console.log(req.body)
-    res.json({
-        success : true
-    })
+
+    const identifiant = req.body.identifiant
+    const password = req.body.mdp
+
+    const existingUser = users.find(user => user.email === email)
+    if(existingUser !== undefined) {
+        return res.status(400).json({
+            error: 'Email déjà enregistré'
+        })
+    }
+
+    const newUser = {
+        identifiant: id,
+        mdp: password
+    }
+
+    users.push(newUser)
+
+    id += 1
+
+    res.json(newUser)
 })
 
 console.log('Server listening on http://127.0.0.1:4000')

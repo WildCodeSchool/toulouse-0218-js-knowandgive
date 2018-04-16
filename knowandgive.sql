@@ -24,11 +24,17 @@ DROP TABLE IF EXISTS `Message`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Message` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `Date_Time` date NOT NULL,
-  `Message` text,
+  `senderId` int(11) NOT NULL,
+  `recipientId` int(11) NOT NULL,
+  `dateTime` date NOT NULL,
+  `message` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+ALTER TABLE Message
+ADD FOREIGN KEY (senderId) REFERENCES User(id)
+ADD FOREIGN KEY (recipientId) REFERENCES User(id);
 
 --
 -- Dumping data for table `Message`
@@ -48,16 +54,20 @@ DROP TABLE IF EXISTS `Profile`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Profile` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `Lastname` varchar(100) NOT NULL,
-  `Firstname` varchar(100) NOT NULL,
-  `Zip_code` int(11) DEFAULT NULL,
-  `City` varchar(100) DEFAULT NULL,
-  `Photo` text,
-  `Linkedin` text,
-  `Description` text,
+  `userId` int(11) NOT NULL,
+  `lastname` varchar(100) NOT NULL,
+  `firstname` varchar(100) NOT NULL,
+  `zipCode` int(11) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `photo` varchar(250) DEFAULT NULL,
+  `linkedin` varchar(250) DEFAULT NULL,
+  `description` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+ALTER TABLE Profile
+ADD FOREIGN KEY (userId) REFERENCES Users(id);
 
 --
 -- Dumping data for table `Profile`
@@ -72,12 +82,12 @@ UNLOCK TABLES;
 -- Table structure for table `Skills`
 --
 
-DROP TABLE IF EXISTS `Skills`;
+DROP TABLE IF EXISTS `Skill`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Skills` (
+CREATE TABLE `Skill` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `Skill` varchar(150) DEFAULT NULL,
+  `skill` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -102,7 +112,7 @@ CREATE TABLE `User` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user` varchar(100) NOT NULL,
   `email` varchar(180) NOT NULL,
-  `password` varchar(15) DEFAULT NULL,
+  `password` varchar(15) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -115,6 +125,34 @@ LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `profileSkill`
+--
+
+DROP TABLE IF EXISTS `ProfileSkill`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ProfileSkill` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `profileId` int(11) NOT NULL,
+  `skillId` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+ALTER TABLE ProfileSkill
+ADD FOREIGN KEY (profileId) REFERENCES Profile(id)
+ADD FOREIGN KEY (skillId) REFERENCES Skill(id);
+
+--
+-- Dumping data for table `profileSkill`
+--
+
+LOCK TABLES `profileSkill` WRITE;
+/*!40000 ALTER TABLE `profileSkill` DISABLE KEYS */;
+/*!40000 ALTER TABLE `profileSkill` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -125,4 +163,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-16 16:13:21
+-- Dump completed on 2018-04-16 16:58:29

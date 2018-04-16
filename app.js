@@ -102,6 +102,7 @@ const navbarHtml = /* @html */ `<nav class="navbar navbar-expand-lg">
     </nav>
 `
 
+
 const searchbarHtml = /* @html */ `<div class="row position">
       <img src="img/banniere-know-and-give.png" alt="imageSearch"/>
       <div id="searchbar">
@@ -118,7 +119,8 @@ const presentationHtml = /* @html */ `<div class="video">
     </div>
     `
 
-const competencesHtml = /* @html */`<div class="competences">
+    
+const competencesHtml = /* @html */ `<div class="competences">
       <h3>Les <b>domaines</b> les plus <b>populaires</b></h3>
       <div class = "row items">
       <div class = "col-md-3">

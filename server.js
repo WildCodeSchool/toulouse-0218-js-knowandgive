@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 app.use(express.static(__dirname))
 
-const html = `
+const html = /* @html */`
 <!doctype html>
 <html lang="en">
   <head>
@@ -21,26 +21,9 @@ const html = `
   </head>
   <body>
     <div id="main">
-    
-<!-- searchbar , plus image à ajouter pour que la bar soit par dessus .-->
-    
-    // <div class="row video">
-    // <iframe width="560" height="315" src="https://www.youtube.com/embed/SOcwXwxl4UU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    // </div>
 
-    
-
-      
-
-
-
-    
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    
-  
-</div>
-</body>
+    </div>
+  </body>
 
  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

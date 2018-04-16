@@ -2,9 +2,10 @@
   "name": "knowandgive-backend",
   "version": "0.0.1",
   "description": "",
-  "main": "server1.js",
+  "main": "server.js",
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "mysql": "^2.15.0"
   },
   "devDependencies": {},
   "scripts": {

@@ -90,13 +90,12 @@ const navbarHtml = /* @html */ `<nav class="navbar navbar-expand-lg">
                               <input type="text" class="form-control" id="motDePasse">
                           </div>
                         </div>
-
+                      </form>
 
                     </div>
                     <div class="modal-footer">
-                      <input type="submit" class="btn btn-primary" value="Valider" />
+                      <input form="form-post" type="submit" class="btn btn-primary" value="Valider" />
                     </div>
-                  </form>
         </ul>
       </div>
     </nav>
@@ -119,7 +118,7 @@ const presentationHtml = /* @html */ `<div class="video">
     </div>
     `
 
-    
+
 const competencesHtml = /* @html */ `<div class="competences">
       <h3>Les <b>domaines</b> les plus <b>populaires</b></h3>
       <div class = "row items">

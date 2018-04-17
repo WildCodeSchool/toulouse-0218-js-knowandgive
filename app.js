@@ -97,6 +97,8 @@ const navbarHtml = /* @html */ `
                     <div class="modal-footer">
                       <input form="form-post" type="submit" class="btn btn-primary" value="Valider" />
                     </div>
+                  </div>
+                </div>
         </ul>
       </div>
   </nav>
@@ -478,7 +480,6 @@ const home = () => {
        data[input.name] = input.value
       }
     }
-
 
     const dataJSON = JSON.stringify(data)
 

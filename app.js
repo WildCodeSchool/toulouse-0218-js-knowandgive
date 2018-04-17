@@ -75,7 +75,7 @@ const navbarHtml = /* @html */ `
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
-                  </div>
+
                     <div class="modal-body">
 
                       <form id="form-post" method="POST" action="/connexion">
@@ -85,25 +85,41 @@ const navbarHtml = /* @html */ `
                             <input type="text" class="form-control" id="identifiant" name="user">
                           </div>
                         </div>
-                        <div class="form-group row">
-                          <label for="motDePasse" class="col-sm-4 col-form-label"><i class="fa fa-key"> </i> Mot de passe</label>
-                          <div class="col-sm-6">
-                              <input type="text" class="form-control" id="motDePasse" name="password">
-                          </div>
-                        </div>
-                      </form>
 
+                    <div class="form-group row">
+                      <label for="motDePasse" class="col-sm-4 col-form-label"><i class="fa fa-key"> </i> Mot de passe</label>
+                      <div class="col-sm-6">
+                          <input type="text" class="form-control" id="motDePasse">
+                      </div>
+                    </div>
+                      </form>
                     </div>
                     <div class="modal-footer">
-                      <input form="form-post" type="submit" class="btn btn-primary" value="Valider" />
+                      <a href="/pageIndexConnecte"><input form="form-post" type="submit" class="btn btn-primary" value="Valider" /></a>
                     </div>
                   </div>
+<<<<<<< HEAD
                 </div>
+=======
+>>>>>>> profil
         </ul>
       </div>
   </nav>
 `
-
+const navbarBisHtml = /* @html */ `
+<nav class="navbar navbar-expand-lg">
+    <img class="logo" src="img/logo.png">
+    <a class="navbar-brand" href="#">Know & Give</a>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <ul class="navbar-nav ml-auto">
+        <div class="navbar-nav">
+          <a href="/messagerie"><span class="icon-envelop"></span></a>
+          <a href="/pagePerso"><span class="icon-user"></span></a>
+          <a href="/showHome"><span class="icon-switch"></span></a>
+        </div>
+      </ul>
+</nav>
+`
 
 const searchbarHtml = /* @html */ `<div class="row position">
       <img src="img/banniere-know-and-give.png" alt="imageSearch"/>
@@ -392,14 +408,28 @@ const showHome = () => {
 
 const showPagePerso = () => {
   mainDiv.innerHTML = pagePersoHtml
+  removeBackdrops()
+}
+
+function removeBackdrops() {
+  const backdrops = document.getElementsByClassName('modal-backdrop')
+  if (backdrops.length > 0) {
+    document.body.removeChild(backdrops[0])
+  }
 }
 
 const showPageProfil = () => {
   mainDiv.innerHTML = pageProfilHtml
 }
 
+const showIndexConnecte = () => {
+  mainDiv.innerHTML = navbarBisHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml
+  removeBackdrops()
+}
+
 page("/", showHome)
 page("/pagePerso", showPagePerso)
+page("/pageIndexConnecte", showIndexConnecte)
 page("/pageProfil", showPageProfil)
 page()
 

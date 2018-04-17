@@ -17,8 +17,13 @@ const html = /* @html */`
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<<<<<<< HEAD
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="recherche.css">
+=======
+    <link rel="stylesheet" href="css/givemenStyle.css">
+    <link rel="stylesheet" href="css/style.css">
+>>>>>>> profil
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Amaranth" rel="stylesheet">
 

@@ -77,17 +77,17 @@ const navbarHtml = /* @html */ `<nav class="navbar navbar-expand-lg">
                     </div>
                     <div class="modal-body">
 
-                      <form id="form-post" method="POST" action="/connexion-url">
+                      <form id="form-post" method="POST" action="/connexion">
                         <div class="form-group row">
                           <label for="identifiant" class="col-sm-4 col-form-label"><i class="fa fa-user"> </i> Identifiant</label>
                           <div class="col-sm-6">
-                            <input type="text" class="form-control" id="identifiant">
+                            <input type="text" class="form-control" id="identifiant" name="user">
                           </div>
                         </div>
                         <div class="form-group row">
                           <label for="motDePasse" class="col-sm-4 col-form-label"><i class="fa fa-key"> </i> Mot de passe</label>
                           <div class="col-sm-6">
-                              <input type="text" class="form-control" id="motDePasse">
+                              <input type="text" class="form-control" id="motDePasse" name="password">
                           </div>
                         </div>
                       </form>
@@ -207,29 +207,29 @@ const home = () => {
   render(navbarHtml)
 
   const connexion = document.getElementById('form-post')
-  console.log(connexion)
   connexion.addEventListener('submit', event => {
 
-    let data = {}
+
 
     event.preventDefault()
     const inputs = connexion.getElementsByTagName('input')
+    let data = {}
     for (input of inputs) {
       if (input.name !== '') {
-        data[input.name] = input.value
+       data[input.name] = input.value
       }
     }
 
-    const body = JSON.stringify(data)
-    //console.log(body)
 
-    fetch('/connexion-url', {
+    const dataJSON = JSON.stringify(data)
+
+    fetch('/connexion', {
       method: 'POST',
-      body: body,
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
-      }
+      },
+      body: dataJSON
     })
     .then(response => response.json())
     .then(data => {

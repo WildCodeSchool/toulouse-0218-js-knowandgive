@@ -93,12 +93,12 @@ CREATE TABLE `Skill` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Skills`
+-- Dumping data for table `Skill
 --
 
-LOCK TABLES `Skills` WRITE;
-/*!40000 ALTER TABLE `Skills` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Skills` ENABLE KEYS */;
+LOCK TABLES `Skill` WRITE;
+/*!40000 ALTER TABLE `Skill` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Skill` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

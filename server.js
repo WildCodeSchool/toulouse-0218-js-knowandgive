@@ -1,6 +1,10 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const app = express()
+const connection = require('./database')
+
 app.use(express.static(__dirname))
+app.use(bodyParser.json())
 
 const html = /* @html */`
 <!doctype html>
@@ -33,38 +37,56 @@ const html = /* @html */`
 `
 
 
+
+// const users = []
+// let id = 1
+
+app.post('/connexion', (req, res) => {
+    console.log(req.body)
+
+    const user = req.body.user
+    const password = req.body.password
+    const query = `SELECT user, password FROM User WHERE user = '${user}' AND password = '${password}'`
+
+
+    connection.query(query, (error, results) => {
+      if(error) {
+        return res.status(500).json({
+          error: error.message
+        })
+      }
+      const user =results[0]
+      res.json({ result: results[0] })
+    })
+
+
+
+    //
+    // const existingUser = users.find(user => user.email === email)
+    // if(existingUser !== undefined) {
+    //     return res.status(400).json({
+    //         error: 'Email déjà enregistré'
+    //     })
+    // }
+    //
+    // const newUser = {
+    //     identifiant: id,
+    //     mdp: password
+    // }
+    //
+    // users.push(newUser)
+    //
+    // id += 1
+    //
+    // res.json(newUser)
+})
+
+
 app.get('*', (rep, res) => {
     res.send(html)
     res.end()
 })
 
-const users = []
-let id = 1
-
-app.post('/connexion-url', (req, res) => {
-    console.log(req.body)
-
-    const identifiant = req.body.identifiant
-    const password = req.body.mdp
-
-    const existingUser = users.find(user => user.email === email)
-    if(existingUser !== undefined) {
-        return res.status(400).json({
-            error: 'Email déjà enregistré'
-        })
-    }
-
-    const newUser = {
-        identifiant: id,
-        mdp: password
-    }
-
-    users.push(newUser)
-
-    id += 1
-
-    res.json(newUser)
-})
 
 console.log('Server listening on http://127.0.0.1:4000')
 app.listen(4000)

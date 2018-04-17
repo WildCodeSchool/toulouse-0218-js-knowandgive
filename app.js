@@ -91,13 +91,11 @@ const navbarHtml = /* @html */ `
                           </div>
                         </div>
                       </form>
-                        <div class="modal-footer">
-                          <input type="submit" class="btn btn-primary" value="Valider" />
-                        </div>
+
                     </div>
-                </div>
-            </div>
-          </div>
+                    <div class="modal-footer">
+                      <input form="form-post" type="submit" class="btn btn-primary" value="Valider" />
+                    </div>
         </ul>
       </div>
   </nav>

@@ -89,19 +89,17 @@ const navbarHtml = /* @html */ `
                     <div class="form-group row">
                       <label for="motDePasse" class="col-sm-4 col-form-label"><i class="fa fa-key"> </i> Mot de passe</label>
                       <div class="col-sm-6">
-                          <input type="text" class="form-control" id="motDePasse">
+                          <input type="text" class="form-control" id="motDePasse" name="password">
                       </div>
                     </div>
                       </form>
                     </div>
                     <div class="modal-footer">
-                      <a href="/pageIndexConnecte"><input form="form-post" type="submit" class="btn btn-primary" value="Valider" /></a>
+                      <!-- <a href="/pageIndexConnecte"> -->
+                        <input form="form-post" type="submit" class="btn btn-primary" value="Valider" />
+                      <!-- </a> -->
                     </div>
                   </div>
-<<<<<<< HEAD
-                </div>
-=======
->>>>>>> profil
         </ul>
       </div>
   </nav>
@@ -236,8 +234,6 @@ const resultHtml = givemen => `<ul class="list-unstyled">
   ${
     givemen.map(getGivemanHtml).join('\n')
   }
-
-
 `
 
 
@@ -455,6 +451,7 @@ const home = () => {
       }
     }
 
+
     const dataJSON = JSON.stringify(data)
 
     fetch('/connexion', {
@@ -470,6 +467,7 @@ const home = () => {
       console.log(data)
     })
   })
+
 
 
   const autocompleteInput = document.getElementById("myInput")

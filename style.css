@@ -67,18 +67,18 @@ h3 {
 
 .position > img {
   position: relative;
-  width: 100%;
-  height: 35vw;
+  opacity: 0.6;
+  border: 3px solid #00FE44;
 }
 
 .position > #searchbar {
   position: absolute;
-  top: 70%;
-  left: 40%;
-  border: 5px solid black;
-  border-radius: 15px;
-  background-color: #C4C4C4;
-  padding: 30px;
+  top: 35%;
+  left: 35%;
+  background-image: linear-gradient(to right, white, #C4C4C4);
+  border: 2px solid grey;
+  box-shadow: 5px 10px 9px grey;
+  padding: 30px 70px;
 }
 
 .giveman li {

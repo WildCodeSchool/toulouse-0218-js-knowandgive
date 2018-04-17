@@ -109,8 +109,11 @@ const searchbarHtml = /* @html */ `<div class="row position">
       <img src="img/banniere-know-and-give.png" alt="imageSearch"/>
       <div id="searchbar">
         <form action="#" class="formulaire">
-          <input class="champ" type="text" value="Search(...)"/>
-            <input class="bouton" type="button" value="Je recherche" />
+          <div class="autocomplete">
+            <!-- <input class="champ" type="text" value="Search(...)"/> -->
+            <input id="myInput" type="text" name="Skill" placeholder="Rechercher des compétences">
+            <input class="bouton" type="submit" value="Je recherche" />
+          </div>
         </form>
       </div>
     </div>
@@ -463,6 +466,9 @@ page("/pageProfil", showPageProfil)
 page()
 
 
+const search = () => {
+  mainDiv.innerHTML = navbarHtml + searchPageHtml + footerHtml
+}
 
 const home = () => {
   render(navbarHtml)
@@ -496,5 +502,14 @@ const home = () => {
       console.log(data)
     })
   })
+  var skill = ["Jardinage", "Plomberie", "Batiment", "Plaquiste", "Carreleur", "Menuiserie","Electricité", "Cuisine", "Musique", "Informatique", "Bricolage", "Mécanique"];
+    /* FIN DE LA PARTIE MOTS CLEFS */
+
+  autocomplete(document.getElementById("myInput"), skill);
 }
-home()
+// home()
+//
+page('/', home)
+page('/search', search)
+// page('*', notfound)
+page()

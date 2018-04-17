@@ -207,6 +207,7 @@ const home = () => {
   render(navbarHtml)
 
   const connexion = document.getElementById('form-post')
+  console.log(connexion)
   connexion.addEventListener('submit', event => {
 
     let data = {}
@@ -220,7 +221,7 @@ const home = () => {
     }
 
     const body = JSON.stringify(data)
-    console.log(body)
+    //console.log(body)
 
     fetch('/connexion-url', {
       method: 'POST',

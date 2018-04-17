@@ -380,7 +380,6 @@ function showResultForKeyword(keyword) {
   ]
   render(searchbarHtml + resultHtml(givemen))
 }
->>>>>>> testserveur
 
 const render = mainHTML => {
   mainDiv.innerHTML = navbarHtml + mainHTML + footerHtml

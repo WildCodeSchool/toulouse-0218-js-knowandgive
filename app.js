@@ -108,7 +108,7 @@ const navbarHtml = /* @html */ `
 const searchbarHtml = /* @html */ `<div class="row position">
       <img src="img/banniere-know-and-give.png" alt="imageSearch"/>
       <div id="searchbar">
-        <form action="#" class="formulaire">
+        <form id="search-form" action="#" class="formulaire">
           <div class="autocomplete">
             <!-- <input class="champ" type="text" value="Search(...)"/> -->
             <input id="myInput" type="text" name="Skill" placeholder="Rechercher des compétences">
@@ -200,6 +200,30 @@ const charteGivemanHtml = /* @html */ `<div class="giveman">
           </button>
       </div>
 `
+function getGivemanHtml(giveman){
+  return `
+  <li class="media">
+    <img class="mr-3" src="${giveman.photo}" alt="Generic placeholder image">
+    <div class="media-body">
+      <h5 class="mt-0 mb-1">${giveman.firstname} ${giveman.lastname}</h5>
+      <p>${giveman.description}</p>
+      <span class="badge badge-pill badge-primary">Bricolage</span>
+       </div>
+  </li>
+  `
+}
+
+// console.log(givemen.map(getGivemanHtml).join('\n'))
+
+const resultHtml = givemen => `<ul class="list-unstyled">
+
+  ${
+    givemen.map(getGivemanHtml).join('\n')
+  }
+
+
+`
+
 
 const pagePersoHtml = /* @html */ `
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -291,95 +315,9 @@ const pagePersoHtml = /* @html */ `
                </div>
            </div>
        </div>
-       <footer class="footer">
-         <div class="container">
-             <div class="row justify-content-md-center">
-                 <div class="col-md-6  col-lg-3 ">
-                     <ul class="nav">
-                         <li class="nav-item"><a href="" class="nav-link pl-0"><i class="fa fa-facebook fa-lg"></i></a></li>
-                         <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-twitter fa-lg"></i></a></li>
-                         <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-youtube fa-lg"></i></a></li>
-                         <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-instagram fa-lg"></i></a></li>
-                     </ul>
-                     <br>
-                 </div>
-             </div>
-         </div>
-       </footer>
 `
 
 const pageProfilHtml = /* @html */ `
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-
-    <img class="logo" src="img/logo.png">
-    <a class="navbar-brand" href="#">Know and Give</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <ul class="navbar-nav ml-auto">
-          <div class="navbar-nav">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">S'inscrire </button>
-            <!-- Modal -->
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Bienvenue dans la communauté des GiveMan</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                   <form>
-                     <div class="form-group row">
-                         <label for="lastname" class="col-sm-4 col-form-label">Identifiant :</label>
-                         <div class="col-sm-6">
-                             <input type="text" class="form-control" id="lastname">
-                         </div>
-                     </div>
-                     <div class="form-group row">
-                         <label for="fisrtname" class="col-sm-4 col-form-label">Mot de passe :</label>
-                         <div class="col-sm-6">
-                             <input type="text" class="form-control" id="firstname">
-                         </div>
-                     </div>
-                     <div class="form-group row">
-                         <label for="postal" class="col-sm-4 col-form-label">Confirmer mot de passe :</label>
-                         <div class="col-sm-6">
-                             <input type="text" class="form-control" id="postal">
-                         </div>
-                     </div>
-                     <div class="form-group row">
-                         <label for="city" class="col-sm-4 col-form-label">Email :</label>
-                         <div class="col-sm-6">
-                             <input type="text" class="form-control" id="city">
-                         </div>
-                     </div>
-                     <div class="form-group row">
-                         <label for="email" class="col-sm-4 col-form-label">Confirmer Email : </label>
-                         <div class="col-sm-6">
-                             <input type="text" class="form-control" id="email">
-                         </div>
-                     </div>
-                  </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-primary"><a class="renvoi-page-perso btn btn-primary" href="/pagePerso">Valider</a></input>
-                    </div>
-                </div>
-              </div>
-            </div>
-
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Connexion  </button>
-
-
-
-
-          </div>
-      </ul>
-    </div>
-    </nav>
-
     <div class="container-fluid">
     <div class="row">
       <div class="col-md-2">
@@ -424,27 +362,28 @@ const pageProfilHtml = /* @html */ `
      </div>
     </li>
     </ul>
-    <footer class="footer">
-    <div class="container">
-      <div class="row justify-content-md-center">
-          <div class="col-md-6  col-lg-3 ">
-
-              <ul class="nav">
-                  <li class="nav-item"><a href="" class="nav-link pl-0"><i class="fa fa-facebook fa-lg"></i></a></li>
-                  <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-twitter fa-lg"></i></a></li>
-                  <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-youtube fa-lg"></i></a></li>
-                  <li class="nav-item"><a href="" class="nav-link"><i class="fa fa-instagram fa-lg"></i></a></li>
-              </ul>
-              <br>
-          </div>
-
-      </div>
-
-    </footer>
 `
+function resultKeyword(keyword) {
+  return "resultats pour " + keyword
+}
+
+function showResultForKeyword(keyword) {
+  const givemen = [
+    {
+    id: 1,
+    firstname : 'Jacques',
+    lastname: 'Chirac',
+    photo : '/img/art.png',
+    description : 'blablabla',
+    skills : ['bricolage']
+    }
+  ]
+  render(searchbarHtml + resultHtml(givemen))
+}
+>>>>>>> testserveur
 
 const render = mainHTML => {
-  mainDiv.innerHTML = navbarHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml
+  mainDiv.innerHTML = navbarHtml + mainHTML + footerHtml
 }
 
 const showHome = () => {
@@ -467,11 +406,11 @@ page()
 
 
 const search = () => {
-  mainDiv.innerHTML = navbarHtml + searchPageHtml + footerHtml
+  mainDiv.innerHTML = navbarHtml + searchPageHtml() + footerHtml
 }
 
 const home = () => {
-  render(navbarHtml)
+  render(searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml)
 
   const connexion = document.getElementById('form-post')
   connexion.addEventListener('submit', event => {
@@ -502,10 +441,24 @@ const home = () => {
       console.log(data)
     })
   })
+
+
+  const autocompleteInput = document.getElementById("myInput")
+  const searchForm = document.getElementById("search-form")
+  console.log(searchForm)
+  searchForm.addEventListener('submit', event => {
+    event.preventDefault()
+    showResultForKeyword(autocompleteInput.value)
+    // const inputElements = searchForm.getElementsByTagName('input')
+    // console.log(searchForm.getElementsByTagName('input'))
+
+  })
+
+
   var skill = ["Jardinage", "Plomberie", "Batiment", "Plaquiste", "Carreleur", "Menuiserie","Electricité", "Cuisine", "Musique", "Informatique", "Bricolage", "Mécanique"];
     /* FIN DE LA PARTIE MOTS CLEFS */
 
-  autocomplete(document.getElementById("myInput"), skill);
+  autocomplete(autocompleteInput, skill);
 }
 // home()
 //
@@ -513,3 +466,5 @@ page('/', home)
 page('/search', search)
 // page('*', notfound)
 page()
+
+home()

@@ -1,0 +1,175 @@
+a {
+  text-decoration: none;
+}
+body {
+  background: #edf0f5;
+}
+.app-content .action-panel {
+  width: 140px;
+  margin-top: 15px;
+  margin-left: 15px;
+  float: left;
+}
+
+
+.app-content .action-panel > .list-group > a {
+  color: #6a6c6f;
+  display: block;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.app-content .action-panel > .list-group > a > i {
+  margin: 0px 10px 0px 15px;
+}
+.app-content .mail-toolbar {
+  float: left;
+  display: inline-block;
+  width: 100%;
+  position: relative;
+}
+.app-content .mail-toolbar > .action-panel-header > a {
+  margin-top: -7px;
+  padding: 8px 40px;
+  box-shadow: 0 1px 3px #ccc;
+  background: #fff;
+  font-size: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #6a6c6f;
+  float: left;
+  margin-left: 15px;
+}
+.app-content .mail-toolbar > .action-panel-header > a:hover {
+  background-color: #e7e7e7;
+}
+
+
+
+.app-content .mail-toolbar > .delete {
+  display: inline-block;
+  margin-left: 15px;
+  
+}
+.app-content .mail-toolbar > .delete #trash {
+  border-radius: 6px;
+}
+
+.app-content .mail-toolbar > .delete > a {
+  margin-top: 15px;
+  padding: 8px 16px;
+  box-shadow: 0 1px 3px #ccc;
+  background: #fff;
+  outline: none;
+  border: none;
+  position: relative;
+  font-size: 15px;
+}
+.app-content .mail-toolbar > .delete > a:hover {
+  background-color: #e7e7e7;
+}
+.app-content .mail-toolbar > .delete > a > i {
+  color: #6a6c6f;
+}
+.app-content .mail-toolbar > .refresh {
+  margin-left: 15px;
+  padding: 8px 16px;
+  box-shadow: 0 1px 3px #ccc;
+  background: #fff;
+  outline: none;
+  border: none;
+  position: relative;
+  font-size: 15px;
+  color: #6a6c6f;
+  border-radius: 6px;
+}
+.app-content .mail-toolbar > .refresh:hover {
+  background-color: #e7e7e7;
+}
+.app-content .mail-toolbar > .pull-right {
+  display: inline-block;
+  line-height: 33px;
+  margin-right: 15px;
+}
+.app-content .mail-toolbar > .pull-right > #angle-l {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  text-decoration: none;
+}
+.app-content .mail-toolbar > .pull-right > #angle-r {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  text-decoration: none;
+}
+.app-content .mail-toolbar > .pull-right > a {
+  padding: 8px 16px;
+  box-shadow: 0 1px 3px #ccc;
+  background: #fff;
+  outline: none;
+  border: none;
+}
+.app-content .mail-toolbar > .pull-right > a:hover {
+  background-color: #e7e7e7;
+}
+.app-content .mail-toolbar > .pull-right > a > i {
+  color: #6a6c6f;
+  font-size: 20px;
+  font-weight: 800;
+}
+.app-content .mail-item {
+  display: inline;
+  margin-top: 25px;
+  margin-left: 45px;
+  float: left;
+  border-radius: 5px;
+  width: calc(100% - 200px);
+}
+.app-content .mail-item > .mail-list {
+  background: #fff;
+  margin-bottom: 16px;
+  padding: 16px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 1px rgba(0, 0, 0, .15);
+}
+.app-content .mail-item > .mail-list > .mail-container {
+  min-width: 100%;
+}
+.app-content .mail-item > .mail-list > .mail-container > .avatar > img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 15px;
+  float: left;
+  text-align: center;
+  justify-content: center;
+  display: inline-block;
+}
+.app-content .mail-item > .mail-list > .mail-container > .center {
+  display: inline-block;
+  width: calc(100% - 185px);
+}
+.app-content .mail-item > .mail-list > .mail-container > .center > p {
+  max-width: 100%;
+  color: #6a6c6f;
+}
+.app-content .mail-item > .mail-list > .mail-container > .center > div > h4 {
+  display: inline-block;
+  margin: 0px 16px 15px 0;
+  color: #6a6c6f;
+}
+.app-content .mail-item > .mail-list > .mail-container > .center > div > a {
+  text-decoration: none;
+  color: #fff;
+}
+.app-content .mail-item > .mail-list > .mail-container > .right {
+  color: #000;
+  padding-left: 24px;
+  float: right;
+  width: 80px;
+}
+.app-content .mail-item > .mail-list > .mail-container > .right > a > i {
+  font-size: 12px;
+  padding-left: 20px;
+  padding-top: 15px;
+}

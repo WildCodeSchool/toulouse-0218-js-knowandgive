@@ -463,7 +463,14 @@ const showHome = () => {
 
 const showPagePerso = () => {
   mainDiv.innerHTML = pagePersoHtml
-  console.log(document.getElementByClassName.backdrop)
+  removeBackdrops()
+}
+
+function removeBackdrops() {
+  const backdrops = document.getElementsByClassName('modal-backdrop')
+  if (backdrops.length > 0) {
+    document.body.removeChild(backdrops[0])
+  }
 }
 
 const showPageProfil = () => {
@@ -472,6 +479,7 @@ const showPageProfil = () => {
 
 const showIndexConnecte = () => {
   mainDiv.innerHTML = navbarBisHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml
+  removeBackdrops()
 }
 
 page("/", showHome)

@@ -196,13 +196,34 @@ const charteGivemanHtml = `<div class="giveman">
           </button>
       </div>
 `
-const resultHtml = `<ul class="list-unstyled">
+function getGivemanHtml(giveman){
+  return `
+  <li class="media">
+    <img class="mr-3" src="${giveman.photo}" alt="Generic placeholder image">
+    <div class="media-body">
+      <h5 class="mt-0 mb-1">${giveman.firstname} ${giveman.lastname}</h5>
+      <p>${giveman.description}</p>
+      <span class="badge badge-pill badge-primary">Bricolage</span> 
+       </div>
+  </li>
+  ` 
+}
+
+// console.log(givemen.map(getGivemanHtml).join('\n'))
+
+const resultHtml = givemen => `<ul class="list-unstyled">
+    
+  ${
+    givemen.map(getGivemanHtml).join('\n')
+  }
+
   <li class="media">
     <img class="mr-3" src="..." alt="Generic placeholder image">
     <div class="media-body">
       <h5 class="mt-0 mb-1">List-based media object</h5>
       Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-    </div>
+      <span class="badge badge-pill badge-primary">Bricolage</span> 
+       </div>
   </li>
   <li class="media my-4">
     <img class="mr-3" src="..." alt="Generic placeholder image">
@@ -226,8 +247,17 @@ function resultKeyword(keyword) {
 }
 
 function showResultForKeyword(keyword) { 
-  
-  render(searchbarHtml + resultHtml)
+  const givemen = [
+    {
+    id: 1,
+    firstname : 'Jacques',
+    lastname: 'Chirac',
+    photo : '/img/art.png',
+    description : 'blablabla',
+    skills : ['bricolage']
+    }
+  ]
+  render(searchbarHtml + resultHtml(givemen))
 }
 
 const render = mainHTML => {

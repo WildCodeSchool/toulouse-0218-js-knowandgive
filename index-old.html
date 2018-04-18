@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Amaranth" rel="stylesheet">
+
+    <title>Know & Give</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg">
+      <img class="logo" src="img/logo.png">
+      <a class="navbar-brand" href="#">Know & Give</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <ul class="navbar-nav ml-auto">
+
+            <div class="navbar-nav">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">S'inscrire </button>
+              <!-- Modal -->
+              <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Bienvenue dans la communauté des GiveMen</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form>
+                       <div class="form-group row">
+                           <label for="identifiant" class="col-sm-4 col-form-label">Identifiant :</label>
+                           <div class="col-sm-6">
+                               <input type="text" class="form-control" id="lastname">
+                           </div>
+                       </div>
+                       <div class="form-group row">
+                           <label for="mdp" class="col-sm-4 col-form-label">Mot de passe :</label>
+                           <div class="col-sm-6">
+                               <input type="text" class="form-control" id="firstname">
+                           </div>
+                       </div>
+                       <div class="form-group row">
+                           <label for="mdp" class="col-sm-4 col-form-label">Confirmer mot de passe :</label>
+                           <div class="col-sm-6">
+                               <input type="text" class="form-control" id="postal">
+                           </div>
+                       </div>
+                       <div class="form-group row">
+                           <label for="email" class="col-sm-4 col-form-label">Email :</label>
+                           <div class="col-sm-6">
+                               <input type="text" class="form-control" id="city">
+                           </div>
+                       </div>
+                       <div class="form-group row">
+                           <label for="email" class="col-sm-4 col-form-label">Confirmer Email : </label>
+                           <div class="col-sm-6">
+                               <input type="text" class="form-control" id="email">
+                           </div>
+                       </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary"><a class="renvoi-page-perso btn btn-primary" href="pagePerso.html">Valider</a></button>
+                    </div>
+                  </form>
+                  </div>
+                </div>
+              </div>
+
+
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Connexion  </button>
+
+
+              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Connexion</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      
+                      <form>
+                        <div class="form-group row">
+                          <label for="identifiant" class="col-sm-4 col-form-label"><i class="fa fa-user"> </i> Identifiant</label>
+                          <div class="col-sm-6">
+                            <input type="text" class="form-control" id="identifiant">
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="motDePasse" class="col-sm-4 col-form-label"><i class="fa fa-key"> </i> Mot de passe</label>
+                          <div class="col-sm-6">
+                              <input type="text" class="form-control" id="motDePasse">
+                          </div>
+                        </div>
+                      </form>      
+  
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary"><a class="renvoi-apres-connexion btn btn-primary" href="#">Valider</a></button>
+
+                     </div>
+        </ul>
+      </div>
+    </nav>
+<!-- searchbar , plus image à ajouter pour que la bar soit par dessus .-->
+    <div class="row position">
+      <img src="img/echange_cerveau.png" alt="imageSearch"/>
+      <div id="searchbar">
+        <form action="#" class="formulaire">
+          <input class="champ" type="text" value="Search(...)"/>
+            <input class="bouton" type="button" value="Je recherche" />
+        </form>
+      </div>
+    </div>
+    <div class="row video">
+<!-- Vidéo -->
+    </div>
+
+    <div class="competences">
+      <h3>Les <b>domaines</b> les plus <b>populaires</b></h3>
+      <div class = "row items">
+      <div class = "col-md-3">
+        <img src="img/bricolage.png" alt="vignette bricolage" width="25%"><br>
+        <h4>Bricolage</h4><!-- Page de recherche correspondante -->
+      </div>
+      <div class = "col-md-3">
+        <img src="img/decoration.png" alt="vignette Décoration" width="25%"><br>
+        <h4>Décoration</h4><!-- Page de recherche correspondante -->
+      </div>
+      <div class = "col-md-3">
+        <img src="img/enseignement.png" alt="vignette Enseignement" width="25%"><br>
+        <h4>Enseignement</h4><!-- Page de recherche correspondante -->
+      </div>
+      <div class = "col-md-3">
+        <img src="img/cuisine.png" alt="vignette Cuisine" width="25%"><br>
+        <h4>Cuisine</h4><!-- Page de recherche correspondante -->
+      </div>
+    </div>
+    <div class = "row items">
+      <div class = "col-md-3">
+        <img src="img/mode-et-beauté.png" alt="vignette Mode_et_beauté" width="25%"><br>
+        <h4>Mode et beauté</h4><!-- Page de recherche correspondante -->
+      </div>
+      <div class = "col-md-3">
+        <img src="img/art.png" alt="vignette Art" width="25%"><br>
+        <h4>Art</h4><!-- Page de recherche correspondante -->
+      </div>
+      <div class = "col-md-3">
+        <img src="img/famille.png" alt="vignette Famille" width="25%"><br>
+        <h4>Famille</h4><!-- Page de recherche correspondante -->
+      </div>
+      <div class = "col-md-3">
+        <img src="img/jardinerie.png" alt="vignette Jardinerie" width="25%"><br>
+        <h4>Jardinerie</h4><!-- Page de recherche correspondante -->
+      </div>
+    </div>
+  </div>
+
+      <div class="giveman">
+        <h3>Un <b>giveman</b> , qu'est ce que c'est ?</h3>
+          <ul>
+            <li><img src="img/giveman.png" alt="vignette valeur 1" width="3%">valeur 1</li>
+            <li><img src="img/giveman.png" alt="vignette valeur 2" width="3%">Valeur 2</li>
+            <li><img src="img/giveman.png" alt="vignette valeur 3" width="3%">Valeur 3</li>
+            <li><img src="img/giveman.png" alt="vignette valeur 4" width="3%">Valeur 4</li>
+            <li><img src="img/giveman.png" alt="vignette valeur 5" width="3%">Valeur 5</li>
+          </ul>
+          <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+            <img src="img/giveman.png" alt="giveman" width="10%">
+            Toi aussi, deviens un giveman !
+            <img src="img/giveman.png" alt="giveman" width="10%">
+          </button>
+      </div>
+
+
+
+    <!-- --------------------------------------------------------------------------------------------------------------->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    
+  <footer class="footer">
+    <div class="container">
+      <div class="row reseaux">
+            <ul class="nav">
+                <li class="nav-item"><a href="" class="nav-link"><img src="img/facebook.png" alt="facebook" width="13px"></a></li>
+                <li class="nav-item"><a href="" class="nav-link"><img src="img/instagram.png" alt="instagram" width="35px"></a></li>
+                <li class="nav-item"><a href="" class="nav-link"><img src="img/wcs.png" alt="instagram" width="30px"></a></li>
+                <li class="nav-item"><a href="" class="nav-link"><img src="img/twitter.png" alt="instagram" width="30px"></a></li>
+            </ul>
+      </div>
+            <br>
+            <p>By Wild Code School</p>
+    </div>
+  </footer>
+</body>
+
+ <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</html>

@@ -1,0 +1,157 @@
+body  {
+  color: grey;
+  font-family: 'PT Sans';
+}
+
+footer {
+  background-color: #CFF7DA;
+  text-align: center;
+  padding-top: 20px
+  padding-bottom: 20px;
+}
+
+footer img {
+  padding-top: 30px;
+  opacity: 0.5;
+}
+
+footer img:hover {
+  opacity: 1;
+}
+
+.reseaux > .nav {
+  margin: auto;
+}
+
+.logo{
+  width: 100px;
+  height: 100px;
+}
+
+.navbar {
+  font-family: 'Amaranth';
+}
+
+.navbar > a {
+  font-size: 40px;
+  color: grey;
+}
+
+.video {
+  text-align: center;
+  margin-top: 80px;
+  margin-bottom: 30px;
+}
+
+.competences {
+  background-color: #CFF7DA;
+}
+
+.competences img {
+  background-color: white;
+  border-radius: 50px;
+  padding: 10px;
+}
+
+.competences h3 {
+  color: #00FE44;
+}
+
+h3 {
+  text-align: center;
+  padding-top: 60px;
+  margin-bottom: 40px;
+  font-family: 'Amaranth';
+  font-size: 40px;
+}
+
+.items {
+  text-align: center;
+  margin-top: 20px;
+  padding-bottom: 20px;
+}
+
+.position > img {
+  position: relative;
+  opacity: 0.6;
+  border: 3px solid #00FE44;
+}
+
+.position > #searchbar {
+  position: absolute;
+  top: 35%;
+  left: 35%;
+  background-image: linear-gradient(to right, white, #C4C4C4);
+  border: 2px solid grey;
+  box-shadow: 5px 10px 9px grey;
+  padding: 30px 70px;
+}
+
+.giveman li {
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.giveman button {
+  background-color: grey;
+  border-color: grey;
+  margin-bottom: 40px;
+  margin-left: 25%;
+}
+
+.giveman button:hover {
+  background-color: #C4C4C4;
+  border-color: #C4C4C4;
+  margin-bottom: 40px;
+}
+
+
+/* .bounceIn {
+  animation-name: bounceIn;
+} */
+
+
+/* @-webkit-keyframes bounceIn {
+  from,
+  20%,
+  40%,
+  60%,
+  80%,
+  to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  20% {
+    -webkit-transform: scale3d(1.1, 1.1, 1.1);
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  40% {
+    -webkit-transform: scale3d(0.9, 0.9, 0.9);
+    transform: scale3d(0.9, 0.9, 0.9);
+  }
+
+  60% {
+    opacity: 1;
+    -webkit-transform: scale3d(1.03, 1.03, 1.03);
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+
+  80% {
+    -webkit-transform: scale3d(0.97, 0.97, 0.97);
+    transform: scale3d(0.97, 0.97, 0.97);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+} */

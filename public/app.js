@@ -234,6 +234,7 @@ const resultHtml = givemen => `<ul class="list-unstyled">
   ${
     givemen.map(getGivemanHtml).join('\n')
   }
+  </ul>
 `
 
 

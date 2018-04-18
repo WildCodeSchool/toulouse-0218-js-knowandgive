@@ -450,6 +450,10 @@ const pageProfilHtml = /* @html */ `
 
     </footer>
 `
+// const render = mainHTML => {
+//   mainDiv.innerHTML = navbarHtml + mainHTML + footerHtml
+// }
+
 
 const render = mainHTML => {
   mainDiv.innerHTML = navbarHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml

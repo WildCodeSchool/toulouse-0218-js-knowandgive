@@ -450,13 +450,13 @@ const pageProfilHtml = /* @html */ `
 
     </footer>
 `
-<<<<<<< HEAD
 // const render = mainHTML => {
 //   mainDiv.innerHTML = navbarHtml + mainHTML + footerHtml
 // }
 
-=======
->>>>>>> 6a5cdebffdb41acd96dfb1311001e388b8f3cc47
+const notFoundHtml = /* @html */ `
+  <img src="https://i.imgur.com/RHV00nR.jpg" alt="zelda" width=40%/>
+`
 
 const render = mainHTML => {
   mainDiv.innerHTML = navbarHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml
@@ -488,10 +488,15 @@ const showIndexConnecte = () => {
   removeBackdrops()
 }
 
+const showNotFound = () => {
+  mainDiv.innerHTML = navbarHtml + notFoundHtml
+}
+
 page("/", showHome)
 page("/pagePerso", showPagePerso)
 page("/pageIndexConnecte", showIndexConnecte)
 page("/pageProfil", showPageProfil)
+page("*", showNotFound)
 page()
 
 

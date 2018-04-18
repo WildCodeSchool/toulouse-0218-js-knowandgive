@@ -47,6 +47,8 @@ const html = /* @html */`
 // const users = []
 // let id = 1
 
+
+
 app.post('/connexion', (req, res) => {
     console.log(req.body)
 
@@ -64,6 +66,28 @@ app.post('/connexion', (req, res) => {
       const user = results[0]
       res.json({ result: results[0] })
     })
+})
+
+
+app.post('/create-account', (req, res) => {
+  console.log(req.body)
+
+  const user = req.body.user
+  const email = req.body.email
+  const password = req.body.password
+  const query = `INSERT INTO User (user, email, password) VALUES ('${user}', '${email}', '${password}')`
+
+  connection.query(query, (error, results) => {
+    if (error) {
+      return res.status(500).json({
+        error: error.message
+      })
+    }
+    const user = results[0]
+    res.json({ result: result[0]})
+  })
+
+})
 
 
 
@@ -85,7 +109,7 @@ app.post('/connexion', (req, res) => {
     // id += 1
     //
     // res.json(newUser)
-})
+
 
 
 app.get('*', (rep, res) => {

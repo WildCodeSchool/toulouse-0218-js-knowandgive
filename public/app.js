@@ -376,15 +376,6 @@ const pageProfilHtml = /* @html */ `
     </li>
     </ul>
 `
-<<<<<<< HEAD:app.js
-// const render = mainHTML => {
-//   mainDiv.innerHTML = navbarHtml + mainHTML + footerHtml
-// }
-
-const notFoundHtml = /* @html */ `
-  <img src="https://i.imgur.com/RHV00nR.jpg" alt="zelda" width=40%/>
-`
-=======
 function resultKeyword(keyword) {
   return "resultats pour " + keyword
 }
@@ -402,7 +393,6 @@ function showResultForKeyword(keyword) {
   ]
   render(searchbarHtml + resultHtml(givemen))
 }
->>>>>>> presentation:public/app.js
 
 const render = mainHTML => {
   mainDiv.innerHTML = navbarHtml + mainHTML + footerHtml

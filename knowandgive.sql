@@ -68,7 +68,7 @@ CREATE TABLE `Profile` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 ALTER TABLE Profile
-ADD FOREIGN KEY (userId) REFERENCES Users(id);
+ADD FOREIGN KEY (userId) REFERENCES User(id);
 
 --
 -- Dumping data for table `Profile`

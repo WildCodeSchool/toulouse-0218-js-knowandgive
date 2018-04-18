@@ -22,45 +22,47 @@ const navbarHtml = /* @html */ `
                       </button>
                     </div>
                     <div class="modal-body">
-                      <form>
-                       <div class="form-group row">
+                      <form id="form-account" method="POST" action="/create-account">
+                        <div class="form-group row">
                            <label for="identifiant" class="col-sm-4 col-form-label">Identifiant :</label>
                            <div class="col-sm-6">
-                               <input type="text" class="form-control" id="lastname">
+                               <input type="text" class="form-control" id="username" name="user">
                            </div>
                        </div>
                        <div class="form-group row">
                            <label for="mdp" class="col-sm-4 col-form-label">Mot de passe :</label>
                            <div class="col-sm-6">
-                               <input type="text" class="form-control" id="firstname">
+                               <input type="text" class="form-control" id="motDePasse" name="password">
                            </div>
                        </div>
                        <div class="form-group row">
                            <label for="mdp" class="col-sm-4 col-form-label">Confirmer mot de passe :</label>
                            <div class="col-sm-6">
-                               <input type="text" class="form-control" id="postal">
+                               <input type="text" class="form-control" id="motDePasse" name="password">
                            </div>
                        </div>
                        <div class="form-group row">
                            <label for="email" class="col-sm-4 col-form-label">Email :</label>
                            <div class="col-sm-6">
-                               <input type="text" class="form-control" id="city">
+                               <input type="text" class="form-control" id="email" name="email">
                            </div>
                        </div>
                        <div class="form-group row">
                            <label for="email" class="col-sm-4 col-form-label">Confirmer Email : </label>
                            <div class="col-sm-6">
-                               <input type="text" class="form-control" id="email">
+                               <input type="text" class="form-control" id="email" name="email">
                            </div>
                        </div>
                     </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-primary"><a class="renvoi-page-perso btn btn-primary" href="/pagePerso">Valider</a></input>
-                      </div>
-                    </form>
-                  </div>
+                  </form>
+                    <div class="modal-footer">
+                      <input form="form-post" type="submit" class="btn btn-primary" value="Valider">
+                        <!-- <a class="renvoi-page-perso btn btn-primary" href="/pagePerso"></a> -->
+                      </input>
+                    </div>
                 </div>
               </div>
+            </div>
 
 
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Connexion  </button>
@@ -435,13 +437,13 @@ const search = () => {
   mainDiv.innerHTML = navbarHtml + searchPageHtml() + footerHtml
 }
 
+
+
 const home = () => {
   render(searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml)
 
   const connexion = document.getElementById('form-post')
   connexion.addEventListener('submit', event => {
-
-
 
     event.preventDefault()
     const inputs = connexion.getElementsByTagName('input')
@@ -468,6 +470,42 @@ const home = () => {
       console.log(data)
     })
   })
+}
+
+
+
+  const account = () => {
+    render(searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml)
+
+    const createAccount = document.getElementById('form-account')
+    createAccount.addEventListener('submit', event => {
+
+      event.preventDefault()
+      const formInputs = createAccount.getElementsByTagName('input')
+      let accountData = {}
+      for (input of formInputs) {
+        if (input.name !== '') {
+          accountData[input.name] = input.value
+        }
+      }
+
+      const accountDataJSON = JSON.stringify(accountData)
+
+      fetch('/create-account', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: accountDataJSON
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(accountData)
+      })
+    })
+  }
+
 
 
 
@@ -487,7 +525,7 @@ const home = () => {
     /* FIN DE LA PARTIE MOTS CLEFS */
 
   autocomplete(autocompleteInput, skill);
-}
+
 // home()
 //
 page('/', home)
@@ -495,4 +533,5 @@ page('/search', search)
 // page('*', notfound)
 page()
 
+account()
 home()

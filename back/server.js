@@ -42,18 +42,21 @@ const html = /* @html */`
 </html>
 `
 
-// Test Thomas //
-app.get('/test', (req, res) => {
-  connection.query('SELECT 1 + 1 AS solution', (error, results, fields) => {
-      if (error) throw error;
-      console.log('The solution is: ', results[0].solution)
-      console.log('fields', fields)
+// Test Thomas  requête BDD //
+  app.get('/bricolage', (req, res) =>{
+   connection.query('SELECT skill FROM Skill WHERE skill = "bricolage" ', (error, results,) => {
+       // if (error) throw error;
+       if (error) {
+        return res.status(500).json({
+          error: error.message
+        })
+       }
+       console.log('The solution are: ', results)
 
-      res.json({
-        solution: results[0].solution 
-      })
+       res.json(results)
+   })
+ // res.json(task)
   })
-})
 // Fin de test Thomas //
 
 // const users = []

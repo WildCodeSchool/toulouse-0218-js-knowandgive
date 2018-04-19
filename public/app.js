@@ -310,21 +310,30 @@ const pagePersoHtml = /* @html */ `
            <div class="row">
                <div class="col-md-6">
                    <div class="form-group">
-                       <label for="description"><img src="/open-iconic/svg/pencil.svg">Description</label>
+                       <h4>Description</h4>
                        <textarea class="form-control" id="description" rows="7"></textarea>
                    </div>
                </div>
                <div class="col-md-6">
-                   <label for="skills"><img src="/open-iconic/svg/pencil.svg">Compétences</label>
-
-                   <div class="row">
-                       <div class="col-md-8">
-                           <input type="text" class="form-control" id="linkedin">
-                       </div>
-                       <div class="col-md-4">
-                           <button type="submit" class="btn btn-primary">Valider</button>
-                       </div>
-                   </div>
+                   <h4>Compétences</h4>
+                     <span class="badge badge-pill badge-success">Jardinage</span>
+                     <span class="badge badge-pill badge-success">Famille</span>
+                     <span class="badge badge-pill badge-success">Decoration</span>
+                     <span class="badge badge-pill badge-success">Bricolage</span>
+                     <span class="badge badge-pill badge-success">Enseignement</span>
+                     <span class="badge badge-pill badge-success">Cuisine</span>
+                     <span class="badge badge-pill badge-success">Mode et beauté</span>
+                     <span class="badge badge-pill badge-success">Art</span><br />
+               
+                   <h4>Mes attentes<h4>
+                     <span class="badge badge-pill badge-primary">Jardinage</span>
+                     <span class="badge badge-pill badge-primary">Famille</span>
+                     <span class="badge badge-pill badge-primary">Decoration</span>
+                     <span class="badge badge-pill badge-primary">Bricolage</span>
+                     <span class="badge badge-pill badge-primary">Enseignement</span>
+                     <span class="badge badge-pill badge-primary">Cuisine</span>
+                     <span class="badge badge-pill badge-primary">Mode et beauté</span>
+                     <span class="badge badge-pill badge-primary">Art</span>
                </div>
            </div>
            <div class="row">
@@ -336,50 +345,37 @@ const pagePersoHtml = /* @html */ `
 `
 
 const pageProfilHtml = /* @html */ `
-    <div class="container-fluid">
+  <div class="container-fluid">
     <div class="row">
-      <div class="col-md-2">
-        <img src="images/bernard.jpg" alt="portrait" class="">
-        </div>
-       <div class="card-body col-md-10">
-          <h5 class="card-title">A mon propos</h5>
-          <p class="card-text">J'ai de multiple compétences: <br />
-          Infiltration en territoire ennemi, journalisme, traffic de drogue international, créateur de polémique en tout genre, je connais également les tarifs des prostituées dans 125 pays.<br />
-          Prénom: Bernard<br />
-          Nom: De la Villardière<br />
-          Lieu: Le monde</p>
+        <div class="col-md-2">
+          <img src="" alt="portrait" class=""><br />
           <a href="#" class="btn btn-primary">Contacter</a>
         </div>
-      </div>
-    </div>
-    <h2>Ses derniers partages</h2>
+        <div class="card-body col-md-10">
+          <h5 class="card-title">Description de mes talents</h5>
+          <p class="card-text">
+          Infiltration en territoire ennemi, journalisme, traffic de drogue international, créateur de polémique en tout genre, je connais également les tarifs des prostituées dans 125 pays.<br />
+          <p>
+          Nom: De la Villardière<br />
+          Prenom: Bernard<br />
+          Code postal: 00000<br />
+          Ville: Le monde<br />
+          Email: bernardelavillardiere@m6.com</p>
 
-    <ul class="list-unstyled">
-    <li class="media">
-     <img class="mr-3" src="images/woman.jpg" alt="Generic placeholder image">
-     <div class="media-body">
-       <h5 class="mt-0 mb-1">Journalisme</h5>
-       Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-       <a href="#" class="btn btn-primary">Son avis</a>
-     </div>
-    </li>
-    <li class="media my-4">
-     <img class="mr-3" src="images/militaire.jpg" alt="Generic placeholder image">
-     <div class="media-body">
-       <h5 class="mt-0 mb-1">Infiltration</h5>
-       Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-       <a href="#" class="btn btn-primary">Son avis</a>
-     </div>
-    </li>
-    <li class="media">
-     <img class="mr-3" src="images/chimiste.jpg" alt="Generic placeholder image">
-     <div class="media-body">
-       <h5 class="mt-0 mb-1">Chimie</h5>
-       Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-       <a href="#" class="btn btn-primary">Son avis</a>
-     </div>
-    </li>
-    </ul>
+          <h5>Mes compétences<h5>
+          <span class="badge badge-pill badge-success">Jardinage</span>
+          <span class="badge badge-pill badge-success">Famille</span>
+          <span class="badge badge-pill badge-success">Decoration</span>
+          <span class="badge badge-pill badge-success">Bricolage</span>
+
+          <h5>Mes attentes<h5>
+          <span class="badge badge-pill badge-primary">Mode et beauté</span>
+          <span class="badge badge-pill badge-primary">Enseignement</span>
+        </div>
+
+      </div>
+  </div>
+
 `
 function resultKeyword(keyword) {
   return "resultats pour " + keyword
@@ -399,10 +395,6 @@ function showResultForKeyword(keyword) {
   render(searchbarHtml + resultHtml(givemen))
 }
 
-const render = mainHTML => {
-  mainDiv.innerHTML = navbarHtml + mainHTML + footerHtml
-}
-
 const showHome = () => {
   const main = document.getElementById('main')
   mainDiv.innerHTML = navbarHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml
@@ -413,20 +405,20 @@ const showPagePerso = () => {
   removeBackdrops()
 }
 
-function removeBackdrops() {
-  const backdrops = document.getElementsByClassName('modal-backdrop')
-  if (backdrops.length > 0) {
-    document.body.removeChild(backdrops[0])
-  }
-}
-
 const showPageProfil = () => {
-  mainDiv.innerHTML = pageProfilHtml
+  mainDiv.innerHTML = navbarHtml + pageProfilHtml + footerHtml
 }
 
 const showIndexConnecte = () => {
   mainDiv.innerHTML = navbarBisHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml
   removeBackdrops()
+}
+
+function removeBackdrops() {
+  const backdrops = document.getElementsByClassName('modal-backdrop')
+  if (backdrops.length > 0) {
+    document.body.removeChild(backdrops[0])
+  }
 }
 
 page("/", showHome)
@@ -439,6 +431,10 @@ page()
 const search = () => {
   mainDiv.innerHTML = navbarHtml + searchPageHtml() + footerHtml
 }
+
+// const render = mainHTML => {
+//   mainDiv.innerHTML = navbarHtml + mainHTML + footerHtml
+// }
 
 const home = () => {
   render(searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml)

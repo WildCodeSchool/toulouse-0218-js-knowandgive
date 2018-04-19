@@ -44,19 +44,30 @@ const html = /* @html */`
 
 // Test Thomas  requête BDD //
   app.get('/bricolage', (req, res) =>{
-   connection.query('SELECT skill FROM Skill WHERE skill = "bricolage" ', (error, results,) => {
+   connection.query('SELECT skill FROM Skill WHERE skill = "bricolage" ', (error, bricolage,) => {
        // if (error) throw error;
        if (error) {
-        return res.status(500).json({
+        return res.status(500).json({ 
           error: error.message
         })
        }
-       console.log('The solution are: ', results)
-
-       res.json(results)
+       console.log('The solution are: ', bricolage)
+       res.json(bricolage)
    })
- // res.json(task)
   })
+
+  // app.get('/bricolage', (req, res) =>{
+  //  connection.query('SELECT * FROM Profile WHERE userID = "bricolage" ', (error, bricolage,) => {
+  //      // if (error) throw error;
+  //      if (error) {
+  //       return res.status(500).json({ 
+  //         error: error.message
+  //       })
+  //      }
+  //      console.log('The solution are: ', bricolage)
+  //      res.json(bricolage)
+  //  })
+  // })
 // Fin de test Thomas //
 
 // const users = []

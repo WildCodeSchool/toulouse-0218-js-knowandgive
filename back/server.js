@@ -42,7 +42,19 @@ const html = /* @html */`
 </html>
 `
 
+// Test Thomas //
+app.get('/test', (req, res) => {
+  connection.query('SELECT 1 + 1 AS solution', (error, results, fields) => {
+      if (error) throw error;
+      console.log('The solution is: ', results[0].solution)
+      console.log('fields', fields)
 
+      res.json({
+        solution: results[0].solution 
+      })
+  })
+})
+// Fin de test Thomas //
 
 // const users = []
 // let id = 1

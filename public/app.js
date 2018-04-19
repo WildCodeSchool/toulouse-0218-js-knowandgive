@@ -251,10 +251,15 @@ const pagePersoHtml = /* @html */ `
 
        <div class="container">
            <div class="row">
-               <div class="col-md-6">
-                   <a href="https://placeholder.com"><img src="http://via.placeholder.com/200x200"></a>
-                   <br>
-                   <button type="button" class="btn btn-light">Télécharger mon image</button>
+               <div class="col-md-6 imgProfil">
+
+                   <!-- Upload de la photo -->
+                   <form action="my-script.php" enctype="multipart/form-data" method="post">
+                     <div><input type="file" onchange="handleFiles(files)" id="upload" multiple name="file"></div>
+                     <div><label for="upload"><span id="preview"></span></label></div>
+                     <div><input type="submit" value="Envoyer"></div>
+                   </form>
+                   <!-- fin Upload photo -->
                </div>
                <div class="col-md-6">
                    <div class="card">
@@ -424,15 +429,10 @@ const showIndexConnecte = () => {
   removeBackdrops()
 }
 
-const showNotFound = () => {
-  mainDiv.innerHTML = navbarHtml + notFoundHtml
-}
-
 page("/", showHome)
 page("/pagePerso", showPagePerso)
 page("/pageIndexConnecte", showIndexConnecte)
 page("/pageProfil", showPageProfil)
-page("*", showNotFound)
 page()
 
 
@@ -493,11 +493,34 @@ const home = () => {
 
   autocomplete(autocompleteInput, skill);
 }
-// home()
-//
-page('/', home)
-page('/search', search)
-// page('*', notfound)
-page()
+
+// Function upload photo
+function handleFiles(files) {
+   var imageType = /^image\//;
+   for (var i = 0; i < files.length; i++) {
+   var file = files[i];
+   if (!imageType.test(file.type)) {
+     alert("veuillez sélectionner une image");
+   }else{
+     if(i == 0){
+       preview.innerHTML = '';
+     }
+     var img = document.createElement("img");
+     img.classList.add("obj");
+     img.file = file;
+     preview.appendChild(img);
+     var reader = new FileReader();
+     reader.onload = ( function(aImg) {
+     return function(e) {
+     aImg.src = e.target.result;
+   };
+  })(img);
+
+ reader.readAsDataURL(file);
+ }
+
+ }
+}
+// Fin function upload photo
 
 home()

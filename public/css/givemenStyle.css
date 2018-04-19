@@ -105,6 +105,14 @@ h3 {
   margin-bottom: 40px;
 }
 
+#preview{
+  width: 200px;
+  display: inline-block;
+}
+#preview img{
+  width: 100%;
+}
+
 
 /* .bounceIn {
   animation-name: bounceIn;

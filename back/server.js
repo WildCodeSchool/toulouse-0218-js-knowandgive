@@ -1,3 +1,4 @@
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
@@ -53,8 +54,8 @@ app.post('/connexion', (req, res) => {
     console.log(req.body)
 
     const user = req.body.user
-    const password = req.body.password
-    const query = `SELECT user, password FROM User WHERE user = '${user}' AND password = '${password}'`
+    const passwordConnection = req.body.passwordConnection
+    const query = `SELECT user, password FROM User WHERE user = '${user}' AND password = '${passwordConnection}'`
 
 
     connection.query(query, (error, results) => {
@@ -73,9 +74,9 @@ app.post('/create-account', (req, res) => {
   console.log(req.body)
 
   const username = req.body.username
-  const email = req.body.email
-  const passwordConfirm = req.body.passwordConfirm
-  const query = `INSERT INTO User (user, email, password) VALUES ('${username}', '${email}', '${passwordConfirm}')`
+  const confirmEmail = req.body.confirmEmail
+  const confirmPassword = req.body.confirmPassword
+  const query = `INSERT INTO User (user, email, password) VALUES ('${username}', '${confirmEmail}', '${confirmPassword}')`
   console.log(query)
 
   connection.query(query, (error, results) => {

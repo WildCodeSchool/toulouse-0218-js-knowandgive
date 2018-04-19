@@ -23,7 +23,7 @@ const navbarHtml = /* @html */ `
                     </div>
                     <div class="modal-body">
                       <form id="form-account" method="POST" action="/create-account">
-                        <div class="form-group row">
+                       <div class="form-group row">
                            <label for="identifiant" class="col-sm-4 col-form-label">Identifiant :</label>
                            <div class="col-sm-6">
                                <input type="text" class="form-control" id="username" name="username">
@@ -32,13 +32,13 @@ const navbarHtml = /* @html */ `
                        <div class="form-group row">
                            <label for="mdp" class="col-sm-4 col-form-label">Mot de passe :</label>
                            <div class="col-sm-6">
-                               <input type="text" class="form-control" id="password" name="passwordConfirm">
+                               <input type="text" class="form-control" id="password" name="password">
                            </div>
                        </div>
                        <div class="form-group row">
                            <label for="mdp" class="col-sm-4 col-form-label">Confirmer mot de passe :</label>
                            <div class="col-sm-6">
-                               <input type="text" class="form-control" id="passwordConfirm">
+                               <input type="text" class="form-control" id="confirmPassword" name="confirmPassword">
                            </div>
                        </div>
                        <div class="form-group row">
@@ -50,19 +50,19 @@ const navbarHtml = /* @html */ `
                        <div class="form-group row">
                            <label for="email" class="col-sm-4 col-form-label">Confirmer Email : </label>
                            <div class="col-sm-6">
-                               <input type="text" class="form-control" id="emailConfirm">
+                               <input type="text" class="form-control" id="confirmEmail" name="confirmEmail">
                            </div>
                        </div>
                     </div>
                   </form>
                     <div class="modal-footer">
-                      <input form="form-account" type="submit" class="btn btn-primary" value="Valider">
-                        <!-- <a class="renvoi-page-perso btn btn-primary" href="/pagePerso"></a> -->
-                      </input>
+                      <!--<a class="renvoi-page-perso btn btn-primary" href="/pagePerso">-->
+                        <input form="form-account" type="submit" class="btn btn-primary" value="Valider">
+                      <!-- </a> -->
                     </div>
+                  </div>
                 </div>
               </div>
-            </div>
 
 
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Connexion  </button>
@@ -84,22 +84,22 @@ const navbarHtml = /* @html */ `
                         <div class="form-group row">
                           <label for="identifiant" class="col-sm-4 col-form-label"><i class="fa fa-user"> </i> Identifiant</label>
                           <div class="col-sm-6">
-                            <input type="text" class="form-control" id="identifiant" name="user">
+                            <input type="text" class="form-control" id="user" name="user">
                           </div>
                         </div>
 
                     <div class="form-group row">
                       <label for="motDePasse" class="col-sm-4 col-form-label"><i class="fa fa-key"> </i> Mot de passe</label>
                       <div class="col-sm-6">
-                          <input type="text" class="form-control" id="motDePasse" name="password">
+                          <input type="text" class="form-control" id="passwordConnection" name="passwordConnection">
                       </div>
                     </div>
                       </form>
                     </div>
                     <div class="modal-footer">
-                      <!-- <a href="/pageIndexConnecte"> -->
+                      <!--<a href="/pageIndexConnecte">-->
                         <input form="form-post" type="submit" class="btn btn-primary" value="Valider" />
-                      <!-- </a> -->
+                      <!--</a>-->
                     </div>
                   </div>
         </ul>
@@ -253,13 +253,10 @@ const pagePersoHtml = /* @html */ `
 
        <div class="container">
            <div class="row">
-               <div class="col-md-6 imgProfil">
+               <div class="col-md-6">
                    <a href="https://placeholder.com"><img src="http://via.placeholder.com/200x200"></a>
                    <br>
-
-                   <!-- <input type="file" id="files" name="files[]" multiple />
-                   <output id="list"></output> -->
-
+                   <button type="button" class="btn btn-light">Télécharger mon image</button>
                </div>
                <div class="col-md-6">
                    <div class="card">
@@ -440,43 +437,13 @@ const search = () => {
   mainDiv.innerHTML = navbarHtml + searchPageHtml() + footerHtml
 }
 
-
-
 const home = () => {
   render(searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml)
 
-//formulaire d'inscription
-  const createAccount = document.getElementById('form-account')
-  createAccount.addEventListener('submit', event => {
-
-    event.preventDefault()
-    const formInputs = createAccount.getElementsByTagName('input')
-    let accountData = {}
-    for (input of formInputs) {
-      if (input.name !== '') {
-          accountData[input.name] = input.value
-      }
-    }
-
-    const accountDataJSON = JSON.stringify(accountData)
-
-    fetch('/create-account', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: accountDataJSON
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log(accountData)
-    })
-  })
-
-//Formulaire de connexion
   const connexion = document.getElementById('form-post')
   connexion.addEventListener('submit', event => {
+
+
 
     event.preventDefault()
     const inputs = connexion.getElementsByTagName('input')
@@ -503,25 +470,69 @@ const home = () => {
       console.log(data)
     })
   })
-}
 
+    const createAccount = document.getElementById('form-account')
+    createAccount.addEventListener('submit', event => {
+
+
+
+      event.preventDefault()
+      const inputsForm = createAccount.getElementsByTagName('input')
+      let accountData = {}
+      for (input of inputsForm) {
+        if (input.name !== '') {
+          // if ((email !== confirmEmail) && (password !== confirmPassword)){
+          //   return alert('Mot de passe ou email de confirmation incorrect')
+          //
+          // }
+          // else {
+            accountData[input.name] = input.value
+          // }
+        }
+        if (input.value === '') {
+          return alert('Veuillez renseigner tous les champs')
+        }
+      }
+      console.log(accountData)
+
+      if ((email !== confirmEmail) || (password !== confirmPassword)) {
+        alert('Mot de passe ou email de confirmation incorrect')
+      }
+
+      const accountDataJSON = JSON.stringify(accountData)
+
+
+
+      fetch('/create-account', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: accountDataJSON
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(accountData)
+      })
+  })
+}
 home()
 
 
+  const autocompleteInput = document.getElementById("myInput")
+  const searchForm = document.getElementById("search-form")
+  console.log(searchForm)
+  searchForm.addEventListener('submit', event => {
+    event.preventDefault()
+    showResultForKeyword(autocompleteInput.value)
+    // const inputElements = searchForm.getElementsByTagName('input')
+    // console.log(searchForm.getElementsByTagName('input'))
 
-const autocompleteInput = document.getElementById("myInput")
-const searchForm = document.getElementById("search-form")
-console.log(searchForm)
-searchForm.addEventListener('submit', event => {
-  event.preventDefault()
-  showResultForKeyword(autocompleteInput.value)
-  // const inputElements = searchForm.getElementsByTagName('input')
-  // console.log(searchForm.getElementsByTagName('input'))
-
-})
+  })
 
 
-var skill = ["Jardinage", "Plomberie", "Batiment", "Plaquiste", "Carreleur", "Menuiserie","Electricité", "Cuisine", "Musique", "Informatique", "Bricolage", "Mécanique"];
-  /* FIN DE LA PARTIE MOTS CLEFS */
+  var skill = ["Jardinage", "Plomberie", "Batiment", "Plaquiste", "Carreleur", "Menuiserie","Electricité", "Cuisine", "Musique", "Informatique", "Bricolage", "Mécanique"];
+    /* FIN DE LA PARTIE MOTS CLEFS */
 
-autocomplete(autocompleteInput, skill);
+  autocomplete(autocompleteInput, skill);

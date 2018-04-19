@@ -44,16 +44,21 @@ const html = /* @html */`
 
 // Test Thomas  requête BDD //
   app.get('/bricolage', (req, res) =>{
-   connection.query('SELECT skill FROM Skill WHERE skill = "bricolage" ', (error, bricolage,) => {
+   console.log(req.query) 
+   const skill = req.query.skill
+   const sql = `SELECT skill FROM Skill WHERE skill = "${skill}" `
+   connection.query(sql, (error, resultat,) => {
        // if (error) throw error;
        if (error) {
         return res.status(500).json({ 
           error: error.message
         })
        }
-       console.log('The solution are: ', bricolage)
-       res.json(bricolage)
+       console.log('The solution are: ', resultat)
+       res.json(resultat)
    })
+1
+
   })
 
   // app.get('/bricolage', (req, res) =>{

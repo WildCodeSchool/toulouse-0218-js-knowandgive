@@ -26,7 +26,7 @@ CREATE TABLE `Message` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `senderId` int(11) NOT NULL,
   `recipientId` int(11) NOT NULL,
-  `dateTime` date NOT NULL,
+  `dateTime` datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
   `message` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

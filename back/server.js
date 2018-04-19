@@ -72,10 +72,11 @@ app.post('/connexion', (req, res) => {
 app.post('/create-account', (req, res) => {
   console.log(req.body)
 
-  const user = req.body.user
+  const username = req.body.username
   const email = req.body.email
-  const password = req.body.password
-  const query = `INSERT INTO User (user, email, password) VALUES ('${user}', '${email}', '${password}')`
+  const passwordConfirm = req.body.passwordConfirm
+  const query = `INSERT INTO User (user, email, password) VALUES ('${username}', '${email}', '${passwordConfirm}')`
+  console.log(query)
 
   connection.query(query, (error, results) => {
     if (error) {
@@ -83,8 +84,8 @@ app.post('/create-account', (req, res) => {
         error: error.message
       })
     }
-    const user = results[0]
-    res.json({ result: result[0]})
+    const username = results[0]
+    res.json({ result: results[0]})
   })
 
 })

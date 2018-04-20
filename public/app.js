@@ -1,3 +1,4 @@
+'use strict'
 const mainDiv = document.getElementById('main')
 
 const navbarHtml = /* @html */ `
@@ -448,7 +449,7 @@ const home = () => {
     event.preventDefault()
     const inputs = connexion.getElementsByTagName('input')
     let data = {}
-    for (input of inputs) {
+    for (let input of inputs) {
       if (input.name !== '') {
        data[input.name] = input.value
       }
@@ -479,7 +480,7 @@ const home = () => {
       event.preventDefault()
       const inputsForm = createAccount.getElementsByTagName('input')
       let accountData = {}
-      for (input of inputsForm) {
+      for (let input of inputsForm) {
         if (input.name !== '') {
           // if ((email !== confirmEmail) && (password !== confirmPassword)){
           //   return alert('Mot de passe ou email de confirmation incorrect')
@@ -493,14 +494,12 @@ const home = () => {
           return alert('Veuillez renseigner tous les champs')
         }
       }
-      console.log(accountData)
 
-      if ((email !== confirmEmail) || (password !== confirmPassword)) {
+      if ((accountData.email !== accountData.confirmEmail) || (accountData.password !== accountData.confirmPassword)) {
         alert('Mot de passe ou email de confirmation incorrect')
       }
 
       const accountDataJSON = JSON.stringify(accountData)
-
 
 
       fetch('/create-account', {

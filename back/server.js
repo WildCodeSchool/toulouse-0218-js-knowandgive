@@ -75,9 +75,19 @@ app.post('/create-account', (req, res) => {
 
   const username = req.body.username
   const confirmEmail = req.body.confirmEmail
+  const email = req.body.email
   const confirmPassword = req.body.confirmPassword
-  const query = `INSERT INTO User (user, email, password) VALUES ('${username}', '${confirmEmail}', '${confirmPassword}')`
-  console.log(query)
+  const password = req.body.password
+  let query
+  // const request = `SELECT user FROM User`
+  // if (request == username) {
+  //   return alert('L\'indetifiant est déjà pris')
+  // }
+  if ((email == confirmEmail) && (password == confirmPassword)) {
+    query = `INSERT INTO User (user, email, password) VALUES ('${username}', '${confirmEmail}', '${confirmPassword}')`
+  }
+
+
 
   connection.query(query, (error, results) => {
     if (error) {
@@ -88,7 +98,7 @@ app.post('/create-account', (req, res) => {
     const username = results[0]
     res.json({ result: results[0]})
   })
-
+  console.log(query)
 })
 
 

@@ -84,18 +84,6 @@ const html = /* @html */`
 
   })
 
-  // app.get('/bricolage', (req, res) =>{
-  //  connection.query('SELECT * FROM Profile WHERE userID = "bricolage" ', (error, bricolage,) => {
-  //      // if (error) throw error;
-  //      if (error) {
-  //       return res.status(500).json({ 
-  //         error: error.message
-  //       })
-  //      }
-  //      console.log('The solution are: ', bricolage)
-  //      res.json(bricolage)
-  //  })
-  // })
 // Fin de test Thomas //
 
 // const users = []

@@ -103,28 +103,48 @@ app.post('/create-account', (req, res) => {
 
 
 
-    //
-    // const existingUser = users.find(user => user.email === email)
-    // if(existingUser !== undefined) {
-    //     return res.status(400).json({
-    //         error: 'Email déjà enregistré'
-    //     })
-    // }
-    //
-    // const newUser = {
-    //     identifiant: id,
-    //     mdp: password
-    // }
-    //
-    // users.push(newUser)
-    //
-    // id += 1
-    //
-    // res.json(newUser)
+  app.get('/chat/people',(req, res) => {
+    const connectionId = 7
+    const sql =`SELECT recipientId, senderId FROM Message WHERE senderId = ${connectionId}
+    OR recipientId = ${connectionId}`
+
+    connection.query(sql, (error, results)=> {
+      if (error) {
+        return res.status(500).json({
+          error: error.message
+        })
+      }
+      const profileIds = []
+      for (let message of results) {
+        if (connectionId == message.senderId ) {
+          if (profileIds.includes(message.recipientId) === false) {
+            profileIds.push(message.recipientId)
+          }
+        }
+        if (connectionId == message.recipientId ) {
+          if (profileIds.includes(message.senderId) === false) {
+            profileIds.push(message.senderId)
+          }
+        }
+
+      }
+
+      const finalQuery = `SELECT id, firstname, lastname FROM Profile WHERE id IN (${profileIds.join()}) `
+      console.log(results, profileIds, finalQuery)
+        connection.query(finalQuery, (error, profiles) =>{
+          if (error) return res.status(500).send(error.message);
+          // const profilesId = resultats2[0].profileIds
+          console.log(profiles)
+          res.json(profiles)
+
+        })
+
+    })
+  })
 
 
 
-app.get('*', (rep, res) => {
+app.get('*', (req, res) => {
     res.send(html)
     res.end()
 })

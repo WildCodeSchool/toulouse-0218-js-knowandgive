@@ -57,9 +57,9 @@ const navbarHtml = /* @html */ `
                     </div>
                   </form>
                     <div class="modal-footer">
-                      <!--<a class="renvoi-page-perso btn btn-primary" href="/pagePerso">-->
+                        <a class="renvoi-page-perso btn btn-primary" href="/pagePerso">
                         <input form="form-account" type="submit" class="btn btn-primary" value="Valider">
-                      <!-- </a> -->
+                        </a>
                     </div>
                   </div>
                 </div>
@@ -98,9 +98,9 @@ const navbarHtml = /* @html */ `
                       </form>
                     </div>
                     <div class="modal-footer">
-                      <!--<a href="/pageIndexConnecte">-->
+                      <a href="/pageIndexConnecte">
                         <input form="form-post" type="submit" class="btn btn-primary" value="Valider" />
-                      <!--</a>-->
+                      </a>
                     </div>
                   </div>
         </ul>
@@ -402,7 +402,6 @@ const render = mainHTML => {
 }
 
 const showHome = () => {
-  const main = document.getElementById('main')
   mainDiv.innerHTML = navbarHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml
 }
 
@@ -516,8 +515,6 @@ const home = () => {
       })
   })
 }
-home()
-
 
   const autocompleteInput = document.getElementById("myInput")
   const searchForm = document.getElementById("search-form")

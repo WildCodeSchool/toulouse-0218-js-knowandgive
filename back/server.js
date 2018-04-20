@@ -44,7 +44,7 @@ const html = /* @html */`
 `
 
 // Test Thomas  requête BDD //
-  app.get('/bricolage', (req, res) =>{
+  app.get('/search-givemen', (req, res) =>{
     console.log(req.query) 
     const skill = req.query.skill
     const sql = `SELECT skill, id FROM Skill WHERE skill = "${skill}" `
@@ -52,6 +52,10 @@ const html = /* @html */`
     connection.query(sql, (error, resultats) => {
       console.log(resultats)
       if (error) return res.status(500).send(error.message);
+
+      if (resultats.length === 0) {
+        return res.json([])
+      }
       const skillId = resultats[0].id
       const sqlPivot = `SELECT profileId FROM ProfileSkill WHERE skillId = ${skillId}`
 

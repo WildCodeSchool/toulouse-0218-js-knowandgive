@@ -384,17 +384,12 @@ function resultKeyword(keyword) {
 }
 
 function showResultForKeyword(keyword) {
-  const givemen = [
-    {
-    id: 1,
-    firstname : 'Jacques',
-    lastname: 'Chirac',
-    photo : '/img/art.png',
-    description : 'blablabla',
-    skills : ['bricolage']
-    }
-  ]
-  render(searchbarHtml + resultHtml(givemen))
+  fetch(`/search-givemen?skill=${keyword}`)
+  .then(response =>response.json())
+  .then(givemen => {
+    render(searchbarHtml + resultHtml(givemen))
+  })
+
 }
 
 const render = mainHTML => {
@@ -524,7 +519,7 @@ home()
   console.log(searchForm)
   searchForm.addEventListener('submit', event => {
     event.preventDefault()
-    showResultForKeyword(autocompleteInput.value)
+   showResultForKeyword(autocompleteInput.value)
     // const inputElements = searchForm.getElementsByTagName('input')
     // console.log(searchForm.getElementsByTagName('input'))
 

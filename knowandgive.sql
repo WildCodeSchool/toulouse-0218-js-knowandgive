@@ -26,14 +26,15 @@ CREATE TABLE `Message` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `senderId` int(11) NOT NULL,
   `recipientId` int(11) NOT NULL,
-  `dateTime` date NOT NULL,
+  `dateTime` datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
   `message` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 ALTER TABLE Message
-ADD FOREIGN KEY (senderId) REFERENCES User(id)
+ADD FOREIGN KEY (senderId) REFERENCES User(id);
+ALTER TABLE Message
 ADD FOREIGN KEY (recipientId) REFERENCES User(id);
 
 --
@@ -67,7 +68,7 @@ CREATE TABLE `Profile` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 ALTER TABLE Profile
-ADD FOREIGN KEY (userId) REFERENCES Users(id);
+ADD FOREIGN KEY (userId) REFERENCES User(id);
 
 --
 -- Dumping data for table `Profile`
@@ -127,7 +128,7 @@ LOCK TABLES `User` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `profileSkill`
+-- Table structure for table `ProfileSkill`
 --
 
 DROP TABLE IF EXISTS `ProfileSkill`;
@@ -142,16 +143,17 @@ CREATE TABLE `ProfileSkill` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 ALTER TABLE ProfileSkill
-ADD FOREIGN KEY (profileId) REFERENCES Profile(id)
+ADD FOREIGN KEY (profileId) REFERENCES Profile(id);
+ALTER TABLE ProfileSkill
 ADD FOREIGN KEY (skillId) REFERENCES Skill(id);
 
 --
--- Dumping data for table `profileSkill`
+-- Dumping data for table `ProfileSkill`
 --
 
-LOCK TABLES `profileSkill` WRITE;
-/*!40000 ALTER TABLE `profileSkill` DISABLE KEYS */;
-/*!40000 ALTER TABLE `profileSkill` ENABLE KEYS */;
+LOCK TABLES `ProfileSkill` WRITE;
+/*!40000 ALTER TABLE `ProfileSkill` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ProfileSkill` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

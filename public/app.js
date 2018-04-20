@@ -1,3 +1,4 @@
+'use strict'
 const mainDiv = document.getElementById('main')
 
 const navbarHtml = /* @html */ `
@@ -22,42 +23,44 @@ const navbarHtml = /* @html */ `
                       </button>
                     </div>
                     <div class="modal-body">
-                      <form>
+                      <form id="form-account" method="POST" action="/create-account">
                        <div class="form-group row">
                            <label for="identifiant" class="col-sm-4 col-form-label">Identifiant :</label>
                            <div class="col-sm-6">
-                               <input type="text" class="form-control" id="lastname">
+                               <input type="text" class="form-control" id="username" name="username">
                            </div>
                        </div>
                        <div class="form-group row">
                            <label for="mdp" class="col-sm-4 col-form-label">Mot de passe :</label>
                            <div class="col-sm-6">
-                               <input type="text" class="form-control" id="firstname">
+                               <input type="text" class="form-control" id="password" name="password">
                            </div>
                        </div>
                        <div class="form-group row">
                            <label for="mdp" class="col-sm-4 col-form-label">Confirmer mot de passe :</label>
                            <div class="col-sm-6">
-                               <input type="text" class="form-control" id="postal">
+                               <input type="text" class="form-control" id="confirmPassword" name="confirmPassword">
                            </div>
                        </div>
                        <div class="form-group row">
                            <label for="email" class="col-sm-4 col-form-label">Email :</label>
                            <div class="col-sm-6">
-                               <input type="text" class="form-control" id="city">
+                               <input type="text" class="form-control" id="email" name="email">
                            </div>
                        </div>
                        <div class="form-group row">
                            <label for="email" class="col-sm-4 col-form-label">Confirmer Email : </label>
                            <div class="col-sm-6">
-                               <input type="text" class="form-control" id="email">
+                               <input type="text" class="form-control" id="confirmEmail" name="confirmEmail">
                            </div>
                        </div>
                     </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-primary"><a class="renvoi-page-perso btn btn-primary" href="/pagePerso">Valider</a></input>
-                      </div>
-                    </form>
+                  </form>
+                    <div class="modal-footer">
+                      <!--<a class="renvoi-page-perso btn btn-primary" href="/pagePerso">-->
+                        <input form="form-account" type="submit" class="btn btn-primary" value="Valider">
+                      <!-- </a> -->
+                    </div>
                   </div>
                 </div>
               </div>
@@ -82,22 +85,22 @@ const navbarHtml = /* @html */ `
                         <div class="form-group row">
                           <label for="identifiant" class="col-sm-4 col-form-label"><i class="fa fa-user"> </i> Identifiant</label>
                           <div class="col-sm-6">
-                            <input type="text" class="form-control" id="identifiant" name="user">
+                            <input type="text" class="form-control" id="user" name="user">
                           </div>
                         </div>
 
                     <div class="form-group row">
                       <label for="motDePasse" class="col-sm-4 col-form-label"><i class="fa fa-key"> </i> Mot de passe</label>
                       <div class="col-sm-6">
-                          <input type="text" class="form-control" id="motDePasse" name="password">
+                          <input type="text" class="form-control" id="passwordConnection" name="passwordConnection">
                       </div>
                     </div>
                       </form>
                     </div>
                     <div class="modal-footer">
-                      <!-- <a href="/pageIndexConnecte"> -->
+                      <!--<a href="/pageIndexConnecte">-->
                         <input form="form-post" type="submit" class="btn btn-primary" value="Valider" />
-                      <!-- </a> -->
+                      <!--</a>-->
                     </div>
                   </div>
         </ul>
@@ -446,7 +449,7 @@ const home = () => {
     event.preventDefault()
     const inputs = connexion.getElementsByTagName('input')
     let data = {}
-    for (input of inputs) {
+    for (let input of inputs) {
       if (input.name !== '') {
        data[input.name] = input.value
       }
@@ -469,6 +472,51 @@ const home = () => {
     })
   })
 
+    const createAccount = document.getElementById('form-account')
+    createAccount.addEventListener('submit', event => {
+
+
+
+      event.preventDefault()
+      const inputsForm = createAccount.getElementsByTagName('input')
+      let accountData = {}
+      for (let input of inputsForm) {
+        if (input.name !== '') {
+          // if ((email !== confirmEmail) && (password !== confirmPassword)){
+          //   return alert('Mot de passe ou email de confirmation incorrect')
+          //
+          // }
+          // else {
+            accountData[input.name] = input.value
+          // }
+        }
+        if (input.value === '') {
+          return alert('Veuillez renseigner tous les champs')
+        }
+      }
+
+      if ((accountData.email !== accountData.confirmEmail) || (accountData.password !== accountData.confirmPassword)) {
+        alert('Mot de passe ou email de confirmation incorrect')
+      }
+
+      const accountDataJSON = JSON.stringify(accountData)
+
+
+      fetch('/create-account', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: accountDataJSON
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(accountData)
+      })
+  })
+}
+home()
 
 
   const autocompleteInput = document.getElementById("myInput")
@@ -487,12 +535,3 @@ const home = () => {
     /* FIN DE LA PARTIE MOTS CLEFS */
 
   autocomplete(autocompleteInput, skill);
-}
-// home()
-//
-page('/', home)
-page('/search', search)
-// page('*', notfound)
-page()
-
-home()

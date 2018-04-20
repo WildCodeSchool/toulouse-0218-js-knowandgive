@@ -113,6 +113,15 @@ h3 {
   width: 100%;
 }
 
+.icons span {
+  color: grey;
+  padding:0 5px;
+}
+
+.icons{
+  position:absolute;
+  right: 20px;
+}
 
 /* .bounceIn {
   animation-name: bounceIn;

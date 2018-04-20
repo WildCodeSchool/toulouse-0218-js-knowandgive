@@ -3,7 +3,7 @@ const mainDiv = document.getElementById('main')
 const navbarHtml = /* @html */ `
   <nav class="navbar navbar-expand-lg">
       <img class="logo" src="img/logo.png">
-      <a class="navbar-brand" href="#">Know & Give</a>
+      <a class="navbar-brand" href="/">Know & Give</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -107,15 +107,16 @@ const navbarHtml = /* @html */ `
 const navbarBisHtml = /* @html */ `
 <nav class="navbar navbar-expand-lg">
     <img class="logo" src="img/logo.png">
-    <a class="navbar-brand" href="#">Know & Give</a>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <ul class="navbar-nav ml-auto">
-        <div class="navbar-nav">
-          <a href="/messagerie"><span class="icon-envelop"></span></a>
-          <a href="/pagePerso"><span class="icon-user"></span></a>
-          <a href="/showHome"><span class="icon-switch"></span></a>
-        </div>
-      </ul>
+    <a class="navbar-brand" href="/">Know & Give</a>
+    <div class="collapse navbar-collapse" id="icons-position">
+      <div class="icons">
+        <ul class="navbar-nav mr-auto">
+            <a href="/messagerie"><span class="icon-envelop fa-2x"></span></a>
+            <a href="/pagePerso"><span class="icon-user fa-2x"></span></a>
+            <a href="/"><span class="icon-switch fa-2x"></span></a>
+        </ul>
+      </div>
+    </div>
 </nav>
 `
 
@@ -184,7 +185,6 @@ const footerHtml = /* @html */ `<footer class="footer">
     <div class="container">
         <div class="row justify-content-md-center">
           <div class="col-md-6  col-lg-3 ">
-
             <ul class="nav">
                 <li class="nav-item"><a href="" class="nav-link"><img src="img/facebook.png" alt="facebook" width="13px"></a></li>
                 <li class="nav-item"><a href="" class="nav-link"><img src="img/instagram.png" alt="instagram" width="35px"></a></li>
@@ -230,29 +230,17 @@ function getGivemanHtml(giveman){
 // console.log(givemen.map(getGivemanHtml).join('\n'))
 
 const resultHtml = givemen => `<ul class="list-unstyled">
-
   ${
     givemen.map(getGivemanHtml).join('\n')
   }
   </ul>
 `
-
-
 const pagePersoHtml = /* @html */ `
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-             <img class="logo" src="img/logo.png">
-             <a class="navbar-brand" href="#">Know and Give</a>
-             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-               <span class="navbar-toggler-icon"></span>
-             </button>
-       </nav>
 
        <h1>Informations personnelles</h1>
-
        <div class="container">
            <div class="row">
                <div class="col-md-6 imgProfil">
-
                    <!-- Upload de la photo -->
                    <form action="my-script.php" enctype="multipart/form-data" method="post">
                      <div><input type="file" onchange="handleFiles(files)" id="upload" multiple name="file"></div>
@@ -324,16 +312,6 @@ const pagePersoHtml = /* @html */ `
                      <span class="badge badge-pill badge-success">Cuisine</span>
                      <span class="badge badge-pill badge-success">Mode et beauté</span>
                      <span class="badge badge-pill badge-success">Art</span><br />
-               
-                   <h4>Mes attentes<h4>
-                     <span class="badge badge-pill badge-primary">Jardinage</span>
-                     <span class="badge badge-pill badge-primary">Famille</span>
-                     <span class="badge badge-pill badge-primary">Decoration</span>
-                     <span class="badge badge-pill badge-primary">Bricolage</span>
-                     <span class="badge badge-pill badge-primary">Enseignement</span>
-                     <span class="badge badge-pill badge-primary">Cuisine</span>
-                     <span class="badge badge-pill badge-primary">Mode et beauté</span>
-                     <span class="badge badge-pill badge-primary">Art</span>
                </div>
            </div>
            <div class="row">
@@ -367,12 +345,7 @@ const pageProfilHtml = /* @html */ `
           <span class="badge badge-pill badge-success">Famille</span>
           <span class="badge badge-pill badge-success">Decoration</span>
           <span class="badge badge-pill badge-success">Bricolage</span>
-
-          <h5>Mes attentes<h5>
-          <span class="badge badge-pill badge-primary">Mode et beauté</span>
-          <span class="badge badge-pill badge-primary">Enseignement</span>
         </div>
-
       </div>
   </div>
 
@@ -396,12 +369,11 @@ function showResultForKeyword(keyword) {
 }
 
 const showHome = () => {
-  const main = document.getElementById('main')
   mainDiv.innerHTML = navbarHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml
 }
 
 const showPagePerso = () => {
-  mainDiv.innerHTML = pagePersoHtml
+  mainDiv.innerHTML = navbarBisHtml + pagePersoHtml + footerHtml
   removeBackdrops()
 }
 
@@ -419,6 +391,7 @@ function removeBackdrops() {
   if (backdrops.length > 0) {
     document.body.removeChild(backdrops[0])
   }
+  document.body.classList.remove('modal-open')
 }
 
 page("/", showHome)
@@ -432,17 +405,15 @@ const search = () => {
   mainDiv.innerHTML = navbarHtml + searchPageHtml() + footerHtml
 }
 
-// const render = mainHTML => {
-//   mainDiv.innerHTML = navbarHtml + mainHTML + footerHtml
-// }
+const render = mainHTML => {
+  mainDiv.innerHTML = navbarHtml + mainHTML + footerHtml
+}
 
 const home = () => {
   render(searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml)
 
   const connexion = document.getElementById('form-post')
   connexion.addEventListener('submit', event => {
-
-
 
     event.preventDefault()
     const inputs = connexion.getElementsByTagName('input')
@@ -452,7 +423,6 @@ const home = () => {
        data[input.name] = input.value
       }
     }
-
 
     const dataJSON = JSON.stringify(data)
 
@@ -470,8 +440,6 @@ const home = () => {
     })
   })
 
-
-
   const autocompleteInput = document.getElementById("myInput")
   const searchForm = document.getElementById("search-form")
   console.log(searchForm)
@@ -483,8 +451,7 @@ const home = () => {
 
   })
 
-
-  var skill = ["Jardinage", "Plomberie", "Batiment", "Plaquiste", "Carreleur", "Menuiserie","Electricité", "Cuisine", "Musique", "Informatique", "Bricolage", "Mécanique"];
+  var skill = ["Jardinage", "Famille", "Decoration", "Cuisine", "Art", "Enseignement", "Bricolage", "Mode et beauté"];
     /* FIN DE LA PARTIE MOTS CLEFS */
 
   autocomplete(autocompleteInput, skill);
@@ -518,5 +485,3 @@ function handleFiles(files) {
  }
 }
 // Fin function upload photo
-
-home()

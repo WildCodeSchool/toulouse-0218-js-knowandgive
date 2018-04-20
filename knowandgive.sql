@@ -26,7 +26,7 @@ CREATE TABLE `Message` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `senderId` int(11) NOT NULL,
   `recipientId` int(11) NOT NULL,
-  `dateTime` date NOT NULL,
+  `dateTime` datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
   `message` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -68,7 +68,7 @@ CREATE TABLE `Profile` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 ALTER TABLE Profile
-ADD FOREIGN KEY (userId) REFERENCES Users(id);
+ADD FOREIGN KEY (userId) REFERENCES User(id);
 
 --
 -- Dumping data for table `Profile`

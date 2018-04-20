@@ -1,3 +1,4 @@
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
@@ -89,12 +90,14 @@ const html = /* @html */`
 // const users = []
 // let id = 1
 
+
+
 app.post('/connexion', (req, res) => {
     console.log(req.body)
 
     const user = req.body.user
-    const password = req.body.password
-    const query = `SELECT user, password FROM User WHERE user = '${user}' AND password = '${password}'`
+    const passwordConnection = req.body.passwordConnection
+    const query = `SELECT user, password FROM User WHERE user = '${user}' AND password = '${passwordConnection}'`
 
 
     connection.query(query, (error, results) => {
@@ -106,6 +109,39 @@ app.post('/connexion', (req, res) => {
       const user = results[0]
       res.json({ result: results[0] })
     })
+})
+
+
+app.post('/create-account', (req, res) => {
+  console.log(req.body)
+
+  const username = req.body.username
+  const confirmEmail = req.body.confirmEmail
+  const email = req.body.email
+  const confirmPassword = req.body.confirmPassword
+  const password = req.body.password
+  let query
+  // const request = `SELECT user FROM User`
+  // if (request == username) {
+  //   return alert('L\'indetifiant est déjà pris')
+  // }
+  if ((email == confirmEmail) && (password == confirmPassword)) {
+    query = `INSERT INTO User (user, email, password) VALUES ('${username}', '${confirmEmail}', '${confirmPassword}')`
+  }
+
+
+
+  connection.query(query, (error, results) => {
+    if (error) {
+      return res.status(500).json({
+        error: error.message
+      })
+    }
+    const username = results[0]
+    res.json({ result: results[0]})
+  })
+  console.log(query)
+})
 
 
 
@@ -127,7 +163,7 @@ app.post('/connexion', (req, res) => {
     // id += 1
     //
     // res.json(newUser)
-})
+
 
 
 app.get('*', (rep, res) => {

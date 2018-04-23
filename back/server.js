@@ -176,14 +176,6 @@ app.post('/create-account', (req, res) => {
 
       }
 
-
-
-// recuperer id message //
-
-
-
-//Fin recuperation id message //
-
       const finalQuery = `SELECT id, firstname, lastname FROM Profile WHERE id IN (${profileIds.join()}) `
       console.log(results, profileIds, finalQuery)
         connection.query(finalQuery, (error, profiles) =>{
@@ -196,6 +188,24 @@ app.post('/create-account', (req, res) => {
 
     })
   })
+
+    app.get('/chat/messages/:otherId',(req, res) => {
+      const connectionId = 7
+      const otherId = req.params.otherId
+      const sqlMessage = `SELECT message FROM Message WHERE (recipientId = ${connectionId}
+      AND senderId = ${otherId})
+      OR senderId = ${connectionId} AND recipientId = ${otherId}`
+
+      connection.query(sqlMessage, (error, results)=> {
+        if (error) {
+          return res.status(500).json({
+            error: error.message
+          })
+        }
+        console.log(results)
+        res.json(results)
+      })
+    })
 
 
 

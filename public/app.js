@@ -230,6 +230,33 @@ function getGivemanHtml(giveman){
   `
 }
 
+// test //
+      function getContactHTML(contact) {
+        return `
+        <div class="contact">
+          <div class="card-body">
+            <h4 class="card-text"  data-id="${contact.id}" >${contact.firstname} ${contact.lastname}</h4>
+          </div>
+        </div>
+        `
+      }
+
+      const contactHtml = contacts => `
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="contacts">
+              <div class="card">
+                ${
+                  contacts.map(getContactHTML).join('\n')
+                }
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      `
+// Fin Test //
 // console.log(givemen.map(getGivemanHtml).join('\n'))
 
 const resultHtml = givemen => `<ul class="list-unstyled">
@@ -384,12 +411,17 @@ function resultKeyword(keyword) {
 }
 
 function showResultForKeyword(keyword) {
-  fetch(`/search-givemen?skill=${keyword}`)
-  .then(response =>response.json())
-  .then(givemen => {
-    render(searchbarHtml + resultHtml(givemen))
-  })
-
+  const givemen = [
+    {
+    id: 1,
+    firstname : 'Jacques',
+    lastname: 'Chirac',
+    photo : '/img/art.png',
+    description : 'blablabla',
+    skills : ['bricolage']
+    }
+  ]
+  render(searchbarHtml + resultHtml(givemen))
 }
 
 const render = mainHTML => {
@@ -421,12 +453,40 @@ const showIndexConnecte = () => {
   mainDiv.innerHTML = navbarBisHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml
   removeBackdrops()
 }
+const showContacts = () => {
+  // 1. Récupération des données depuis le serveur
+  fetch('/chat/people')
+  .then(response => response.json())
+  .then(contacts => {
+    // 2. Affichage
+    console.log(contactHtml(contacts))
+    render(contactHtml(contacts))
+
+    // 3. Mise en place des gestionnaires d'évènements
+
+    const divAllContacts = document.getElementsByClassName('contacts')
+    const h4InContacts = divAllContacts[0].getElementsByTagName('h4')
+    console.dir(divAllContacts)
+    for( let div of h4InContacts) {
+      div.addEventListener('click', function (event) {
+        console.log(event.target.dataset.id)
+        event.target.classList.add('active')
+        fetch(`/chat/messages/${event.target.dataset.id}`)
+      })
+    }
+
+  })
+}
+//FIn de test //
 
 page("/", showHome)
 page("/pagePerso", showPagePerso)
 page("/pageIndexConnecte", showIndexConnecte)
 page("/pageProfil", showPageProfil)
+page("/chat", showContacts)
 page()
+
+
 
 
 const search = () => {
@@ -469,6 +529,8 @@ const home = () => {
 
     const createAccount = document.getElementById('form-account')
     createAccount.addEventListener('submit', event => {
+
+
 
 
 
@@ -519,7 +581,7 @@ home()
   console.log(searchForm)
   searchForm.addEventListener('submit', event => {
     event.preventDefault()
-   showResultForKeyword(autocompleteInput.value)
+    showResultForKeyword(autocompleteInput.value)
     // const inputElements = searchForm.getElementsByTagName('input')
     // console.log(searchForm.getElementsByTagName('input'))
 

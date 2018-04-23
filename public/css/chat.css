@@ -21,7 +21,7 @@
 }
 
 .messagerie
-{ 
+{
   border-radius: 5px;
   border: solid 2px;
 }
@@ -34,7 +34,7 @@
 }
 
 .contacts
-{  
+{
   border-radius: 5px;
   overflow: auto;
   height: 500px;
@@ -45,11 +45,22 @@
 {
   background:#E5E8E8;
 }
+.contact .card-body{
+  padding: 0;
+}
+.contact .card-body h4{
+  padding: 1.25rem;
+}
 
-.contact:active
+.contact:hover{
+    background:#F1F1F1;
+}
+
+/*.contact .card-body h4.active
 {
   background:white;
 }
+*/
 
 .chat-input-holder
 {

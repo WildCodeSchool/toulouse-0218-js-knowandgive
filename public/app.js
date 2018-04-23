@@ -85,7 +85,7 @@ const navbarHtml = /* @html */ `
                         <div class="form-group row">
                           <label for="identifiant" class="col-sm-4 col-form-label"><i class="fa fa-user"> </i> Identifiant</label>
                           <div class="col-sm-6">
-                            <input type="text" class="form-control" id="user" name="user">
+                            <input type="text" class="form-control" id="userConnection" name="userConnection">
                           </div>
                         </div>
 
@@ -468,6 +468,12 @@ const home = () => {
     })
     .then(response => response.json())
     .then(data => {
+      if (data.error) {
+        alert(data.error)
+      }
+      else {
+        page('/pageIndexConnecte')
+      }
       console.log(data)
     })
   })
@@ -508,6 +514,9 @@ const home = () => {
       .then(data => {
         if (data.error) {
           alert(data.error)
+        }
+        else {
+          page('/pagePerso')
         }
         console.log(accountData)
       })

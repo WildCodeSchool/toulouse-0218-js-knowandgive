@@ -48,20 +48,36 @@ const html = /* @html */`
 app.post('/connexion', (req, res) => {
     console.log(req.body)
 
-    const user = req.body.user
+    const userConnection = req.body.userConnection
     const passwordConnection = req.body.passwordConnection
-    const query = `SELECT user, password FROM User WHERE user = '${user}' AND password = '${passwordConnection}'`
+    const query = `SELECT user, password FROM User WHERE user = '${userConnection}'`
 
 
-    connection.query(query, (error, results) => {
-      if(error) {
-        return res.status(500).json({
-          error: error.message
-        })
-      }
+
+
+
+  connection.query(query, (error, results) => {
+  console.log(results)
+    if (error) {
+      return res.status(500).json({
+        error: error.message
+      })
+    }
+    if (results.length < 0) {
+      return res.status(400).json({
+        error: 'Identifiant ou mot de passe incorrect'
+      })
+    }
+    if ((results[0].user == userConnection) && (results[0].password !== passwordConnection)){
+      return res.status(400).json({
+        error: 'Identifiant ou mot de passe incorrect'
+      })
+    }
+    if ((results[0].user == userConnection) && (results[0].password == passwordConnection)){
       const user = results[0]
       res.json({ result: results[0] })
-    })
+    }
+  })
 })
 
 
@@ -94,7 +110,6 @@ app.post('/create-account', (req, res) => {
     }
     if ((email == confirmEmail) && (password == confirmPassword)) {
       query = `INSERT INTO User (user, email, password) VALUES ('${username}', '${confirmEmail}', '${confirmPassword}')`
-  console.log(query)
       connection.query(query, (error, results) => {
         if (error) {
           return res.status(500).json({
@@ -107,16 +122,6 @@ app.post('/create-account', (req, res) => {
       })
     }
   })
-
-
-
-
-
-
-
-
-
-
 })
 
 

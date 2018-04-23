@@ -66,7 +66,9 @@ const html = /* @html */`
           return x.profileId
         })
 
-        // if 
+        if (resultats <= 0 ) {
+          return "aucun resultat n'est disponible"
+        }
 
         const finalQuery = `SELECT id, firstname, lastname, photo, description FROM Profile WHERE id IN (${profileIds.join()}) `
         connection.query(finalQuery, (error, resultats3) =>{

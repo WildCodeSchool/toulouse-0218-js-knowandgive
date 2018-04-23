@@ -482,13 +482,7 @@ const home = () => {
       let accountData = {}
       for (let input of inputsForm) {
         if (input.name !== '') {
-          // if ((email !== confirmEmail) && (password !== confirmPassword)){
-          //   return alert('Mot de passe ou email de confirmation incorrect')
-          //
-          // }
-          // else {
             accountData[input.name] = input.value
-          // }
         }
         if (input.value === '') {
           return alert('Veuillez renseigner tous les champs')
@@ -512,6 +506,9 @@ const home = () => {
       })
       .then(response => response.json())
       .then(data => {
+        if (data.error) {
+          alert(data.error)
+        }
         console.log(accountData)
       })
   })

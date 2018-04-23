@@ -45,11 +45,6 @@ const html = /* @html */`
 
 
 
-// const users = []
-// let id = 1
-
-
-
 app.post('/connexion', (req, res) => {
     console.log(req.body)
 
@@ -79,48 +74,51 @@ app.post('/create-account', (req, res) => {
   const confirmPassword = req.body.confirmPassword
   const password = req.body.password
   let query
-  // const request = `SELECT user FROM User`
-  // if (request == username) {
-  //   return alert('L\'indetifiant est déjà pris')
+  // let query = `SELECT COUNT(id) FROM User WHERE user = '${username}'`
+  // if (query = 0) {
+  //   console.log('Identifiant déjà pris')
   // }
-  if ((email == confirmEmail) && (password == confirmPassword)) {
-    query = `INSERT INTO User (user, email, password) VALUES ('${username}', '${confirmEmail}', '${confirmPassword}')`
-  }
-
-
-
-  connection.query(query, (error, results) => {
+  let request = `SELECT user FROM User WHERE user = '${username}'`
+  console.log(request)
+  connection.query(request, (error, resultats) => {
     if (error) {
       return res.status(500).json({
         error: error.message
       })
     }
-    const username = results[0]
-    res.json({ result: results[0]})
-  })
+    if ((resultats.length > 0) && (resultats[0].user == username)) {
+      console.log('Identifiant déjà pris')
+      return res.status(400).json({
+        error: 'Identifiant déjà pris'
+      })
+    }
+    if ((email == confirmEmail) && (password == confirmPassword)) {
+      query = `INSERT INTO User (user, email, password) VALUES ('${username}', '${confirmEmail}', '${confirmPassword}')`
   console.log(query)
+      connection.query(query, (error, results) => {
+        if (error) {
+          return res.status(500).json({
+            error: error.message
+          })
+        }
+        const username = results[0]
+        console.log(results)
+        res.json({ result: results[0]})
+      })
+    }
+  })
+
+
+
+
+
+
+
+
+
+
 })
 
-
-
-    //
-    // const existingUser = users.find(user => user.email === email)
-    // if(existingUser !== undefined) {
-    //     return res.status(400).json({
-    //         error: 'Email déjà enregistré'
-    //     })
-    // }
-    //
-    // const newUser = {
-    //     identifiant: id,
-    //     mdp: password
-    // }
-    //
-    // users.push(newUser)
-    //
-    // id += 1
-    //
-    // res.json(newUser)
 
 
 

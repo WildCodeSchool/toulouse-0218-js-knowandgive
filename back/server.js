@@ -126,8 +126,40 @@ app.post('/create-account', (req, res) => {
             profileIds.push(message.senderId)
           }
         }
-
+      
       }
+// test //
+      function getContactHTML(contact) {
+        return `
+        <div class="contact">
+          <div class="card-body">
+            <h4 class="card-text">${contact.fisrtname} ${contact.lastname}</h4>
+          </div>
+        </div>
+        `
+      }
+
+      const resultHtml = contacts => `  <div class="container">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="contacts">
+                <div class="card">
+
+        ${
+          contacts.map(getContactHTML).join('\n')
+        }
+        </div>
+      </div>
+    </div>
+      `
+
+//FIn de test //
+
+// recuperer id message //
+
+
+
+//Fin recuperation id message //
 
       const finalQuery = `SELECT id, firstname, lastname FROM Profile WHERE id IN (${profileIds.join()}) `
       console.log(results, profileIds, finalQuery)

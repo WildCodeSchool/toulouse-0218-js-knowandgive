@@ -22,7 +22,8 @@ const html = /* @html */`
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="recherche.css">
     <link rel="stylesheet" href="css/givemenStyle.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/chat.css">
+
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Amaranth" rel="stylesheet">
 
@@ -45,10 +46,10 @@ const html = /* @html */`
 
 // Test Thomas  requête BDD //
   app.get('/search-givemen', (req, res) =>{
-    console.log(req.query) 
+    console.log(req.query)
     const skill = req.query.skill
     const sql = `SELECT skill, id FROM Skill WHERE skill = "${skill}" `
-   
+
     connection.query(sql, (error, resultats) => {
       console.log(resultats)
       if (error) return res.status(500).send(error.message);
@@ -61,12 +62,12 @@ const html = /* @html */`
 
       connection.query(sqlPivot, (error, resultats2) =>{
         if (error) return res.status(500).send(error.message);
-        
+
         const profileIds = resultats2.map(x => {
           return x.profileId
         })
 
-        // if 
+        // if
 
         const finalQuery = `SELECT id, firstname, lastname, photo, description FROM Profile WHERE id IN (${profileIds.join()}) `
         connection.query(finalQuery, (error, resultats3) =>{
@@ -74,17 +75,17 @@ const html = /* @html */`
           // const profilesId = resultats2[0].profileIds
           console.log(resultats3)
           res.json(resultats3)
-            
+
         })
 
           // console.log(profileIds)
-          
+
       })
 
 
 
 
-       
+
    })
 
   })
@@ -174,7 +175,7 @@ app.post('/create-account', (req, res) => {
         }
 
       }
-    }
+
 
 
 // recuperer id message //

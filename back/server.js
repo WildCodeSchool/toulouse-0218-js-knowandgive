@@ -52,10 +52,10 @@ const html = /* @html */`
 
 // Test Thomas  requête BDD //
   app.get('/search-givemen', (req, res) =>{
-    console.log(req.query) 
+    console.log(req.query)
     const skill = req.query.skill
     const sql = `SELECT skill, id FROM Skill WHERE skill = "${skill}" `
-   
+
     connection.query(sql, (error, resultats) => {
       console.log(resultats)
       if (error) return res.status(500).send(error.message);
@@ -68,7 +68,7 @@ const html = /* @html */`
 
       connection.query(sqlPivot, (error, resultats2) =>{
         if (error) return res.status(500).send(error.message);
-        
+
         const profileIds = resultats2.map(x => {
           return x.profileId
         })
@@ -83,12 +83,12 @@ const html = /* @html */`
           // const profilesId = resultats2[0].profileIds
           console.log(resultats3)
           res.json(resultats3)
-            
+
         })
 
           // console.log(profileIds)
-          
-      })       
+
+      })
    })
 
   })
@@ -114,9 +114,6 @@ app.post('/connexion', (req, res) => {
     const userConnection = req.body.userConnection
     const passwordConnection = req.body.passwordConnection
     const query = `SELECT user, password FROM User WHERE user = '${userConnection}'`
-
-
-
 
   connection.query(query, (error, results) => {
   console.log(results)
@@ -181,7 +178,19 @@ app.post('/create-account', (req, res) => {
   })
 })
 
-
+// app.post('/informations-personnelles', (req, res) => {
+//   console.log(req.body)
+//
+//   const nom = req.body.nom
+//   const prenom = req.body.prenom
+//   const codePostal = req.body.codePostal
+//   const ville = req.body.ville
+//   const linkedin = req.body.linkedin
+//   const description = req.body.description
+//
+//   const query = `INSERT INTO Profile (lastname, firstname, zipcode, city, linkedin, description) VALUE
+//   ('${nom}', '${prenom}', '${codePostal}', '${ville}', '${linkedin}', '${description}')`
+// })
 
 
 app.get('*', (rep, res) => {

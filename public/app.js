@@ -503,7 +503,7 @@ const home = () => {
     /* FIN DE LA PARTIE MOTS CLEFS */
 
   autocomplete(autocompleteInput, skill);
-}
+
 
 // Function upload photo
 function handleFiles(files) {

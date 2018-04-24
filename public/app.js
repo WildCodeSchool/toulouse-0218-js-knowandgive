@@ -57,9 +57,7 @@ const navbarHtml = /* @html */ `
                     </div>
                   </form>
                     <div class="modal-footer">
-                        <a class="renvoi-page-perso btn btn-primary" href="/pagePerso">
                         <input form="form-account" type="submit" class="btn btn-primary" value="Valider">
-                        </a>
                     </div>
                   </div>
                 </div>
@@ -98,9 +96,7 @@ const navbarHtml = /* @html */ `
                       </form>
                     </div>
                     <div class="modal-footer">
-                      <a href="/pageIndexConnecte">
                         <input form="form-post" type="submit" class="btn btn-primary" value="Valider" />
-                      </a>
                     </div>
                   </div>
         </ul>
@@ -366,10 +362,10 @@ function showResultForKeyword(keyword) {
     render(searchbarHtml + resultHtml(givemen))
   })
 }
-
-const showHome = () => {
-  mainDiv.innerHTML = navbarHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml
-}
+//
+// const showHome = () => {
+//   mainDiv.innerHTML = navbarHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml
+// }
 
 const showPagePerso = () => {
   mainDiv.innerHTML = navbarBisHtml + pagePersoHtml + footerHtml
@@ -393,12 +389,6 @@ function removeBackdrops() {
   document.body.classList.remove('modal-open')
 }
 
-page("/", showHome)
-page("/pagePerso", showPagePerso)
-page("/pageIndexConnecte", showIndexConnecte)
-page("/pageProfil", showPageProfil)
-page()
-
 
 const search = () => {
   mainDiv.innerHTML = navbarHtml + searchPageHtml() + footerHtml
@@ -410,8 +400,9 @@ const render = mainHTML => {
 
 const home = () => {
   render(searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml)
-
   const connexion = document.getElementById('form-post')
+
+
   connexion.addEventListener('submit', event => {
 
     event.preventDefault()
@@ -479,6 +470,7 @@ const home = () => {
   //   })
 
     const createAccount = document.getElementById('form-account')
+    console.log(createAccount)
     createAccount.addEventListener('submit', event => {
 
 
@@ -521,23 +513,25 @@ const home = () => {
         console.log(accountData)
       })
   })
+
+
+    const autocompleteInput = document.getElementById("myInput")
+    const searchForm = document.getElementById("search-form")
+    console.log(searchForm)
+    searchForm.addEventListener('submit', event => {
+      event.preventDefault()
+      showResultForKeyword(autocompleteInput.value)
+      // const inputElements = searchForm.getElementsByTagName('input')
+      // console.log(searchForm.getElementsByTagName('input'))
+
+    })
+
+    var skill = ["Jardinage", "Famille", "Decoration", "Cuisine", "Art", "Enseignement", "Bricolage", "Mode et beauté"];
+      /* FIN DE LA PARTIE MOTS CLEFS */
+
+    autocomplete(autocompleteInput, skill);
+
 }
-
-  const autocompleteInput = document.getElementById("myInput")
-  const searchForm = document.getElementById("search-form")
-  console.log(searchForm)
-  searchForm.addEventListener('submit', event => {
-    event.preventDefault()
-    showResultForKeyword(autocompleteInput.value)
-    // const inputElements = searchForm.getElementsByTagName('input')
-    // console.log(searchForm.getElementsByTagName('input'))
-
-  })
-
-  var skill = ["Jardinage", "Famille", "Decoration", "Cuisine", "Art", "Enseignement", "Bricolage", "Mode et beauté"];
-    /* FIN DE LA PARTIE MOTS CLEFS */
-
-  autocomplete(autocompleteInput, skill);
 
 
 // Function upload photo
@@ -568,3 +562,12 @@ function handleFiles(files) {
  }
 }
 // Fin function upload photo
+
+
+
+page("/", home)
+page("/pagePerso", showPagePerso)
+page("/pageIndexConnecte", showIndexConnecte)
+page("/pageProfil", showPageProfil)
+page()
+/////// NE RIEN ECRIRE EN DESSOUS DES APPELS page() ///////

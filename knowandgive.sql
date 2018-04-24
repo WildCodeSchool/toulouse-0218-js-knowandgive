@@ -33,9 +33,9 @@ CREATE TABLE `Message` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 ALTER TABLE Message
-ADD FOREIGN KEY (senderId) REFERENCES User(id);
+ADD FOREIGN KEY (senderId) REFERENCES Profile(id);
 ALTER TABLE Message
-ADD FOREIGN KEY (recipientId) REFERENCES User(id);
+ADD FOREIGN KEY (recipientId) REFERENCES Profile(id);
 
 --
 -- Dumping data for table `Message`

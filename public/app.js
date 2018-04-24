@@ -249,10 +249,44 @@ function getGivemanHtml(giveman){
               </div>
             </div>
           </div>
+          <div class="col-md-9 messagerie" id="messages">
           </div>
         </div>
+      </div>
       `
 
+const connectionId = 7
+
+
+      function getMessageHTML(message) {
+        let offset
+        let recu
+        return /* @html */`
+        <div class="row">
+          <div class="col-md-9 ">
+            <div class="card-recu">
+              <div class="recu">
+                <div class="card-body">
+                  <p class="card-text">
+                    ${message.message}
+                  </p>
+                  <span class="time-left">${message.dateTime}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        `
+      }
+      const messagesHTML = messages => /* @html */`
+        <div class="contenu-message">
+
+            ${
+              messages.map(getMessageHTML).join('\n')
+            }
+        </div>
+
+      `
 
 
 
@@ -445,6 +479,11 @@ const showContacts = () => {
         console.log(event.target.dataset.id)
         event.target.classList.add('active')
         fetch(`/chat/messages/${event.target.dataset.id}`)
+        .then(response => response.json())
+        .then(messages => {
+          const divMessages = document.getElementById('messages')
+          divMessages.innerHTML = messagesHTML(messages)
+        })
       })
     }
 

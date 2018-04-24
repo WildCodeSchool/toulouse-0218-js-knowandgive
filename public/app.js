@@ -464,6 +464,7 @@ const home = () => {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: dataJSON
     })
     .then(response => response.json())

@@ -3,11 +3,31 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const connection = require('./database')
+const session = require('express-session')
+
 
 const path = require('path')
 const staticPath = path.normalize(__dirname + '/../public')
 app.use(express.static(staticPath))
 app.use(bodyParser.json())
+
+const middleware1 = (req, res, next) => {
+  console.log('Je suis le middleware1')
+  // Passer à la suite
+  next()
+}
+
+
+const middleware2 = (req, res, next) => {
+  console.log('Je suis le middleware2')
+  // Passer à la suite
+  next()
+}
+
+app.use(middleware2)
+app.use(middleware1)
+
+
 
 const html = /* @html */`
 <!doctype html>
@@ -48,10 +68,11 @@ const html = /* @html */`
 app.post('/connexion', (req, res) => {
     console.log(req.body)
 
+    // const {userConnection, passwordConnection} = req.body
+
     const userConnection = req.body.userConnection
     const passwordConnection = req.body.passwordConnection
     const query = `SELECT user, password FROM User WHERE user = '${userConnection}'`
-
 
 
 
@@ -63,18 +84,19 @@ app.post('/connexion', (req, res) => {
         error: error.message
       })
     }
-    if (results.length < 0) {
-      return res.status(400).json({
-        error: 'Identifiant ou mot de passe incorrect'
-      })
-    }
-    if ((results[0].user == userConnection) && (results[0].password !== passwordConnection)){
+    // if (results.length < 0) {
+    //   return res.status(400).json({
+    //     error: 'Identifiant ou mot de passe incorrect'
+    //   })
+    // }
+    if ((! results[0].user) || (results[0].password !== passwordConnection)){
       return res.status(400).json({
         error: 'Identifiant ou mot de passe incorrect'
       })
     }
     if ((results[0].user == userConnection) && (results[0].password == passwordConnection)){
       const user = results[0]
+      req.session.user
       res.json({ result: results[0] })
     }
   })

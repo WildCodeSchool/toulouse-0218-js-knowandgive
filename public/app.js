@@ -85,7 +85,7 @@ const navbarHtml = /* @html */ `
                         <div class="form-group row">
                           <label for="identifiant" class="col-sm-4 col-form-label"><i class="fa fa-user"> </i> Identifiant</label>
                           <div class="col-sm-6">
-                            <input type="text" class="form-control" id="user" name="user">
+                            <input type="text" class="form-control" id="userConnection" name="userConnection">
                           </div>
                         </div>
 
@@ -384,12 +384,17 @@ function resultKeyword(keyword) {
 }
 
 function showResultForKeyword(keyword) {
-  fetch(`/search-givemen?skill=${keyword}`)
-  .then(response =>response.json())
-  .then(givemen => {
-    render(searchbarHtml + resultHtml(givemen))
-  })
-
+  const givemen = [
+    {
+    id: 1,
+    firstname : 'Jacques',
+    lastname: 'Chirac',
+    photo : '/img/art.png',
+    description : 'blablabla',
+    skills : ['bricolage']
+    }
+  ]
+  render(searchbarHtml + resultHtml(givemen))
 }
 
 const render = mainHTML => {
@@ -459,10 +464,17 @@ const home = () => {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: dataJSON
     })
     .then(response => response.json())
     .then(data => {
+      if (data.error) {
+        alert(data.error)
+      }
+      else {
+        page('/pageIndexConnecte')
+      }
       console.log(data)
     })
   })
@@ -477,13 +489,7 @@ const home = () => {
       let accountData = {}
       for (let input of inputsForm) {
         if (input.name !== '') {
-          // if ((email !== confirmEmail) && (password !== confirmPassword)){
-          //   return alert('Mot de passe ou email de confirmation incorrect')
-          //
-          // }
-          // else {
             accountData[input.name] = input.value
-          // }
         }
         if (input.value === '') {
           return alert('Veuillez renseigner tous les champs')
@@ -507,6 +513,12 @@ const home = () => {
       })
       .then(response => response.json())
       .then(data => {
+        if (data.error) {
+          alert(data.error)
+        }
+        else {
+          page('/pagePerso')
+        }
         console.log(accountData)
       })
   })
@@ -519,7 +531,7 @@ home()
   console.log(searchForm)
   searchForm.addEventListener('submit', event => {
     event.preventDefault()
-   showResultForKeyword(autocompleteInput.value)
+    showResultForKeyword(autocompleteInput.value)
     // const inputElements = searchForm.getElementsByTagName('input')
     // console.log(searchForm.getElementsByTagName('input'))
 

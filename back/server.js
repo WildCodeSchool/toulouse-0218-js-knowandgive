@@ -3,11 +3,17 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const connection = require('./database')
+const session = require('express-session')
+
 
 const path = require('path')
 const staticPath = path.normalize(__dirname + '/../public')
+app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
 app.use(express.static(staticPath))
 app.use(bodyParser.json())
+
+
+
 
 const html = /* @html */`
 <!doctype html>
@@ -42,6 +48,7 @@ const html = /* @html */`
       <script src="app.js"></script>
 </html>
 `
+
 
 // Test Thomas  requête BDD //
   app.get('/search-givemen', (req, res) =>{
@@ -81,40 +88,57 @@ const html = /* @html */`
 
           // console.log(profileIds)
           
-      })
-
-
-
-
-       
+      })       
    })
 
   })
 
 // Fin de test Thomas //
 
-// const users = []
-// let id = 1
-
+const checkLoggedInUser = (req, res, next) => {
+  if((req.session !== undefined) && (req.session.user !== undefined)) {
+    const user = req.session.user
+    next()
+  }
+  else {
+    res.status(401).json({
+      error: 'Unauthorized Access'
+    })
+  }
+}
 
 
 app.post('/connexion', (req, res) => {
     console.log(req.body)
 
-    const user = req.body.user
+    const userConnection = req.body.userConnection
     const passwordConnection = req.body.passwordConnection
-    const query = `SELECT user, password FROM User WHERE user = '${user}' AND password = '${passwordConnection}'`
+    const query = `SELECT user, password FROM User WHERE user = '${userConnection}'`
 
 
-    connection.query(query, (error, results) => {
-      if(error) {
-        return res.status(500).json({
-          error: error.message
-        })
-      }
-      const user = results[0]
-      res.json({ result: results[0] })
-    })
+
+
+  connection.query(query, (error, results) => {
+  console.log(results)
+    if (error) {
+      return res.status(500).json({
+        error: error.message
+      })
+    }
+    if (results.length === 0) {
+      return res.status(400).json({
+        error: 'Identifiant ou mot de passe incorrect'
+      })
+    }
+    if ((results[0].user == userConnection) && (results[0].password !== passwordConnection)){
+      return res.status(400).json({
+        error: 'Identifiant ou mot de passe incorrect'
+      })
+    }
+    const user = results[0]
+    req.session.user = user
+    res.json(user)
+  })
 })
 
 
@@ -127,48 +151,36 @@ app.post('/create-account', (req, res) => {
   const confirmPassword = req.body.confirmPassword
   const password = req.body.password
   let query
-  // const request = `SELECT user FROM User`
-  // if (request == username) {
-  //   return alert('L\'indetifiant est déjà pris')
-  // }
-  if ((email == confirmEmail) && (password == confirmPassword)) {
-    query = `INSERT INTO User (user, email, password) VALUES ('${username}', '${confirmEmail}', '${confirmPassword}')`
-  }
-
-
-
-  connection.query(query, (error, results) => {
+  let request = `SELECT user FROM User WHERE user = '${username}'`
+  console.log(request)
+  connection.query(request, (error, resultats) => {
     if (error) {
       return res.status(500).json({
         error: error.message
       })
     }
-    const username = results[0]
-    res.json({ result: results[0]})
+    if ((resultats.length > 0) && (resultats[0].user == username)) {
+      console.log('Identifiant déjà pris')
+      return res.status(400).json({
+        error: 'Identifiant déjà pris'
+      })
+    }
+    if ((email == confirmEmail) && (password == confirmPassword)) {
+      query = `INSERT INTO User (user, email, password) VALUES ('${username}', '${confirmEmail}', '${confirmPassword}')`
+      connection.query(query, (error, results) => {
+        if (error) {
+          return res.status(500).json({
+            error: error.message
+          })
+        }
+        const username = results[0]
+        console.log(results)
+        res.json({ result: results[0]})
+      })
+    }
   })
-  console.log(query)
 })
 
-
-
-    //
-    // const existingUser = users.find(user => user.email === email)
-    // if(existingUser !== undefined) {
-    //     return res.status(400).json({
-    //         error: 'Email déjà enregistré'
-    //     })
-    // }
-    //
-    // const newUser = {
-    //     identifiant: id,
-    //     mdp: password
-    // }
-    //
-    // users.push(newUser)
-    //
-    // id += 1
-    //
-    // res.json(newUser)
 
 
 

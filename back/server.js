@@ -8,8 +8,10 @@ const session = require('express-session')
 
 const path = require('path')
 const staticPath = path.normalize(__dirname + '/../public')
+app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
 app.use(express.static(staticPath))
 app.use(bodyParser.json())
+
 
 
 
@@ -47,6 +49,52 @@ const html = /* @html */`
 </html>
 `
 
+
+// Test Thomas  requête BDD //
+  app.get('/search-givemen', (req, res) =>{
+    console.log(req.query) 
+    const skill = req.query.skill
+    const sql = `SELECT skill, id FROM Skill WHERE skill = "${skill}" `
+   
+    connection.query(sql, (error, resultats) => {
+      console.log(resultats)
+      if (error) return res.status(500).send(error.message);
+
+      if (resultats.length === 0) {
+        return res.json([])
+      }
+      const skillId = resultats[0].id
+      const sqlPivot = `SELECT profileId FROM ProfileSkill WHERE skillId = ${skillId}`
+
+      connection.query(sqlPivot, (error, resultats2) =>{
+        if (error) return res.status(500).send(error.message);
+        
+        const profileIds = resultats2.map(x => {
+          return x.profileId
+        })
+
+        // if (resultats <= 0 ) {
+        //   return "aucun resultat n'est disponible"
+        // }
+
+        const finalQuery = `SELECT id, firstname, lastname, photo, description FROM Profile WHERE id IN (${profileIds.join()}) `
+        connection.query(finalQuery, (error, resultats3) =>{
+          if (error) return res.status(500).send(error.message);
+          // const profilesId = resultats2[0].profileIds
+          console.log(resultats3)
+          res.json(resultats3)
+            
+        })
+
+          // console.log(profileIds)
+          
+      })       
+   })
+
+  })
+
+// Fin de test Thomas //
+
 const checkLoggedInUser = (req, res, next) => {
   if((req.session !== undefined) && (req.session.user !== undefined)) {
     const user = req.session.user
@@ -58,6 +106,7 @@ const checkLoggedInUser = (req, res, next) => {
     })
   }
 }
+
 
 app.post('/connexion', (req, res) => {
     console.log(req.body)
@@ -87,7 +136,7 @@ app.post('/connexion', (req, res) => {
       })
     }
     const user = results[0]
-    // req.session.user = user
+    req.session.user = user
     res.json(user)
   })
 })

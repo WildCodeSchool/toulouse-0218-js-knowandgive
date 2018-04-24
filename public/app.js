@@ -4,7 +4,7 @@ const mainDiv = document.getElementById('main')
 const navbarHtml = /* @html */ `
   <nav class="navbar navbar-expand-lg">
       <img class="logo" src="img/logo.png">
-      <a class="navbar-brand" href="#">Know & Give</a>
+      <a class="navbar-brand" href="/">Know & Give</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -57,9 +57,7 @@ const navbarHtml = /* @html */ `
                     </div>
                   </form>
                     <div class="modal-footer">
-                      <!--<a class="renvoi-page-perso btn btn-primary" href="/pagePerso">-->
                         <input form="form-account" type="submit" class="btn btn-primary" value="Valider">
-                      <!-- </a> -->
                     </div>
                   </div>
                 </div>
@@ -85,7 +83,7 @@ const navbarHtml = /* @html */ `
                         <div class="form-group row">
                           <label for="identifiant" class="col-sm-4 col-form-label"><i class="fa fa-user"> </i> Identifiant</label>
                           <div class="col-sm-6">
-                            <input type="text" class="form-control" id="user" name="user">
+                            <input type="text" class="form-control" id="userConnection" name="userConnection">
                           </div>
                         </div>
 
@@ -98,9 +96,7 @@ const navbarHtml = /* @html */ `
                       </form>
                     </div>
                     <div class="modal-footer">
-                      <!--<a href="/pageIndexConnecte">-->
                         <input form="form-post" type="submit" class="btn btn-primary" value="Valider" />
-                      <!--</a>-->
                     </div>
                   </div>
         </ul>
@@ -110,15 +106,16 @@ const navbarHtml = /* @html */ `
 const navbarBisHtml = /* @html */ `
 <nav class="navbar navbar-expand-lg">
     <img class="logo" src="img/logo.png">
-    <a class="navbar-brand" href="#">Know & Give</a>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <ul class="navbar-nav ml-auto">
-        <div class="navbar-nav">
-          <a href="/messagerie"><span class="icon-envelop"></span></a>
-          <a href="/pagePerso"><span class="icon-user"></span></a>
-          <a href="/showHome"><span class="icon-switch"></span></a>
-        </div>
-      </ul>
+    <a class="navbar-brand" href="/">Know & Give</a>
+    <div class="collapse navbar-collapse" id="icons-position">
+      <div class="icons">
+        <ul class="navbar-nav mr-auto">
+            <a href="/messagerie"><span class="icon-envelop fa-2x"></span></a>
+            <a href="/pagePerso"><span class="icon-user fa-2x"></span></a>
+            <a href="/"><span class="icon-switch fa-2x"></span></a>
+        </ul>
+      </div>
+    </div>
 </nav>
 `
 
@@ -187,7 +184,6 @@ const footerHtml = /* @html */ `<footer class="footer">
     <div class="container">
         <div class="row justify-content-md-center">
           <div class="col-md-6  col-lg-3 ">
-
             <ul class="nav">
                 <li class="nav-item"><a href="" class="nav-link"><img src="img/facebook.png" alt="facebook" width="13px"></a></li>
                 <li class="nav-item"><a href="" class="nav-link"><img src="img/instagram.png" alt="instagram" width="35px"></a></li>
@@ -224,7 +220,7 @@ function getGivemanHtml(giveman){
     <div class="media-body">
       <h5 class="mt-0 mb-1">${giveman.firstname} ${giveman.lastname}</h5>
       <p>${giveman.description}</p>
-      <span class="badge badge-pill badge-primary">Bricolage</span>
+      <span class="badge badge-pill badge-primary">${skill.Skill}</span>
        </div>
   </li>
   `
@@ -269,73 +265,67 @@ function getGivemanHtml(giveman){
 // console.log(givemen.map(getGivemanHtml).join('\n'))
 
 const resultHtml = givemen => `<ul class="list-unstyled">
-
   ${
     givemen.map(getGivemanHtml).join('\n')
   }
   </ul>
 `
-
 const pagePersoHtml = /* @html */ `
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-             <img class="logo" src="img/logo.png">
-             <a class="navbar-brand" href="#">Know and Give</a>
-             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-               <span class="navbar-toggler-icon"></span>
-             </button>
-       </nav>
 
        <h1>Informations personnelles</h1>
-
        <div class="container">
            <div class="row">
-               <div class="col-md-6">
-                   <a href="https://placeholder.com"><img src="http://via.placeholder.com/200x200"></a>
-                   <br>
-                   <button type="button" class="btn btn-light">Télécharger mon image</button>
+               <div class="col-md-6 imgProfil">
+                   <!-- Upload de la photo -->
+                   <form action="my-script.php" enctype="multipart/form-data" method="post">
+                     <div><input type="file" onchange="handleFiles(files)" id="upload" multiple name="file"></div>
+                     <div><label for="upload"><span id="preview"></span></label></div>
+                     <div><input type="submit" value="Envoyer"></div>
+                   </form>
+                   <!-- fin Upload photo -->
                </div>
                <div class="col-md-6">
                    <div class="card">
                        <div class="card-header">A propos de moi</div>
                        <div class="card-body">
-                           <form>
+                           <form id="formProfile" action="/informations-personnelles" method="POST">
                                <div class="form-group row">
                                    <label for="lastname" class="col-sm-4 col-form-label">Nom :</label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="lastname">
+                                       <input type="text" class="form-control" id="lastname" name="nom">
                                    </div>
                                </div>
                                <div class="form-group row">
                                    <label for="fisrtname" class="col-sm-4 col-form-label">Prénom :</label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="firstname">
+                                       <input type="text" class="form-control" id="firstname" name="prenom">
                                    </div>
                                </div>
                                <div class="form-group row">
                                    <label for="postal" class="col-sm-4 col-form-label">Code postal :</label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="postal">
+                                       <input type="text" class="form-control" id="postal" name="codePostal">
                                    </div>
                                </div>
                                <div class="form-group row">
                                    <label for="city" class="col-sm-4 col-form-label">Ville :</label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="city">
+                                       <input type="text" class="form-control" id="city" name="ville">
                                    </div>
                                </div>
                                <div class="form-group row">
                                    <label for="email" class="col-sm-4 col-form-label">Email : </label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="email">
+                                       <input type="text" class="form-control" id="email" name="email">
                                    </div>
                                </div>
                                <div class="form-group row">
                                    <label for="linkedin" class="col-sm-4 col-form-label">Linkedin : </label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="linkedin">
+                                       <input type="text" class="form-control" id="linkedin" name="linkedin">
                                    </div>
                                </div>
-                           </form>
+                           <!-- </form> -->
                        </div>
                    </div>
                </div>
@@ -343,106 +333,87 @@ const pagePersoHtml = /* @html */ `
            <div class="row">
                <div class="col-md-6">
                    <div class="form-group">
-                       <label for="description"><img src="/open-iconic/svg/pencil.svg">Description</label>
-                       <textarea class="form-control" id="description" rows="7"></textarea>
+                       <h4>Description</h4>
+                       <input class="form-control" id="description" rows="7" name="description"></input>
                    </div>
                </div>
-               <div class="col-md-6">
-                   <label for="skills"><img src="/open-iconic/svg/pencil.svg">Compétences</label>
 
-                   <div class="row">
-                       <div class="col-md-8">
-                           <input type="text" class="form-control" id="linkedin">
-                       </div>
-                       <div class="col-md-4">
-                           <button type="submit" class="btn btn-primary">Valider</button>
-                       </div>
-                   </div>
+               <div class="col-md-6">
+                   <h4>Compétences</h4>
+                     <span class="badge badge-pill badge-success">Jardinage</span>
+                     <span class="badge badge-pill badge-success">Famille</span>
+                     <span class="badge badge-pill badge-success">Decoration</span>
+                     <span class="badge badge-pill badge-success">Bricolage</span>
+                     <span class="badge badge-pill badge-success">Enseignement</span>
+                     <span class="badge badge-pill badge-success">Cuisine</span>
+                     <span class="badge badge-pill badge-success">Mode et beauté</span>
+                     <span class="badge badge-pill badge-success">Art</span><br />
                </div>
+               </form>
            </div>
            <div class="row">
                <div class="col-md-12">
-                   <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                   <input form="formProfile" type="submit" class="btn btn-primary" value="Mettre à jour"></input>
                </div>
            </div>
        </div>
 `
 
 const pageProfilHtml = /* @html */ `
-    <div class="container-fluid">
+  <div class="container-fluid">
     <div class="row">
-      <div class="col-md-2">
-        <img src="images/bernard.jpg" alt="portrait" class="">
-        </div>
-       <div class="card-body col-md-10">
-          <h5 class="card-title">A mon propos</h5>
-          <p class="card-text">J'ai de multiple compétences: <br />
-          Infiltration en territoire ennemi, journalisme, traffic de drogue international, créateur de polémique en tout genre, je connais également les tarifs des prostituées dans 125 pays.<br />
-          Prénom: Bernard<br />
-          Nom: De la Villardière<br />
-          Lieu: Le monde</p>
+        <div class="col-md-2">
+          <img src="" alt="portrait" class=""><br />
           <a href="#" class="btn btn-primary">Contacter</a>
         </div>
-      </div>
-    </div>
-    <h2>Ses derniers partages</h2>
+        <div class="card-body col-md-10">
+          <h5 class="card-title">Description de mes talents</h5>
+          <p class="card-text">
+          Infiltration en territoire ennemi, journalisme, traffic de drogue international, créateur de polémique en tout genre, je connais également les tarifs des prostituées dans 125 pays.<br />
+          <p>
+          Nom: De la Villardière<br />
+          Prenom: Bernard<br />
+          Code postal: 00000<br />
+          Ville: Le monde<br />
+          Email: bernardelavillardiere@m6.com</p>
 
-    <ul class="list-unstyled">
-    <li class="media">
-     <img class="mr-3" src="images/woman.jpg" alt="Generic placeholder image">
-     <div class="media-body">
-       <h5 class="mt-0 mb-1">Journalisme</h5>
-       Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-       <a href="#" class="btn btn-primary">Son avis</a>
-     </div>
-    </li>
-    <li class="media my-4">
-     <img class="mr-3" src="images/militaire.jpg" alt="Generic placeholder image">
-     <div class="media-body">
-       <h5 class="mt-0 mb-1">Infiltration</h5>
-       Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-       <a href="#" class="btn btn-primary">Son avis</a>
-     </div>
-    </li>
-    <li class="media">
-     <img class="mr-3" src="images/chimiste.jpg" alt="Generic placeholder image">
-     <div class="media-body">
-       <h5 class="mt-0 mb-1">Chimie</h5>
-       Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-       <a href="#" class="btn btn-primary">Son avis</a>
-     </div>
-    </li>
-    </ul>
+          <h5>Mes compétences<h5>
+          <span class="badge badge-pill badge-success">Jardinage</span>
+          <span class="badge badge-pill badge-success">Famille</span>
+          <span class="badge badge-pill badge-success">Decoration</span>
+          <span class="badge badge-pill badge-success">Bricolage</span>
+        </div>
+      </div>
+  </div>
+
 `
 function resultKeyword(keyword) {
   return "resultats pour " + keyword
 }
 
 function showResultForKeyword(keyword) {
-  const givemen = [
-    {
-    id: 1,
-    firstname : 'Jacques',
-    lastname: 'Chirac',
-    photo : '/img/art.png',
-    description : 'blablabla',
-    skills : ['bricolage']
-    }
-  ]
-  render(searchbarHtml + resultHtml(givemen))
+  fetch(`/search-givemen?skill=${keyword}`)
+  .then(response =>response.json())
+  .then(givemen => {
+    render(searchbarHtml + resultHtml(givemen))
+  })
 }
-
-const render = mainHTML => {
-  mainDiv.innerHTML = navbarHtml + mainHTML + footerHtml
-}
-
-const showHome = () => {
-  const main = document.getElementById('main')
-  mainDiv.innerHTML = navbarHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml
-}
+//
+// const showHome = () => {
+//   mainDiv.innerHTML = navbarHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml
+// }
 
 const showPagePerso = () => {
-  mainDiv.innerHTML = pagePersoHtml
+  mainDiv.innerHTML = navbarBisHtml + pagePersoHtml + footerHtml
+  removeBackdrops()
+}
+
+const showPageProfil = () => {
+  mainDiv.innerHTML = navbarHtml + pageProfilHtml + footerHtml
+}
+
+const showIndexConnecte = () => {
+  mainDiv.innerHTML = navbarBisHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml
   removeBackdrops()
 }
 
@@ -451,16 +422,10 @@ function removeBackdrops() {
   if (backdrops.length > 0) {
     document.body.removeChild(backdrops[0])
   }
+  document.body.classList.remove('modal-open')
 }
 
-const showPageProfil = () => {
-  mainDiv.innerHTML = pageProfilHtml
-}
 
-const showIndexConnecte = () => {
-  mainDiv.innerHTML = navbarBisHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml
-  removeBackdrops()
-}
 const showContacts = () => {
   // 1. Récupération des données depuis le serveur
   fetch('/chat/people')
@@ -487,27 +452,22 @@ const showContacts = () => {
 }
 //FIn de test //
 
-page("/", showHome)
-page("/pagePerso", showPagePerso)
-page("/pageIndexConnecte", showIndexConnecte)
-page("/pageProfil", showPageProfil)
-page("/chat", showContacts)
-page()
-
-
 
 
 const search = () => {
   mainDiv.innerHTML = navbarHtml + searchPageHtml() + footerHtml
 }
 
+const render = mainHTML => {
+  mainDiv.innerHTML = navbarHtml + mainHTML + footerHtml
+}
+
 const home = () => {
   render(searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml)
-
   const connexion = document.getElementById('form-post')
+
+
   connexion.addEventListener('submit', event => {
-
-
 
     event.preventDefault()
     const inputs = connexion.getElementsByTagName('input')
@@ -518,7 +478,6 @@ const home = () => {
       }
     }
 
-
     const dataJSON = JSON.stringify(data)
 
     fetch('/connexion', {
@@ -527,15 +486,55 @@ const home = () => {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: dataJSON
     })
     .then(response => response.json())
     .then(data => {
+      if (data.error) {
+        alert(data.error)
+      }
+      else {
+        page('/pageIndexConnecte')
+      }
       console.log(data)
     })
   })
 
+  // const form = () => {
+  //   render(showPagePerso)
+  //
+  //   const informations = document.getElementById('formProfile')
+  //   informations.addEventListener('submit', event => {
+  //
+  //     event.preventDefault()
+  //     const champs = informations.getElementsByTagName('input')
+  //     let infoData = {}
+  //     for (let input of champs) {
+  //       if (input.name !== '') {
+  //        data[input.name] = input.value
+  //       }
+  //     }
+  //
+  //     const infoDataJSON = JSON.stringify(infoData)
+  //
+  //     fetch('/informations-personnelles', {
+  //       method: 'POST',
+  //       headers: {
+  //         Accept: 'application/json',
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: infoDataJSON
+  //     })
+  //     .then(response => response.json())
+  //     .then(data => {
+  //
+  //       console.log(data)
+  //     })
+  //   })
+
     const createAccount = document.getElementById('form-account')
+    console.log(createAccount)
     createAccount.addEventListener('submit', event => {
 
 
@@ -547,13 +546,7 @@ const home = () => {
       let accountData = {}
       for (let input of inputsForm) {
         if (input.name !== '') {
-          // if ((email !== confirmEmail) && (password !== confirmPassword)){
-          //   return alert('Mot de passe ou email de confirmation incorrect')
-          //
-          // }
-          // else {
             accountData[input.name] = input.value
-          // }
         }
         if (input.value === '') {
           return alert('Veuillez renseigner tous les champs')
@@ -577,26 +570,71 @@ const home = () => {
       })
       .then(response => response.json())
       .then(data => {
+        if (data.error) {
+          alert(data.error)
+        }
+        else {
+          page('/pagePerso')
+        }
         console.log(accountData)
       })
   })
+
+
+    const autocompleteInput = document.getElementById("myInput")
+    const searchForm = document.getElementById("search-form")
+    console.log(searchForm)
+    searchForm.addEventListener('submit', event => {
+      event.preventDefault()
+      showResultForKeyword(autocompleteInput.value)
+      // const inputElements = searchForm.getElementsByTagName('input')
+      // console.log(searchForm.getElementsByTagName('input'))
+
+    })
+
+    var skill = ["Jardinage", "Famille", "Decoration", "Cuisine", "Art", "Enseignement", "Bricolage", "Mode et beauté"];
+      /* FIN DE LA PARTIE MOTS CLEFS */
+
+    autocomplete(autocompleteInput, skill);
+
 }
-home()
 
 
-  const autocompleteInput = document.getElementById("myInput")
-  const searchForm = document.getElementById("search-form")
-  console.log(searchForm)
-  searchForm.addEventListener('submit', event => {
-    event.preventDefault()
-    showResultForKeyword(autocompleteInput.value)
-    // const inputElements = searchForm.getElementsByTagName('input')
-    // console.log(searchForm.getElementsByTagName('input'))
+// Function upload photo
+function handleFiles(files) {
+   var imageType = /^image\//;
+   for (var i = 0; i < files.length; i++) {
+   var file = files[i];
+   if (!imageType.test(file.type)) {
+     alert("veuillez sélectionner une image");
+   }else{
+     if(i == 0){
+       preview.innerHTML = '';
+     }
+     var img = document.createElement("img");
+     img.classList.add("obj");
+     img.file = file;
+     preview.appendChild(img);
+     var reader = new FileReader();
+     reader.onload = ( function(aImg) {
+     return function(e) {
+     aImg.src = e.target.result;
+   };
+  })(img);
 
-  })
+ reader.readAsDataURL(file);
+ }
+
+ }
+}
+// Fin function upload photo
 
 
-  var skill = ["Jardinage", "Plomberie", "Batiment", "Plaquiste", "Carreleur", "Menuiserie","Electricité", "Cuisine", "Musique", "Informatique", "Bricolage", "Mécanique"];
-    /* FIN DE LA PARTIE MOTS CLEFS */
 
-  autocomplete(autocompleteInput, skill);
+page("/", home)
+page("/pagePerso", showPagePerso)
+page("/pageIndexConnecte", showIndexConnecte)
+page("/pageProfil", showPageProfil)
+page("/chat", showContacts)
+page()
+/////// NE RIEN ECRIRE EN DESSOUS DES APPELS page() ///////

@@ -241,7 +241,7 @@ function getGivemanHtml(giveman){
         `
       }
 
-      const contactHtml = contacts => `
+      const contactHtml = contacts => /* @html */ `
       <div class="container">
         <div class="row">
           <div class="col-md-3">
@@ -256,6 +256,15 @@ function getGivemanHtml(giveman){
           </div>
         </div>
       `
+
+
+
+
+
+
+
+
+
 // Fin Test //
 // console.log(givemen.map(getGivemanHtml).join('\n'))
 
@@ -266,7 +275,6 @@ const resultHtml = givemen => `<ul class="list-unstyled">
   }
   </ul>
 `
-
 
 const pagePersoHtml = /* @html */ `
       <nav class="navbar navbar-expand-lg navbar-light bg-light">

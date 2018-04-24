@@ -192,9 +192,10 @@ app.post('/create-account', (req, res) => {
     app.get('/chat/messages/:otherId',(req, res) => {
       const connectionId = 7
       const otherId = req.params.otherId
-      const sqlMessage = `SELECT message FROM Message WHERE (recipientId = ${connectionId}
+      const sqlMessage = `SELECT message, dateTime, senderId FROM Message WHERE (recipientId = ${connectionId}
       AND senderId = ${otherId})
-      OR senderId = ${connectionId} AND recipientId = ${otherId}`
+      OR senderId = ${connectionId} AND recipientId = ${otherId}
+      ORDER by dateTime ASC`
 
       connection.query(sqlMessage, (error, results)=> {
         if (error) {

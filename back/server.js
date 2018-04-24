@@ -3,11 +3,17 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const connection = require('./database')
+const session = require('express-session')
+
 
 const path = require('path')
 const staticPath = path.normalize(__dirname + '/../public')
+app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
 app.use(express.static(staticPath))
 app.use(bodyParser.json())
+
+
+
 
 const html = /* @html */`
 <!doctype html>
@@ -44,6 +50,63 @@ const html = /* @html */`
 `
 
 
+// Test Thomas  requête BDD //
+  app.get('/search-givemen', (req, res) =>{
+    console.log(req.query)
+    const skill = req.query.skill
+    const sql = `SELECT skill, id FROM Skill WHERE skill = "${skill}" `
+
+    connection.query(sql, (error, resultats) => {
+      console.log(resultats)
+      if (error) return res.status(500).send(error.message);
+
+      if (resultats.length === 0) {
+        return res.json([])
+      }
+      const skillId = resultats[0].id
+      const sqlPivot = `SELECT profileId FROM ProfileSkill WHERE skillId = ${skillId}`
+
+      connection.query(sqlPivot, (error, resultats2) =>{
+        if (error) return res.status(500).send(error.message);
+
+        const profileIds = resultats2.map(x => {
+          return x.profileId
+        })
+
+        // if (resultats <= 0 ) {
+        //   return "aucun resultat n'est disponible"
+        // }
+
+        const finalQuery = `SELECT id, firstname, lastname, photo, description FROM Profile WHERE id IN (${profileIds.join()}) `
+        connection.query(finalQuery, (error, resultats3) =>{
+          if (error) return res.status(500).send(error.message);
+          // const profilesId = resultats2[0].profileIds
+          console.log(resultats3)
+          res.json(resultats3)
+
+        })
+
+          // console.log(profileIds)
+
+      })
+   })
+
+  })
+
+// Fin de test Thomas //
+
+const checkLoggedInUser = (req, res, next) => {
+  if((req.session !== undefined) && (req.session.user !== undefined)) {
+    const user = req.session.user
+    next()
+  }
+  else {
+    res.status(401).json({
+      error: 'Unauthorized Access'
+    })
+  }
+}
+
 
 app.post('/connexion', (req, res) => {
     console.log(req.body)
@@ -59,7 +122,7 @@ app.post('/connexion', (req, res) => {
         error: error.message
       })
     }
-    if (results.length < 0) {
+    if (results.length === 0) {
       return res.status(400).json({
         error: 'Identifiant ou mot de passe incorrect'
       })
@@ -69,10 +132,9 @@ app.post('/connexion', (req, res) => {
         error: 'Identifiant ou mot de passe incorrect'
       })
     }
-    if ((results[0].user == userConnection) && (results[0].password == passwordConnection)){
-      const user = results[0]
-      res.json({ result: results[0] })
-    }
+    const user = results[0]
+    req.session.user = user
+    res.json(user)
   })
 })
 
@@ -86,10 +148,6 @@ app.post('/create-account', (req, res) => {
   const confirmPassword = req.body.confirmPassword
   const password = req.body.password
   let query
-  // let query = `SELECT COUNT(id) FROM User WHERE user = '${username}'`
-  // if (query = 0) {
-  //   console.log('Identifiant déjà pris')
-  // }
   let request = `SELECT user FROM User WHERE user = '${username}'`
   console.log(request)
   connection.query(request, (error, resultats) => {

@@ -224,7 +224,7 @@ function getGivemanHtml(giveman){
     <div class="media-body">
       <h5 class="mt-0 mb-1">${giveman.firstname} ${giveman.lastname}</h5>
       <p>${giveman.description}</p>
-      <span class="badge badge-pill badge-primary">Bricolage</span>
+      <span class="badge badge-pill badge-primary">${skill.Skill}</span>
        </div>
   </li>
   `
@@ -437,6 +437,7 @@ const home = () => {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: dataJSON
     })
     .then(response => response.json())

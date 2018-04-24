@@ -52,10 +52,6 @@ app.post('/connexion', (req, res) => {
     const passwordConnection = req.body.passwordConnection
     const query = `SELECT user, password FROM User WHERE user = '${userConnection}'`
 
-
-
-
-
   connection.query(query, (error, results) => {
   console.log(results)
     if (error) {
@@ -124,7 +120,19 @@ app.post('/create-account', (req, res) => {
   })
 })
 
-
+// app.post('/informations-personnelles', (req, res) => {
+//   console.log(req.body)
+//
+//   const nom = req.body.nom
+//   const prenom = req.body.prenom
+//   const codePostal = req.body.codePostal
+//   const ville = req.body.ville
+//   const linkedin = req.body.linkedin
+//   const description = req.body.description
+//
+//   const query = `INSERT INTO Profile (lastname, firstname, zipcode, city, linkedin, description) VALUE
+//   ('${nom}', '${prenom}', '${codePostal}', '${ville}', '${linkedin}', '${description}')`
+// })
 
 
 app.get('*', (rep, res) => {

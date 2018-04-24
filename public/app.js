@@ -256,44 +256,44 @@ const pagePersoHtml = /* @html */ `
                    <div class="card">
                        <div class="card-header">A propos de moi</div>
                        <div class="card-body">
-                           <form>
+                           <form id="formProfile" action="/informations-personnelles" method="POST">
                                <div class="form-group row">
                                    <label for="lastname" class="col-sm-4 col-form-label">Nom :</label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="lastname">
+                                       <input type="text" class="form-control" id="lastname" name="nom">
                                    </div>
                                </div>
                                <div class="form-group row">
                                    <label for="fisrtname" class="col-sm-4 col-form-label">Prénom :</label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="firstname">
+                                       <input type="text" class="form-control" id="firstname" name="prenom">
                                    </div>
                                </div>
                                <div class="form-group row">
                                    <label for="postal" class="col-sm-4 col-form-label">Code postal :</label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="postal">
+                                       <input type="text" class="form-control" id="postal" name="codePostal">
                                    </div>
                                </div>
                                <div class="form-group row">
                                    <label for="city" class="col-sm-4 col-form-label">Ville :</label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="city">
+                                       <input type="text" class="form-control" id="city" name="ville">
                                    </div>
                                </div>
                                <div class="form-group row">
                                    <label for="email" class="col-sm-4 col-form-label">Email : </label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="email">
+                                       <input type="text" class="form-control" id="email" name="email">
                                    </div>
                                </div>
                                <div class="form-group row">
                                    <label for="linkedin" class="col-sm-4 col-form-label">Linkedin : </label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="linkedin">
+                                       <input type="text" class="form-control" id="linkedin" name="linkedin">
                                    </div>
                                </div>
-                           </form>
+                           <!-- </form> -->
                        </div>
                    </div>
                </div>
@@ -302,9 +302,10 @@ const pagePersoHtml = /* @html */ `
                <div class="col-md-6">
                    <div class="form-group">
                        <h4>Description</h4>
-                       <textarea class="form-control" id="description" rows="7"></textarea>
+                       <input class="form-control" id="description" rows="7" name="description"></input>
                    </div>
                </div>
+
                <div class="col-md-6">
                    <h4>Compétences</h4>
                      <span class="badge badge-pill badge-success">Jardinage</span>
@@ -316,10 +317,11 @@ const pagePersoHtml = /* @html */ `
                      <span class="badge badge-pill badge-success">Mode et beauté</span>
                      <span class="badge badge-pill badge-success">Art</span><br />
                </div>
+               </form>
            </div>
            <div class="row">
                <div class="col-md-12">
-                   <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                   <input form="formProfile" type="submit" class="btn btn-primary" value="Mettre à jour"></input>
                </div>
            </div>
        </div>
@@ -448,6 +450,38 @@ const home = () => {
       console.log(data)
     })
   })
+
+  // const form = () => {
+  //   render(showPagePerso)
+  //
+  //   const informations = document.getElementById('formProfile')
+  //   informations.addEventListener('submit', event => {
+  //
+  //     event.preventDefault()
+  //     const champs = informations.getElementsByTagName('input')
+  //     let infoData = {}
+  //     for (let input of champs) {
+  //       if (input.name !== '') {
+  //        data[input.name] = input.value
+  //       }
+  //     }
+  //
+  //     const infoDataJSON = JSON.stringify(infoData)
+  //
+  //     fetch('/informations-personnelles', {
+  //       method: 'POST',
+  //       headers: {
+  //         Accept: 'application/json',
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: infoDataJSON
+  //     })
+  //     .then(response => response.json())
+  //     .then(data => {
+  //
+  //       console.log(data)
+  //     })
+  //   })
 
     const createAccount = document.getElementById('form-account')
     createAccount.addEventListener('submit', event => {

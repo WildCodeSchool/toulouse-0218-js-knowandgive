@@ -213,14 +213,23 @@ const charteGivemanHtml = /* @html */ `<div class="giveman">
           </button>
       </div>
 `
+
+// // test page profil //
+// const PageProfil = /* @html */ `<div class="Pageperso">
+// <h3> Page profil </h3>
+// <p> ceci est un test <p>
+// </div>
+// `
+// // fin test page profil //
+
+
 function getGivemanHtml(giveman){
   return `
   <li class="media">
     <img class="mr-3" src="${giveman.photo}" alt="Generic placeholder image">
     <div class="media-body">
-      <h5 class="mt-0 mb-1">${giveman.firstname} ${giveman.lastname}</h5>
+      <h5 class="mt-0 mb-1"><a href="/pageProfil/${giveman.id}">${giveman.firstname} ${giveman.lastname}</a></h5>
       <p>${giveman.description}</p>
-      <span class="badge badge-pill badge-primary">${skill.Skill}</span>
        </div>
   </li>
   `
@@ -359,11 +368,11 @@ const pagePersoHtml = /* @html */ `
        </div>
 `
 
-const pageProfilHtml = /* @html */ `
+const pageProfilHtml = affichageProfil =>/* @html */ `
   <div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
-          <img src="" alt="portrait" class=""><br />
+          <img src="" alt="portrait" class=""><br/>
           <a href="#" class="btn btn-primary">Contacter</a>
         </div>
         <div class="card-body col-md-10">
@@ -371,10 +380,10 @@ const pageProfilHtml = /* @html */ `
           <p class="card-text">
           Infiltration en territoire ennemi, journalisme, traffic de drogue international, créateur de polémique en tout genre, je connais également les tarifs des prostituées dans 125 pays.<br />
           <p>
-          Nom: De la Villardière<br />
-          Prenom: Bernard<br />
-          Code postal: 00000<br />
-          Ville: Le monde<br />
+          Nom: De la Villardière <br/>
+          Prenom: Bernard <br/>
+          Code postal: 00000 <br/>
+          Ville: Le monde <br/>
           Email: bernardelavillardiere@m6.com</p>
 
           <h5>Mes compétences<h5>
@@ -629,6 +638,22 @@ function handleFiles(files) {
 }
 // Fin function upload photo
 
+// début test navigation thomas //
+
+const showPagePerso1 = context => {
+  console.log(context)
+  const profilId = context.params.profilId
+  fetch(`/getProfileData/${profilId}`)
+  .then(response => response.json())
+  .then(infosProfil => {
+    const profilHtml = pageProfilHtml(infosProfil)
+    render(profilHtml)
+  })
+
+}
+
+// Fin test navigation thomas //
+
 
 
 page("/", home)
@@ -636,5 +661,6 @@ page("/pagePerso", showPagePerso)
 page("/pageIndexConnecte", showIndexConnecte)
 page("/pageProfil", showPageProfil)
 page("/chat", showContacts)
+page("/pageProfil/:profilId", showPagePerso1)
 page()
 /////// NE RIEN ECRIRE EN DESSOUS DES APPELS page() ///////

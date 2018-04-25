@@ -263,21 +263,6 @@ app.post('/informations-personnelles', (req, res) => {
     })
 
 
-// app.post('/informations-personnelles', (req, res) => {
-//   console.log(req.body)
-//
-//   const nom = req.body.nom
-//   const prenom = req.body.prenom
-//   const codePostal = req.body.codePostal
-//   const ville = req.body.ville
-//   const linkedin = req.body.linkedin
-//   const description = req.body.description
-//
-//   const query = `INSERT INTO Profile (lastname, firstname, zipcode, city, linkedin, description) VALUE
-//   ('${nom}', '${prenom}', '${codePostal}', '${ville}', '${linkedin}', '${description}')`
-// })
-
-
 
 
 app.get('*', (req, res) => {

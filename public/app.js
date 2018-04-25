@@ -277,10 +277,9 @@ const pagePersoHtml = /* @html */ `
            <div class="row">
                <div class="col-md-6 imgProfil">
                    <!-- Upload de la photo -->
-                   <form action="my-script.php" enctype="multipart/form-data" method="post">
-                     <div><input type="file" onchange="handleFiles(files)" id="upload" multiple name="file"></div>
-                     <div><label for="upload"><span id="preview"></span></label></div>
-                     <div><input type="submit" value="Envoyer"></div>
+                   <form method="POST" enctype="multipart/form-data" action="/uploaddufichier">
+                      <input type="file" name="monfichier">
+                        <button> envoyer </button>
                    </form>
                    <!-- fin Upload photo -->
                </div>
@@ -325,8 +324,7 @@ const pagePersoHtml = /* @html */ `
                                        <input type="text" class="form-control" id="linkedin" name="linkedin">
                                    </div>
                                </div>
-                           <!-- </form> -->
-                       </div>
+                           </div>
                    </div>
                </div>
            </div>
@@ -383,9 +381,7 @@ const pageProfilHtml = informations => /* @html */ `
         <div class="card-body col-md-10">
           <h5 class="card-title">Description de mes talents</h5>
 
-${ getProfilHtml(informations)
-
-}
+          ${getProfilHtml(informations)}
 
           <h5>Mes compétences<h5>
           <span class="badge badge-pill badge-success">Jardinage</span>
@@ -396,11 +392,6 @@ ${ getProfilHtml(informations)
       </div>
   </div>
 `
-
-// console.log(getProfilHtml(u))
-
-
-
 
 function resultKeyword(keyword) {
   return "resultats pour " + keyword

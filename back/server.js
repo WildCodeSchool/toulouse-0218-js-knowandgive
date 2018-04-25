@@ -1,10 +1,12 @@
 
 const express = require('express')
+const multer = require('multer')
+const upload = multer({ dest: 'tmp/'})
 const bodyParser = require('body-parser')
 const app = express()
 const connection = require('./database')
 const session = require('express-session')
-
+const fs = require('fs')
 
 const path = require('path')
 const staticPath = path.normalize(__dirname + '/../public')
@@ -179,7 +181,7 @@ app.post('/create-account', (req, res) => {
   })
 })
 
-
+//Gestion de l'envoi du formulaire sur serveur
 app.post('/informations-personnelles', (req, res) => {
   console.log(req.body)
 
@@ -201,8 +203,34 @@ app.post('/informations-personnelles', (req, res) => {
     res.json({})
   })
 })
+//Fin gestion du formulaire
 
 
+//fonction upload de la photo
+app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, next) {
+    //traitement du formulaire
+    fs.rename(req.file.path, './public/images/' + req.file.originalname, function(err) {
+      if (err) {
+        res.status(500).json({
+          error: error.message
+        })
+      }
+      //Type de fichier
+      if (req.file.mimetype !== image/jpeg) {
+        res.send('Type de fichier non-supporté')
+      }
+      //Limite de poids du fichier
+      if (req.file.size > 1300000) {
+        res.send('Fichier trop gros')
+      }
+      //Succès de l'upload
+      else {
+      res.send('Fichier uploadé avec succès')
+      }
+    })
+    //Fin traitement formulaire
+})
+//fin upload photo
 
   app.get('/chat/people',(req, res) => {
     const connectionId = 7

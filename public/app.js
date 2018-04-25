@@ -323,7 +323,21 @@ const pagePersoHtml = /* @html */ `
        </div>
 `
 
-const pageProfilHtml = /* @html */ `
+// const u = {nom:'jdoe', prenom:'ndoiezfr', codePostal:'fhdourehr', ville: 'huforehre', email:'oirejre', linkedin:'hfoirehfoirehg'}
+
+function getProfilHtml(informations) {
+  return `<p class="card-text">
+    Infiltration en territoire ennemi, journalisme, traffic de drogue international, créateur de polémique en tout genre, je connais également les tarifs des prostituées dans 125 pays.<br />
+    <p>
+    Nom: ${informations.nom}<br />
+    Prenom: ${informations.prenom}<br />
+    Code postal: ${informations.codePostal}<br />
+    Ville: ${informations.ville}<br />
+    Email: ${informations.email}<br />
+    linkedin: ${informations.linkedin}</p>`
+}
+
+const pageProfilHtml = informations => /* @html */ `
   <div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
@@ -332,14 +346,10 @@ const pageProfilHtml = /* @html */ `
         </div>
         <div class="card-body col-md-10">
           <h5 class="card-title">Description de mes talents</h5>
-          <p class="card-text">
-          Infiltration en territoire ennemi, journalisme, traffic de drogue international, créateur de polémique en tout genre, je connais également les tarifs des prostituées dans 125 pays.<br />
-          <p>
-          Nom: De la Villardière<br />
-          Prenom: Bernard<br />
-          Code postal: 00000<br />
-          Ville: Le monde<br />
-          Email: bernardelavillardiere@m6.com</p>
+
+${ getProfilHtml(informations)
+
+}
 
           <h5>Mes compétences<h5>
           <span class="badge badge-pill badge-success">Jardinage</span>
@@ -349,8 +359,13 @@ const pageProfilHtml = /* @html */ `
         </div>
       </div>
   </div>
-
 `
+
+// console.log(getProfilHtml(u))
+
+
+
+
 function resultKeyword(keyword) {
   return "resultats pour " + keyword
 }
@@ -373,7 +388,7 @@ const showPagePerso = () => {
 }
 
 const showPageProfil = () => {
-  mainDiv.innerHTML = navbarHtml + pageProfilHtml + footerHtml
+  mainDiv.innerHTML = navbarHtml + pageProfilHtml({ nom: 'Toto' }) + footerHtml
 }
 
 const showIndexConnecte = () => {
@@ -396,6 +411,42 @@ const search = () => {
 
 const render = mainHTML => {
   mainDiv.innerHTML = navbarHtml + mainHTML + footerHtml
+}
+
+const form = () => {
+  render(pagePersoHtml)
+  removeBackdrops()
+
+  console.log('page perso')
+
+  const informations = document.getElementById('formProfile')
+  informations.addEventListener('submit', event => {
+
+    event.preventDefault()
+    const champs = informations.getElementsByTagName('input')
+    let infoData = {}
+    for (let input of champs) {
+      if (input.name !== '') {
+       infoData[input.name] = input.value
+      }
+    }
+
+    const infoDataJSON = JSON.stringify(infoData)
+
+    fetch('/informations-personnelles', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: infoDataJSON
+    })
+    .then(response => response.json())
+    .then(data => {
+
+      console.log(data)
+    })
+  })
 }
 
 const home = () => {
@@ -437,43 +488,9 @@ const home = () => {
     })
   })
 
-  // const form = () => {
-  //   render(showPagePerso)
-  //
-  //   const informations = document.getElementById('formProfile')
-  //   informations.addEventListener('submit', event => {
-  //
-  //     event.preventDefault()
-  //     const champs = informations.getElementsByTagName('input')
-  //     let infoData = {}
-  //     for (let input of champs) {
-  //       if (input.name !== '') {
-  //        data[input.name] = input.value
-  //       }
-  //     }
-  //
-  //     const infoDataJSON = JSON.stringify(infoData)
-  //
-  //     fetch('/informations-personnelles', {
-  //       method: 'POST',
-  //       headers: {
-  //         Accept: 'application/json',
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: infoDataJSON
-  //     })
-  //     .then(response => response.json())
-  //     .then(data => {
-  //
-  //       console.log(data)
-  //     })
-  //   })
-
     const createAccount = document.getElementById('form-account')
     console.log(createAccount)
     createAccount.addEventListener('submit', event => {
-
-
 
       event.preventDefault()
       const inputsForm = createAccount.getElementsByTagName('input')
@@ -566,7 +583,7 @@ function handleFiles(files) {
 
 
 page("/", home)
-page("/pagePerso", showPagePerso)
+page("/pagePerso", form)
 page("/pageIndexConnecte", showIndexConnecte)
 page("/pageProfil", showPageProfil)
 page()

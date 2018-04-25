@@ -28,7 +28,8 @@ const html = /* @html */`
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="recherche.css">
     <link rel="stylesheet" href="css/givemenStyle.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/chat.css">
+
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Amaranth" rel="stylesheet">
 
@@ -178,6 +179,7 @@ app.post('/create-account', (req, res) => {
   })
 })
 
+
 app.post('/informations-personnelles', (req, res) => {
   console.log(req.body)
 
@@ -201,7 +203,84 @@ app.post('/informations-personnelles', (req, res) => {
 })
 
 
-app.get('*', (rep, res) => {
+
+  app.get('/chat/people',(req, res) => {
+    const connectionId = 7
+    const sql =`SELECT recipientId, senderId FROM Message WHERE senderId = ${connectionId}
+    OR recipientId = ${connectionId}`
+
+    connection.query(sql, (error, results)=> {
+      if (error) {
+        return res.status(500).json({
+          error: error.message
+        })
+      }
+      const profileIds = []
+      for (let message of results) {
+        if (connectionId == message.senderId ) {
+          if (profileIds.includes(message.recipientId) === false) {
+            profileIds.push(message.recipientId)
+          }
+        }
+        if (connectionId == message.recipientId ) {
+          if (profileIds.includes(message.senderId) === false) {
+            profileIds.push(message.senderId)
+          }
+        }
+
+      }
+
+      const finalQuery = `SELECT id, firstname, lastname FROM Profile WHERE id IN (${profileIds.join()}) `
+      console.log(results, profileIds, finalQuery)
+        connection.query(finalQuery, (error, profiles) =>{
+          if (error) return res.status(500).send(error.message);
+          // const profilesId = resultats2[0].profileIds
+          console.log(profiles)
+          res.json(profiles)
+
+        })
+
+    })
+  })
+
+    app.get('/chat/messages/:otherId',(req, res) => {
+      const connectionId = 7
+      const otherId = req.params.otherId
+      const sqlMessage = `SELECT message, dateTime, senderId FROM Message WHERE (recipientId = ${connectionId}
+      AND senderId = ${otherId})
+      OR senderId = ${connectionId} AND recipientId = ${otherId}
+      ORDER by dateTime ASC`
+
+      connection.query(sqlMessage, (error, results)=> {
+        if (error) {
+          return res.status(500).json({
+            error: error.message
+          })
+        }
+        console.log(results)
+        res.json(results)
+      })
+    })
+
+
+// app.post('/informations-personnelles', (req, res) => {
+//   console.log(req.body)
+//
+//   const nom = req.body.nom
+//   const prenom = req.body.prenom
+//   const codePostal = req.body.codePostal
+//   const ville = req.body.ville
+//   const linkedin = req.body.linkedin
+//   const description = req.body.description
+//
+//   const query = `INSERT INTO Profile (lastname, firstname, zipcode, city, linkedin, description) VALUE
+//   ('${nom}', '${prenom}', '${codePostal}', '${ville}', '${linkedin}', '${description}')`
+// })
+
+
+
+
+app.get('*', (req, res) => {
     res.send(html)
     res.end()
 })

@@ -226,6 +226,42 @@ function getGivemanHtml(giveman){
   `
 }
 
+// test //
+      function getContactHTML(contact) {
+        return `
+        <div class="contact">
+          <div class="card-body">
+            <h4 class="card-text"  data-id="${contact.id}" >${contact.firstname} ${contact.lastname}</h4>
+          </div>
+        </div>
+        `
+      }
+
+      const contactHtml = contacts => /* @html */ `
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="contacts">
+              <div class="card">
+                ${
+                  contacts.map(getContactHTML).join('\n')
+                }
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      `
+
+
+
+
+
+
+
+
+
+// Fin Test //
 // console.log(givemen.map(getGivemanHtml).join('\n'))
 
 const resultHtml = givemen => `<ul class="list-unstyled">
@@ -403,6 +439,34 @@ function removeBackdrops() {
   }
   document.body.classList.remove('modal-open')
 }
+
+
+const showContacts = () => {
+  // 1. Récupération des données depuis le serveur
+  fetch('/chat/people')
+  .then(response => response.json())
+  .then(contacts => {
+    // 2. Affichage
+    console.log(contactHtml(contacts))
+    render(contactHtml(contacts))
+
+    // 3. Mise en place des gestionnaires d'évènements
+
+    const divAllContacts = document.getElementsByClassName('contacts')
+    const h4InContacts = divAllContacts[0].getElementsByTagName('h4')
+    console.dir(divAllContacts)
+    for( let div of h4InContacts) {
+      div.addEventListener('click', function (event) {
+        console.log(event.target.dataset.id)
+        event.target.classList.add('active')
+        fetch(`/chat/messages/${event.target.dataset.id}`)
+      })
+    }
+
+  })
+}
+//FIn de test //
+
 
 
 const search = () => {
@@ -586,5 +650,6 @@ page("/", home)
 page("/pagePerso", form)
 page("/pageIndexConnecte", showIndexConnecte)
 page("/pageProfil", showPageProfil)
+page("/chat", showContacts)
 page()
 /////// NE RIEN ECRIRE EN DESSOUS DES APPELS page() ///////

@@ -300,25 +300,25 @@ const pagePersoHtml = /* @html */ `
                                <div class="form-group row">
                                    <label for="lastname" class="col-sm-4 col-form-label">Nom :</label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="lastname" name="nom">
+                                       <input type="text" class="form-control" id="lastname" name="lastname">
                                    </div>
                                </div>
                                <div class="form-group row">
                                    <label for="fisrtname" class="col-sm-4 col-form-label">Prénom :</label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="firstname" name="prenom">
+                                       <input type="text" class="form-control" id="firstname" name="firstname">
                                    </div>
                                </div>
                                <div class="form-group row">
                                    <label for="postal" class="col-sm-4 col-form-label">Code postal :</label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="postal" name="codePostal">
+                                       <input type="text" class="form-control" id="postal" name="zipCode">
                                    </div>
                                </div>
                                <div class="form-group row">
                                    <label for="city" class="col-sm-4 col-form-label">Ville :</label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="city" name="ville">
+                                       <input type="text" class="form-control" id="city" name="city">
                                    </div>
                                </div>
                                <div class="form-group row">
@@ -372,10 +372,10 @@ function getProfilHtml(informations) {
   return `<p class="card-text">
     Infiltration en territoire ennemi, journalisme, traffic de drogue international, créateur de polémique en tout genre, je connais également les tarifs des prostituées dans 125 pays.<br />
     <p>
-    Nom: ${informations.nom}<br />
-    Prenom: ${informations.prenom}<br />
-    Code postal: ${informations.codePostal}<br />
-    Ville: ${informations.ville}<br />
+    Nom: ${informations.lastname}<br />
+    Prenom: ${informations.firstname}<br />
+    Code postal: ${informations.zipCode}<br />
+    Ville: ${informations.city}<br />
     Email: ${informations.email}<br />
     linkedin: ${informations.linkedin}</p>`
 }

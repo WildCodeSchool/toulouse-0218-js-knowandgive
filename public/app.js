@@ -259,13 +259,14 @@ const connectionId = 7
 
 
       function getMessageHTML(message) {
-        let offset
-        let recu
+        let offset = (connectionId == message.senderId) ? "'col-md-3 offset-md-6'" : "'col-md-4'"
+        let statut = (connectionId == message.senderId) ? "envoie" : "recu"
+
         return /* @html */`
         <div class="row">
-          <div class="col-md-9 ">
+          <div class= ${offset}>
             <div class="card-recu">
-              <div class="recu">
+              <div class= ${statut}>
                 <div class="card-body">
                   <p class="card-text">
                     ${message.message}
@@ -285,12 +286,18 @@ const connectionId = 7
               messages.map(getMessageHTML).join('\n')
             }
         </div>
+        <div class="chat-input-holder">
+          <form id="sendMessage">
+          <input class="chat-input"></input>
+          <input type="submit" value="Send" class="message-send" />
+        </form>
+        </div>
 
       `
 
+function formatDateTime(dateTime) {
 
-
-
+}
 
 
 
@@ -483,10 +490,26 @@ const showContacts = () => {
         .then(messages => {
           const divMessages = document.getElementById('messages')
           divMessages.innerHTML = messagesHTML(messages)
+
+          const formSendMessage = document.getElementById('sendMessage')
+          formSendMessage.addEventListener('submit', function (event) {
+            event.preventDefault()
+            const input = formSendMessage.getElementsByTagName('input')[0]
+            console.log(input.value)
+            const data = {message: input.value}
+            fetch('/chat', {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+              },
+              credentials: 'include',
+              body: JSON.stringify(data)
+            })
+          })
         })
       })
     }
-
   })
 }
 //FIn de test //

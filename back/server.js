@@ -223,7 +223,7 @@ app.post('/create-account', (req, res) => {
     app.get('/chat/messages/:otherId',(req, res) => {
       const connectionId = 7
       const otherId = req.params.otherId
-      const sqlMessage = `SELECT message, dateTime, senderId FROM Message WHERE (recipientId = ${connectionId}
+      const sqlMessage = `SELECT message, dateTime, senderId, recipientId FROM Message WHERE (recipientId = ${connectionId}
       AND senderId = ${otherId})
       OR senderId = ${connectionId} AND recipientId = ${otherId}
       ORDER by dateTime ASC`
@@ -238,6 +238,16 @@ app.post('/create-account', (req, res) => {
         res.json(results)
       })
     })
+
+    app.post('/chat/messages/:otherId',(req, res) => {
+      const connectionId = 7
+      const message = req.body.message
+     console.log(req.body)
+
+     //const queryInsertMessage = `INSERT INTO Message (senderId, recipientId, dateTime, messages)
+     //value ()`
+    })
+
 
 
 // app.post('/informations-personnelles', (req, res) => {

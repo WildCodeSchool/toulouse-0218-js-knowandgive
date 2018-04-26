@@ -468,6 +468,7 @@ function removeBackdrops() {
 
 
 const showContacts = () => {
+  let recipientId
   // 1. Récupération des données depuis le serveur
   fetch('/chat/people')
   .then(response => response.json())
@@ -485,6 +486,7 @@ const showContacts = () => {
       div.addEventListener('click', function (event) {
         console.log(event.target.dataset.id)
         event.target.classList.add('active')
+        recipientId = event.target.dataset.id
         fetch(`/chat/messages/${event.target.dataset.id}`)
         .then(response => response.json())
         .then(messages => {
@@ -496,7 +498,7 @@ const showContacts = () => {
             event.preventDefault()
             const input = formSendMessage.getElementsByTagName('input')[0]
             console.log(input.value)
-            const data = {message: input.value}
+            const data = {message: input.value, recipientId: recipientId}
             fetch('/chat', {
               method: 'POST',
               headers: {

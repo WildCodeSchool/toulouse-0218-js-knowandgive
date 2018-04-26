@@ -236,18 +236,20 @@ app.post('/create-account', (req, res) => {
         }
         console.log(results)
         res.json(results)
-      })
-    })
 
-    app.post('/chat/messages/:otherId',(req, res) => {
+
+      })
+
+    })
+    app.post('/chat',(req, res) => {
       const connectionId = 7
       const message = req.body.message
-     console.log(req.body)
+      console.log(req.body,req.session)
 
-     //const queryInsertMessage = `INSERT INTO Message (senderId, recipientId, dateTime, messages)
-     //value ()`
-    })
+  })
 
+    //const queryInsertMessage = `INSERT INTO Message (senderId, recipientId, dateTime, messages)
+    //value ()`
 
 
 // app.post('/informations-personnelles', (req, res) => {

@@ -29,6 +29,7 @@ const html = /* @html */`
     <link rel="stylesheet" href="recherche.css">
     <link rel="stylesheet" href="css/givemenStyle.css">
     <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Amaranth" rel="stylesheet">

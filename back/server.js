@@ -1,17 +1,18 @@
 
 const express = require('express')
+const multer = require('multer')
+const upload = multer({ dest: 'tmp/'})
 const bodyParser = require('body-parser')
 const app = express()
 const connection = require('./database')
 const session = require('express-session')
-
-
+const fs = require('fs')
 const path = require('path')
 const staticPath = path.normalize(__dirname + '/../public')
 app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
 app.use(express.static(staticPath))
 app.use(bodyParser.json())
-
+app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
 
 
 
@@ -29,6 +30,7 @@ const html = /* @html */`
     <link rel="stylesheet" href="recherche.css">
     <link rel="stylesheet" href="css/givemenStyle.css">
     <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Amaranth" rel="stylesheet">
@@ -49,7 +51,6 @@ const html = /* @html */`
       <script src="app.js"></script>
 </html>
 `
-
 
 // Test Thomas  requête BDD //
   app.get('/search-givemen', (req, res) =>{
@@ -108,13 +109,13 @@ const checkLoggedInUser = (req, res, next) => {
   }
 }
 
-
 app.post('/connexion', (req, res) => {
     console.log(req.body)
 
     const userConnection = req.body.userConnection
     const passwordConnection = req.body.passwordConnection
-    const query = `SELECT user, password FROM User WHERE user = '${userConnection}'`
+    const query = `SELECT User.user, User.password, Profile.id FROM User, Profile WHERE User = '${userConnection}' AND User.id = Profile.userId`
+    // const query = `SELECT u.user, u.password, p.id FROM User u WHERE u.user = '${userConnection}' INNER JOIN Profile p ON u.id = p.userId`
 
   connection.query(query, (error, results) => {
   console.log(results)
@@ -139,6 +140,17 @@ app.post('/connexion', (req, res) => {
   })
 })
 
+const newAccount = (req, res, next) => {
+  if((req.session !== undefined) && (req.session.user !== undefined)) {
+    const user = req.session.user
+    next()
+  }
+  else {
+    res.status(401).json({
+      error: 'Unauthorized Access'
+    })
+  }
+}
 
 app.post('/create-account', (req, res) => {
   console.log(req.body)
@@ -148,10 +160,10 @@ app.post('/create-account', (req, res) => {
   const email = req.body.email
   const confirmPassword = req.body.confirmPassword
   const password = req.body.password
-  let query
-  let request = `SELECT user FROM User WHERE user = '${username}'`
-  console.log(request)
-  connection.query(request, (error, resultats) => {
+  let request1 = `SELECT user FROM User WHERE user = '${username}'`
+  let request2
+
+  connection.query(request1, (error, resultats) => {
     if (error) {
       return res.status(500).json({
         error: error.message
@@ -164,8 +176,8 @@ app.post('/create-account', (req, res) => {
       })
     }
     if ((email == confirmEmail) && (password == confirmPassword)) {
-      query = `INSERT INTO User (user, email, password) VALUES ('${username}', '${confirmEmail}', '${confirmPassword}')`
-      connection.query(query, (error, results) => {
+      request2 = `INSERT INTO User (user, email, password) VALUES ('${username}', '${confirmEmail}', '${confirmPassword}')`
+      connection.query(request2, (error, results) => {
         if (error) {
           return res.status(500).json({
             error: error.message
@@ -173,13 +185,87 @@ app.post('/create-account', (req, res) => {
         }
         const username = results[0]
         console.log(results)
-        res.json({ result: results[0]})
+        let request3 = `INSERT INTO Profile (userId) VALUES (${results.insertId})`
+        console.log(request3)
+        connection.query(request3, (error, resultat) => {
+          if (error){
+            return res.status(500).json({
+              error: error.message
+            })
+          }
+          const username = req.body.username
+          let request4 = `SELECT User.user, Profile.id FROM User, Profile WHERE user = '${username}' AND userId = ${results.insertId}`
+          console.log(request4)
+          connection.query(request4, (error, resultat) => {
+            if (error){
+              return res.status(500).json({
+                error: error.message
+              })
+            }
+            const user = resultat[0]
+            req.session.user = user
+            console.log(user)
+            res.json(user)
+          })
+        })
       })
     }
   })
 })
 
+//Gestion de l'envoi du formulaire sur serveur
+app.post('/informations-personnelles', (req, res) => {
+  console.log(req.body)
 
+  const nom = req.body.lastname
+  const prenom = req.body.firstname
+  const codePostal = req.body.zipCode
+  const ville = req.body.city
+  // const email = req.body.email
+  const linkedin = req.body.linkedin
+  const description = req.body.description
+
+  const query1 = `UPDATE Profile SET lastname = '${nom}', firstname = '${prenom}', zipCode = '${codePostal}', city = '${ville}', linkedin = '${linkedin}', description = '${description}' WHERE id = '32'`
+  // const query2 = `UPDATE User SET email = '${email}'`
+  connection.query(query1, (error, resultats) => {
+    if (error) {
+      return res.status(500).json({
+        error: error.message
+      })
+    }
+    const profile = resultats
+    console.log(profile)
+    res.json({result: profile})
+  })
+})
+//Fin gestion du formulaire
+
+
+//fonction upload de la photo
+app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, next) {
+    //traitement du formulaire
+    fs.rename(req.file.path, './public/images/' + req.file.originalname, function(err) {
+      if (err) {
+        res.status(500).json({
+          error: error.message
+        })
+      }
+      //Type de fichier
+      // if (req.file.mimetype !== image/jpeg) {
+      //   res.send('Type de fichier non-supporté')
+      // }
+      //Limite de poids du fichier
+      if (req.file.size > 1300000) {
+        res.send('Fichier trop gros')
+      }
+      //Succès de l'upload
+      else {
+      res.send('Fichier uploadé avec succès')
+      }
+    })
+    //Fin traitement formulaire
+})
+//fin upload photo
 
   app.get('/chat/people',(req, res) => {
     const connectionId = 7
@@ -252,21 +338,25 @@ app.post('/create-account', (req, res) => {
     //value ()`
 
 
-// app.post('/informations-personnelles', (req, res) => {
-//   console.log(req.body)
-//
-//   const nom = req.body.nom
-//   const prenom = req.body.prenom
-//   const codePostal = req.body.codePostal
-//   const ville = req.body.ville
-//   const linkedin = req.body.linkedin
-//   const description = req.body.description
-//
-//   const query = `INSERT INTO Profile (lastname, firstname, zipcode, city, linkedin, description) VALUE
-//   ('${nom}', '${prenom}', '${codePostal}', '${ville}', '${linkedin}', '${description}')`
-// })
+    app.get('/pageProfil/:profilId', (req, res ) => {
+      const profilId = req.params.profilId
+      const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin FROM Profile WHERE id = ${profilId}`
 
+      connection.query(query, (error, pageProfil) => {
+        if(error) {
+          return res.status(500).json({
+          error: error.message
+          })
+      }
+        if(pageProfil.length === 0) {
+          return res.status(404).json({
+            error: `Task with id ${profilId} not found`
+          })
+      }
 
+      res.json(pageProfil[0])
+      })
+    })
 
 app.get('*', (req, res) => {
     res.send(html)

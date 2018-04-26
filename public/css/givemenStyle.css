@@ -160,3 +160,9 @@ h3 {
     transform: scale3d(1, 1, 1);
   }
 } */
+
+.card-header {
+  background-color: #C4C4C4;
+  text-align: center;
+  padding: 2%;
+}

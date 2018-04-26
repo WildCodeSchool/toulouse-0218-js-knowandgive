@@ -56,8 +56,8 @@ DROP TABLE IF EXISTS `Profile`;
 CREATE TABLE `Profile` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userId` int(11) NOT NULL,
-  `lastname` varchar(100) NOT NULL,
-  `firstname` varchar(100) NOT NULL,
+  `lastname` varchar(100) DEFAULT NULL,
+  `firstname` varchar(100) DEFAULT NULL,
   `zipCode` int(11) DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
   `photo` varchar(250) DEFAULT NULL,

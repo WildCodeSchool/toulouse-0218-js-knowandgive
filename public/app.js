@@ -509,6 +509,7 @@ const home = () => {
           Accept: 'application/json',
           'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: accountDataJSON
       })
       .then(response => response.json())

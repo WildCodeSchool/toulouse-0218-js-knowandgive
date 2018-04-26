@@ -11,6 +11,8 @@ const staticPath = path.normalize(__dirname + '/../public')
 app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
 app.use(express.static(staticPath))
 app.use(bodyParser.json())
+app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
+
 
 
 
@@ -140,6 +142,17 @@ app.post('/connexion', (req, res) => {
   })
 })
 
+const newAccount = (req, res, next) => {
+  if((req.session !== undefined) && (req.session.user !== undefined)) {
+    const user = req.session.user
+    next()
+  }
+  else {
+    res.status(401).json({
+      error: 'Unauthorized Access'
+    })
+  }
+}
 
 app.post('/create-account', (req, res) => {
   console.log(req.body)
@@ -149,10 +162,10 @@ app.post('/create-account', (req, res) => {
   const email = req.body.email
   const confirmPassword = req.body.confirmPassword
   const password = req.body.password
-  let query
-  let request = `SELECT user FROM User WHERE user = '${username}'`
-  console.log(request)
-  connection.query(request, (error, resultats) => {
+  let request1 = `SELECT user FROM User WHERE user = '${username}'`
+  let request2
+
+  connection.query(request1, (error, resultats) => {
     if (error) {
       return res.status(500).json({
         error: error.message
@@ -165,8 +178,8 @@ app.post('/create-account', (req, res) => {
       })
     }
     if ((email == confirmEmail) && (password == confirmPassword)) {
-      query = `INSERT INTO User (user, email, password) VALUES ('${username}', '${confirmEmail}', '${confirmPassword}')`
-      connection.query(query, (error, results) => {
+      request2 = `INSERT INTO User (user, email, password) VALUES ('${username}', '${confirmEmail}', '${confirmPassword}')`
+      connection.query(request2, (error, results) => {
         if (error) {
           return res.status(500).json({
             error: error.message
@@ -174,7 +187,29 @@ app.post('/create-account', (req, res) => {
         }
         const username = results[0]
         console.log(results)
-        res.json({ result: results[0]})
+        let request3 = `INSERT INTO Profile (userId) VALUES (${results.insertId})`
+        console.log(request3)
+        connection.query(request3, (error, resultat) => {
+          if (error){
+            return res.status(500).json({
+              error: error.message
+            })
+          }
+          const username = req.body.username
+          let request4 = `SELECT User.user, Profile.userID FROM User, Profile WHERE user = '${username}' AND userId = ${results.insertId}`
+          console.log(request4)
+          connection.query(request4, (error, resultat) => {
+            if (error){
+              return res.status(500).json({
+                error: error.message
+              })
+            }
+            const user = resultat[0]
+            req.session.user = user
+            console.log(user)
+            res.json(user)
+          })
+        })
       })
     }
   })

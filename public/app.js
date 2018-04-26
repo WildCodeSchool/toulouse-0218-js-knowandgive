@@ -326,7 +326,13 @@ const pagePersoHtml = /* @html */ `
                                        <input type="text" class="form-control" id="linkedin" name="linkedin">
                                    </div>
                                </div>
-                           </div>
+                            </form>
+                        </div>
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="col-md-4">
+                       <input form="formProfile" type="submit" class="btn btn-primary" value="Mettre à jour mes coordonnées"></input>
                    </div>
                </div>
            </div>
@@ -334,7 +340,10 @@ const pagePersoHtml = /* @html */ `
                <div class="col-md-6">
                    <div class="form-group">
                        <h4>Description</h4>
-                       <input class="form-control" id="description" rows="7" name="description"></input>
+                        <form id="formDescription" method="POST" action="/informations-personnelles">
+                          <input class="form-control" id="description" rows="7" name="description"></input>
+                        </form>
+                      <input form="formDescription" type="submit" class="btn btn-primary" value="Mettre à jour ma description"></input>
                    </div>
                </div>
 
@@ -348,12 +357,6 @@ const pagePersoHtml = /* @html */ `
                      <span class="badge badge-pill badge-success">Cuisine</span>
                      <span class="badge badge-pill badge-success">Mode et beauté</span>
                      <span class="badge badge-pill badge-success">Art</span><br />
-               </div>
-               </form>
-           </div>
-           <div class="row">
-               <div class="col-md-12">
-                   <input form="formProfile" type="submit" class="btn btn-primary" value="Mettre à jour"></input>
                </div>
            </div>
        </div>
@@ -469,8 +472,6 @@ const render = mainHTML => {
 const form = () => {
   render(pagePersoHtml)
   removeBackdrops()
-
-  console.log('page perso')
 
   const informations = document.getElementById('formProfile')
   informations.addEventListener('submit', event => {

@@ -114,7 +114,8 @@ app.post('/connexion', (req, res) => {
 
     const userConnection = req.body.userConnection
     const passwordConnection = req.body.passwordConnection
-    const query = `SELECT user, password FROM User WHERE user = '${userConnection}'`
+    const query = `SELECT User.user, User.password, Profile.id FROM User, Profile WHERE User = '${userConnection}' AND User.id = Profile.userId`
+    // const query = `SELECT u.user, u.password, p.id FROM User u WHERE u.user = '${userConnection}' INNER JOIN Profile p ON u.id = p.userId`
 
   connection.query(query, (error, results) => {
   console.log(results)
@@ -222,8 +223,9 @@ app.post('/informations-personnelles', (req, res) => {
   const ville = req.body.city
   // const email = req.body.email
   const linkedin = req.body.linkedin
+  const description = req.body.description
 
-  const query1 = `UPDATE Profile SET lastname = '${nom}', firstname = '${prenom}', zipCode = '${codePostal}', city = '${ville}', linkedin = '${linkedin}' WHERE id = '32'`
+  const query1 = `UPDATE Profile SET lastname = '${nom}', firstname = '${prenom}', zipCode = '${codePostal}', city = '${ville}', linkedin = '${linkedin}', description = '${description}' WHERE id = '32'`
   // const query2 = `UPDATE User SET email = '${email}'`
   connection.query(query1, (error, resultats) => {
     if (error) {

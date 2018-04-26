@@ -211,9 +211,9 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
         })
       }
       //Type de fichier
-      if (req.file.mimetype !== image/jpeg) {
-        res.send('Type de fichier non-supporté')
-      }
+      // if (req.file.mimetype !== image/jpeg) {
+      //   res.send('Type de fichier non-supporté')
+      // }
       //Limite de poids du fichier
       if (req.file.size > 1300000) {
         res.send('Fichier trop gros')
@@ -282,6 +282,27 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
         }
         console.log(results)
         res.json(results)
+      })
+    })
+
+
+    app.get('/pageProfil/:profilId', (req, res ) => {
+      const profilId = req.params.profilId
+      const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin FROM Profile WHERE id = ${profilId}`
+
+      connection.query(query, (error, pageProfil) => {
+        if(error) {
+          return res.status(500).json({
+          error: error.message
+          })
+      }
+        if(pageProfil.length === 0) {
+          return res.status(404).json({
+            error: `Task with id ${profilId} not found`
+          })
+      }
+
+      res.json(pageProfil[0])
       })
     })
 

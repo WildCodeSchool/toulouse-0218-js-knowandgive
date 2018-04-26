@@ -359,8 +359,6 @@ const pagePersoHtml = /* @html */ `
        </div>
 `
 
-// const u = {nom:'jdoe', prenom:'ndoiezfr', codePostal:'fhdourehr', ville: 'huforehre', email:'oirejre', linkedin:'hfoirehfoirehg'}
-
 function getProfilHtml(informations) {
   return `<p class="card-text">
     Infiltration en territoire ennemi, journalisme, traffic de drogue international, créateur de polémique en tout genre, je connais également les tarifs des prostituées dans 125 pays.<br />

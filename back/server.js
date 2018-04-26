@@ -1,19 +1,18 @@
 
 const express = require('express')
+const multer = require('multer')
+const upload = multer({ dest: 'tmp/'})
 const bodyParser = require('body-parser')
 const app = express()
 const connection = require('./database')
 const session = require('express-session')
-
-
+const fs = require('fs')
 const path = require('path')
 const staticPath = path.normalize(__dirname + '/../public')
 app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
 app.use(express.static(staticPath))
 app.use(bodyParser.json())
 app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
-
-
 
 
 
@@ -52,7 +51,6 @@ const html = /* @html */`
       <script src="app.js"></script>
 </html>
 `
-
 
 // Test Thomas  requête BDD //
   app.get('/search-givemen', (req, res) =>{
@@ -110,7 +108,6 @@ const checkLoggedInUser = (req, res, next) => {
     })
   }
 }
-
 
 app.post('/connexion', (req, res) => {
     console.log(req.body)
@@ -215,7 +212,56 @@ app.post('/create-account', (req, res) => {
   })
 })
 
+//Gestion de l'envoi du formulaire sur serveur
+app.post('/informations-personnelles', (req, res) => {
+  console.log(req.body)
 
+  const nom = req.body.lastname
+  const prenom = req.body.firstname
+  const codePostal = req.body.zipCode
+  const ville = req.body.city
+  const linkedin = req.body.linkedin
+  const description = req.body.description
+
+  const query = `INSERT INTO Profile (lastname, firstname, zipCode, city, linkedin, description) VALUE
+  ('${lastname}', '${firstname}', '${zipCode}', '${city}', '${linkedin}', '${description}')`
+  connection.query(query, (error, results) => {
+    if (error) {
+      return res.status(500).json({
+        error: error.message
+      })
+    }
+    res.json({})
+  })
+})
+//Fin gestion du formulaire
+
+
+//fonction upload de la photo
+app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, next) {
+    //traitement du formulaire
+    fs.rename(req.file.path, './public/images/' + req.file.originalname, function(err) {
+      if (err) {
+        res.status(500).json({
+          error: error.message
+        })
+      }
+      //Type de fichier
+      // if (req.file.mimetype !== image/jpeg) {
+      //   res.send('Type de fichier non-supporté')
+      // }
+      //Limite de poids du fichier
+      if (req.file.size > 1300000) {
+        res.send('Fichier trop gros')
+      }
+      //Succès de l'upload
+      else {
+      res.send('Fichier uploadé avec succès')
+      }
+    })
+    //Fin traitement formulaire
+})
+//fin upload photo
 
   app.get('/chat/people',(req, res) => {
     const connectionId = 7
@@ -276,21 +322,25 @@ app.post('/create-account', (req, res) => {
     })
 
 
-// app.post('/informations-personnelles', (req, res) => {
-//   console.log(req.body)
-//
-//   const nom = req.body.nom
-//   const prenom = req.body.prenom
-//   const codePostal = req.body.codePostal
-//   const ville = req.body.ville
-//   const linkedin = req.body.linkedin
-//   const description = req.body.description
-//
-//   const query = `INSERT INTO Profile (lastname, firstname, zipcode, city, linkedin, description) VALUE
-//   ('${nom}', '${prenom}', '${codePostal}', '${ville}', '${linkedin}', '${description}')`
-// })
+    app.get('/pageProfil/:profilId', (req, res ) => {
+      const profilId = req.params.profilId
+      const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin FROM Profile WHERE id = ${profilId}`
 
+      connection.query(query, (error, pageProfil) => {
+        if(error) {
+          return res.status(500).json({
+          error: error.message
+          })
+      }
+        if(pageProfil.length === 0) {
+          return res.status(404).json({
+            error: `Task with id ${profilId} not found`
+          })
+      }
 
+      res.json(pageProfil[0])
+      })
+    })
 
 app.get('*', (req, res) => {
     res.send(html)

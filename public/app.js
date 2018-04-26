@@ -213,14 +213,23 @@ const charteGivemanHtml = /* @html */ `<div class="giveman">
           </button>
       </div>
 `
+
+// // test page profil //
+// const PageProfil = /* @html */ `<div class="Pageperso">
+// <h3> Page profil </h3>
+// <p> ceci est un test <p>
+// </div>
+// `
+// // fin test page profil //
+
+
 function getGivemanHtml(giveman){
   return `
   <li class="media">
     <img class="mr-3" src="${giveman.photo}" alt="Generic placeholder image">
     <div class="media-body">
-      <h5 class="mt-0 mb-1">${giveman.firstname} ${giveman.lastname}</h5>
+      <h5 class="mt-0 mb-1"><a href="/pageProfil/${giveman.id}">${giveman.firstname} ${giveman.lastname}</a></h5>
       <p>${giveman.description}</p>
-      <span class="badge badge-pill badge-primary">${skill.Skill}</span>
        </div>
   </li>
   `
@@ -254,13 +263,6 @@ function getGivemanHtml(giveman){
       `
 
 
-
-
-
-
-
-
-
 // Fin Test //
 // console.log(givemen.map(getGivemanHtml).join('\n'))
 
@@ -277,10 +279,9 @@ const pagePersoHtml = /* @html */ `
            <div class="row">
                <div class="col-md-6 imgProfil">
                    <!-- Upload de la photo -->
-                   <form action="my-script.php" enctype="multipart/form-data" method="post">
-                     <div><input type="file" onchange="handleFiles(files)" id="upload" multiple name="file"></div>
-                     <div><label for="upload"><span id="preview"></span></label></div>
-                     <div><input type="submit" value="Envoyer"></div>
+                   <form method="POST" enctype="multipart/form-data" action="/uploaddufichier">
+                      <input type="file" name="monfichier">
+                        <button> envoyer </button>
                    </form>
                    <!-- fin Upload photo -->
                </div>
@@ -292,25 +293,25 @@ const pagePersoHtml = /* @html */ `
                                <div class="form-group row">
                                    <label for="lastname" class="col-sm-4 col-form-label">Nom :</label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="lastname" name="nom">
+                                       <input type="text" class="form-control" id="lastname" name="lastname">
                                    </div>
                                </div>
                                <div class="form-group row">
                                    <label for="fisrtname" class="col-sm-4 col-form-label">Prénom :</label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="firstname" name="prenom">
+                                       <input type="text" class="form-control" id="firstname" name="firstname">
                                    </div>
                                </div>
                                <div class="form-group row">
                                    <label for="postal" class="col-sm-4 col-form-label">Code postal :</label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="postal" name="codePostal">
+                                       <input type="text" class="form-control" id="postal" name="zipCode">
                                    </div>
                                </div>
                                <div class="form-group row">
                                    <label for="city" class="col-sm-4 col-form-label">Ville :</label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="city" name="ville">
+                                       <input type="text" class="form-control" id="city" name="city">
                                    </div>
                                </div>
                                <div class="form-group row">
@@ -325,8 +326,7 @@ const pagePersoHtml = /* @html */ `
                                        <input type="text" class="form-control" id="linkedin" name="linkedin">
                                    </div>
                                </div>
-                           <!-- </form> -->
-                       </div>
+                           </div>
                    </div>
                </div>
            </div>
@@ -359,23 +359,29 @@ const pagePersoHtml = /* @html */ `
        </div>
 `
 
-const pageProfilHtml = /* @html */ `
+function getProfilHtml(informations) {
+  return `<p class="card-text">
+    Infiltration en territoire ennemi, journalisme, traffic de drogue international, créateur de polémique en tout genre, je connais également les tarifs des prostituées dans 125 pays.<br />
+    <p>
+    Nom: ${informations.lastname}<br />
+    Prenom: ${informations.firstname}<br />
+    Code postal: ${informations.zipCode}<br />
+    Ville: ${informations.city}<br />
+    Email: ${informations.email}<br />
+    linkedin: ${informations.linkedin}</p>`
+}
+
+const pageProfilHtml = informations => /* @html */ `
   <div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
-          <img src="" alt="portrait" class=""><br />
+          <img src="" alt="portrait" class=""><br/>
           <a href="#" class="btn btn-primary">Contacter</a>
         </div>
         <div class="card-body col-md-10">
           <h5 class="card-title">Description de mes talents</h5>
-          <p class="card-text">
-          Infiltration en territoire ennemi, journalisme, traffic de drogue international, créateur de polémique en tout genre, je connais également les tarifs des prostituées dans 125 pays.<br />
-          <p>
-          Nom: De la Villardière<br />
-          Prenom: Bernard<br />
-          Code postal: 00000<br />
-          Ville: Le monde<br />
-          Email: bernardelavillardiere@m6.com</p>
+
+          ${getProfilHtml(informations)}
 
           <h5>Mes compétences<h5>
           <span class="badge badge-pill badge-success">Jardinage</span>
@@ -385,8 +391,8 @@ const pageProfilHtml = /* @html */ `
         </div>
       </div>
   </div>
-
 `
+
 function resultKeyword(keyword) {
   return "resultats pour " + keyword
 }
@@ -409,7 +415,7 @@ const showPagePerso = () => {
 }
 
 const showPageProfil = () => {
-  mainDiv.innerHTML = navbarHtml + pageProfilHtml + footerHtml
+  mainDiv.innerHTML = navbarHtml + pageProfilHtml({ nom: 'Toto' }) + footerHtml
 }
 
 const showIndexConnecte = () => {
@@ -452,14 +458,48 @@ const showContacts = () => {
 }
 //FIn de test //
 
-
-
 const search = () => {
   mainDiv.innerHTML = navbarHtml + searchPageHtml() + footerHtml
 }
 
 const render = mainHTML => {
   mainDiv.innerHTML = navbarHtml + mainHTML + footerHtml
+}
+
+const form = () => {
+  render(pagePersoHtml)
+  removeBackdrops()
+
+  console.log('page perso')
+
+  const informations = document.getElementById('formProfile')
+  informations.addEventListener('submit', event => {
+
+    event.preventDefault()
+    const champs = informations.getElementsByTagName('input')
+    let infoData = {}
+    for (let input of champs) {
+      if (input.name !== '') {
+       infoData[input.name] = input.value
+      }
+    }
+
+    const infoDataJSON = JSON.stringify(infoData)
+
+    fetch('/informations-personnelles', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: infoDataJSON
+    })
+    .then(response => response.json())
+    .then(data => {
+
+      console.log(data)
+    })
+  })
 }
 
 const home = () => {
@@ -501,45 +541,9 @@ const home = () => {
     })
   })
 
-  // const form = () => {
-  //   render(showPagePerso)
-  //
-  //   const informations = document.getElementById('formProfile')
-  //   informations.addEventListener('submit', event => {
-  //
-  //     event.preventDefault()
-  //     const champs = informations.getElementsByTagName('input')
-  //     let infoData = {}
-  //     for (let input of champs) {
-  //       if (input.name !== '') {
-  //        data[input.name] = input.value
-  //       }
-  //     }
-  //
-  //     const infoDataJSON = JSON.stringify(infoData)
-  //
-  //     fetch('/informations-personnelles', {
-  //       method: 'POST',
-  //       headers: {
-  //         Accept: 'application/json',
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: infoDataJSON
-  //     })
-  //     .then(response => response.json())
-  //     .then(data => {
-  //
-  //       console.log(data)
-  //     })
-  //   })
-
     const createAccount = document.getElementById('form-account')
     console.log(createAccount)
     createAccount.addEventListener('submit', event => {
-
-
-
-
 
       event.preventDefault()
       const inputsForm = createAccount.getElementsByTagName('input')
@@ -581,7 +585,6 @@ const home = () => {
       })
   })
 
-
     const autocompleteInput = document.getElementById("myInput")
     const searchForm = document.getElementById("search-form")
     console.log(searchForm)
@@ -600,42 +603,27 @@ const home = () => {
 
 }
 
+// début test navigation thomas //
 
-// Function upload photo
-function handleFiles(files) {
-   var imageType = /^image\//;
-   for (var i = 0; i < files.length; i++) {
-   var file = files[i];
-   if (!imageType.test(file.type)) {
-     alert("veuillez sélectionner une image");
-   }else{
-     if(i == 0){
-       preview.innerHTML = '';
-     }
-     var img = document.createElement("img");
-     img.classList.add("obj");
-     img.file = file;
-     preview.appendChild(img);
-     var reader = new FileReader();
-     reader.onload = ( function(aImg) {
-     return function(e) {
-     aImg.src = e.target.result;
-   };
-  })(img);
+const showPagePerso1 = context => {
+  console.log(context)
+  const profilId = context.params.profilId
+  fetch(`/getProfileData/${profilId}`)
+  .then(response => response.json())
+  .then(infosProfil => {
+    const profilHtml = pageProfilHtml(infosProfil)
+    render(profilHtml)
+  })
 
- reader.readAsDataURL(file);
- }
-
- }
 }
-// Fin function upload photo
 
-
+// Fin test navigation thomas //
 
 page("/", home)
-page("/pagePerso", showPagePerso)
+page("/pagePerso", form)
 page("/pageIndexConnecte", showIndexConnecte)
 page("/pageProfil", showPageProfil)
 page("/chat", showContacts)
+page("/pageProfil/:profilId", showPagePerso1)
 page()
 /////// NE RIEN ECRIRE EN DESSOUS DES APPELS page() ///////

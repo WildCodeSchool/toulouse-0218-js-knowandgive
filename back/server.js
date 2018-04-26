@@ -216,9 +216,9 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
         })
       }
       //Type de fichier
-      if (req.file.mimetype !== image/jpeg) {
-        res.send('Type de fichier non-supporté')
-      }
+      // if (req.file.mimetype !== image/jpeg) {
+      //   res.send('Type de fichier non-supporté')
+      // }
       //Limite de poids du fichier
       if (req.file.size > 1300000) {
         res.send('Fichier trop gros')

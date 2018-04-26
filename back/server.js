@@ -28,6 +28,7 @@ const html = /* @html */`
     <link rel="stylesheet" href="recherche.css">
     <link rel="stylesheet" href="css/givemenStyle.css">
     <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Amaranth" rel="stylesheet">
@@ -213,8 +214,8 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
           error: error.message
         })
       }
-      //Type de fichier
-      // if (req.file.mimetype !== image/jpeg) {
+    //Type de fichier
+      // if (req.file.mimetype !== 'image/jpeg') {
       //   res.send('Type de fichier non-supporté')
       // }
       //Limite de poids du fichier

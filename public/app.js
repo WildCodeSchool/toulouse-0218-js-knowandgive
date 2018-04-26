@@ -272,6 +272,8 @@ const resultHtml = givemen => `<ul class="list-unstyled">
   }
   </ul>
 `
+
+
 const pagePersoHtml = /* @html */ `
 
        <h1>Informations personnelles</h1>
@@ -279,9 +281,9 @@ const pagePersoHtml = /* @html */ `
            <div class="row">
                <div class="col-md-6 imgProfil">
                    <!-- Upload de la photo -->
-                   <form method="POST" enctype="multipart/form-data" action="/uploaddufichier">
-                      <input type="file" name="monfichier">
-                        <button> envoyer </button>
+                   <form method="POST" id="file-form" enctype="multipart/form-data" action="/uploaddufichier">
+                      <input type="file" id="file-select" name="monfichier">
+                        <button id="upload-button"> envoyer </button>
                    </form>
                    <!-- fin Upload photo -->
                </div>
@@ -384,6 +386,7 @@ const pageProfilHtml = informations => /* @html */ `
           ${getProfilHtml(informations)}
 
           <h5>Mes compétences<h5>
+
           <span class="badge badge-pill badge-success">Jardinage</span>
           <span class="badge badge-pill badge-success">Famille</span>
           <span class="badge badge-pill badge-success">Decoration</span>
@@ -469,7 +472,34 @@ const render = mainHTML => {
 const form = () => {
   render(pagePersoHtml)
   removeBackdrops()
-
+  const fileForm = document.getElementById('file-form');
+  const fileSelect = document.getElementById('file-select');
+  const uploadButton = document.getElementById('upload-button');
+  fileForm.addEventListener('submit', event => {
+    event.preventDefault()
+    uploadButton.innerHTML = 'Uploading...'
+    const files = fileSelect.files
+    const formData = new FormData()
+    for (let file of files) {
+      if (!file.type.match('image.*')) {
+        continue
+      }
+      formData.append('monfichier', file, file.name)
+    }
+    fetch('/uploaddufichier', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        // 'Content-Type': ''
+      },
+      credentials: 'include',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+    })
+  })
   console.log('page perso')
 
   const informations = document.getElementById('formProfile')
@@ -492,6 +522,7 @@ const form = () => {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: infoDataJSON
     })
     .then(response => response.json())

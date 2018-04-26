@@ -263,13 +263,6 @@ function getGivemanHtml(giveman){
       `
 
 
-
-
-
-
-
-
-
 // Fin Test //
 // console.log(givemen.map(getGivemanHtml).join('\n'))
 
@@ -300,25 +293,25 @@ const pagePersoHtml = /* @html */ `
                                <div class="form-group row">
                                    <label for="lastname" class="col-sm-4 col-form-label">Nom :</label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="lastname" name="nom">
+                                       <input type="text" class="form-control" id="lastname" name="lastname">
                                    </div>
                                </div>
                                <div class="form-group row">
                                    <label for="fisrtname" class="col-sm-4 col-form-label">Prénom :</label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="firstname" name="prenom">
+                                       <input type="text" class="form-control" id="firstname" name="firstname">
                                    </div>
                                </div>
                                <div class="form-group row">
                                    <label for="postal" class="col-sm-4 col-form-label">Code postal :</label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="postal" name="codePostal">
+                                       <input type="text" class="form-control" id="postal" name="zipCode">
                                    </div>
                                </div>
                                <div class="form-group row">
                                    <label for="city" class="col-sm-4 col-form-label">Ville :</label>
                                    <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="city" name="ville">
+                                       <input type="text" class="form-control" id="city" name="city">
                                    </div>
                                </div>
                                <div class="form-group row">
@@ -372,10 +365,10 @@ function getProfilHtml(informations) {
   return `<p class="card-text">
     Infiltration en territoire ennemi, journalisme, traffic de drogue international, créateur de polémique en tout genre, je connais également les tarifs des prostituées dans 125 pays.<br />
     <p>
-    Nom: ${informations.nom}<br />
-    Prenom: ${informations.prenom}<br />
-    Code postal: ${informations.codePostal}<br />
-    Ville: ${informations.ville}<br />
+    Nom: ${informations.lastname}<br />
+    Prenom: ${informations.firstname}<br />
+    Code postal: ${informations.zipCode}<br />
+    Ville: ${informations.city}<br />
     Email: ${informations.email}<br />
     linkedin: ${informations.linkedin}</p>`
 }
@@ -466,8 +459,6 @@ const showContacts = () => {
   })
 }
 //FIn de test //
-
-
 
 const search = () => {
   mainDiv.innerHTML = navbarHtml + searchPageHtml() + footerHtml
@@ -595,7 +586,6 @@ const home = () => {
       })
   })
 
-
     const autocompleteInput = document.getElementById("myInput")
     const searchForm = document.getElementById("search-form")
     console.log(searchForm)
@@ -614,36 +604,6 @@ const home = () => {
 
 }
 
-
-// Function upload photo
-function handleFiles(files) {
-   var imageType = /^image\//;
-   for (var i = 0; i < files.length; i++) {
-   var file = files[i];
-   if (!imageType.test(file.type)) {
-     alert("veuillez sélectionner une image");
-   }else{
-     if(i == 0){
-       preview.innerHTML = '';
-     }
-     var img = document.createElement("img");
-     img.classList.add("obj");
-     img.file = file;
-     preview.appendChild(img);
-     var reader = new FileReader();
-     reader.onload = ( function(aImg) {
-     return function(e) {
-     aImg.src = e.target.result;
-   };
-  })(img);
-
- reader.readAsDataURL(file);
- }
-
- }
-}
-// Fin function upload photo
-
 // début test navigation thomas //
 
 const showPagePerso1 = context => {
@@ -659,8 +619,6 @@ const showPagePerso1 = context => {
 }
 
 // Fin test navigation thomas //
-
-
 
 page("/", home)
 page("/pagePerso", form)

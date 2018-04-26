@@ -7,14 +7,11 @@ const app = express()
 const connection = require('./database')
 const session = require('express-session')
 const fs = require('fs')
-
 const path = require('path')
 const staticPath = path.normalize(__dirname + '/../public')
 app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
 app.use(express.static(staticPath))
 app.use(bodyParser.json())
-
-
 
 
 const html = /* @html */`
@@ -51,7 +48,6 @@ const html = /* @html */`
       <script src="app.js"></script>
 </html>
 `
-
 
 // Test Thomas  requête BDD //
   app.get('/search-givemen', (req, res) =>{
@@ -109,7 +105,6 @@ const checkLoggedInUser = (req, res, next) => {
     })
   }
 }
-
 
 app.post('/connexion', (req, res) => {
     console.log(req.body)
@@ -185,15 +180,15 @@ app.post('/create-account', (req, res) => {
 app.post('/informations-personnelles', (req, res) => {
   console.log(req.body)
 
-  const nom = req.body.nom
-  const prenom = req.body.prenom
-  const codePostal = req.body.codePostal
-  const ville = req.body.ville
+  const nom = req.body.lastname
+  const prenom = req.body.firstname
+  const codePostal = req.body.zipCode
+  const ville = req.body.city
   const linkedin = req.body.linkedin
   const description = req.body.description
 
   const query = `INSERT INTO Profile (lastname, firstname, zipCode, city, linkedin, description) VALUE
-  ('${nom}', '${prenom}', '${codePostal}', '${ville}', '${linkedin}', '${description}')`
+  ('${lastname}', '${firstname}', '${zipCode}', '${city}', '${linkedin}', '${description}')`
   connection.query(query, (error, results) => {
     if (error) {
       return res.status(500).json({
@@ -289,9 +284,6 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
         res.json(results)
       })
     })
-
-
-
 
 app.get('*', (req, res) => {
     res.send(html)

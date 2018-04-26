@@ -16,7 +16,7 @@ app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
 
 
 
-const html = /* @html */`
+const html = user => /* @html */`
 <!doctype html>
 <html lang="en">
   <head>
@@ -48,6 +48,9 @@ const html = /* @html */`
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
       <script src="/js/autocomplete.js"></script>
       <script src="page.js"></script>
+      <script>
+      let LoggedInUser = ${JSON.stringify(user)}
+      </script>
       <script src="app.js"></script>
 </html>
 `
@@ -194,7 +197,7 @@ app.post('/create-account', (req, res) => {
             })
           }
           const username = req.body.username
-          let request4 = `SELECT User.user, Profile.id FROM User, Profile WHERE user = '${username}' AND userId = ${results.insertId}`
+          let request4 = `SELECT User.user, User.email, Profile.id FROM User, Profile WHERE user = '${username}' AND userId = ${results.insertId}`
           console.log(request4)
           connection.query(request4, (error, resultat) => {
             if (error){
@@ -371,8 +374,11 @@ console.log(sqlMessage)
       })
     })
 
+
+
 app.get('*', (req, res) => {
-    res.send(html)
+    console.log(req.session.user)
+    res.send(html(req.session.user))
     res.end()
 })
 

@@ -286,7 +286,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
     })
 
 
-    app.get('/pageProfil/:profilId', (req, res ) => {
+    app.get('/getProfileData/:profilId', (req, res ) => {
       const profilId = req.params.profilId
       const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin FROM Profile WHERE id = ${profilId}`
 
@@ -298,7 +298,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
       }
         if(pageProfil.length === 0) {
           return res.status(404).json({
-            error: `Task with id ${profilId} not found`
+            error: `${profilId} not found`
           })
       }
 

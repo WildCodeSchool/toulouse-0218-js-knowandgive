@@ -3,7 +3,7 @@ const mainDiv = document.getElementById('main')
 
 const navbarHtml = /* @html */ `
   <nav class="navbar navbar-expand-lg">
-      <img class="logo" src="img/logo.png">
+      <img class="logo" src="/img/logo.png">
       <a class="navbar-brand" href="/">Know & Give</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -105,7 +105,7 @@ const navbarHtml = /* @html */ `
 `
 const navbarBisHtml = /* @html */ `
 <nav class="navbar navbar-expand-lg">
-    <img class="logo" src="img/logo.png">
+    <img class="logo" src="/img/logo.png">
     <a class="navbar-brand" href="/">Know & Give</a>
     <div class="collapse navbar-collapse" id="icons-position">
       <div class="icons">
@@ -120,7 +120,7 @@ const navbarBisHtml = /* @html */ `
 `
 
 const searchbarHtml = /* @html */ `<div class="row position">
-      <img src="img/banniere-know-and-give.png" alt="imageSearch"/>
+      <img src="/img/banniere-know-and-give.png" alt="imageSearch"/>
       <div id="searchbar">
         <form id="search-form" action="#" class="formulaire">
           <div class="autocomplete">
@@ -185,10 +185,10 @@ const footerHtml = /* @html */ `<footer class="footer">
         <div class="row justify-content-md-center">
           <div class="col-md-6  col-lg-3 ">
             <ul class="nav">
-                <li class="nav-item"><a href="" class="nav-link"><img src="img/facebook.png" alt="facebook" width="13px"></a></li>
-                <li class="nav-item"><a href="" class="nav-link"><img src="img/instagram.png" alt="instagram" width="35px"></a></li>
-                <li class="nav-item"><a href="" class="nav-link"><img src="img/wcs.png" alt="instagram" width="30px"></a></li>
-                <li class="nav-item"><a href="" class="nav-link"><img src="img/twitter.png" alt="instagram" width="30px"></a></li>
+                <li class="nav-item"><a href="" class="nav-link"><img src="/img/facebook.png" alt="facebook" width="13px"></a></li>
+                <li class="nav-item"><a href="" class="nav-link"><img src="/img/instagram.png" alt="instagram" width="35px"></a></li>
+                <li class="nav-item"><a href="" class="nav-link"><img src="/img/wcs.png" alt="instagram" width="30px"></a></li>
+                <li class="nav-item"><a href="" class="nav-link"><img src="/img/twitter.png" alt="instagram" width="30px"></a></li>
             </ul>
             <br>
             <p>By Wild Code School</p>

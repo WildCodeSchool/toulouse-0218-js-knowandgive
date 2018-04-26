@@ -57,7 +57,7 @@ const html = /* @html */`
 
     connection.query(sql, (error, resultats) => {
       console.log(resultats)
-      if (error) return res.status(500).send(error.message);
+      if (error) return res.status(500).send(error.message)
 
       if (resultats.length === 0) {
         return res.json([])
@@ -66,8 +66,11 @@ const html = /* @html */`
       const sqlPivot = `SELECT profileId FROM ProfileSkill WHERE skillId = ${skillId}`
 
       connection.query(sqlPivot, (error, resultats2) =>{
-        if (error) return res.status(500).send(error.message);
+        if (error) return res.status(500).send(error.message)
 
+        if (resultats2.length === 0) {
+          return res.json([])
+        }
         const profileIds = resultats2.map(x => {
           return x.profileId
         })
@@ -78,7 +81,7 @@ const html = /* @html */`
 
         const finalQuery = `SELECT id, firstname, lastname, photo, description FROM Profile WHERE id IN (${profileIds.join()}) `
         connection.query(finalQuery, (error, resultats3) =>{
-          if (error) return res.status(500).send(error.message);
+          if (error) return res.status(500).send(error.message)
           // const profilesId = resultats2[0].profileIds
           console.log(resultats3)
           res.json(resultats3)

@@ -360,8 +360,8 @@ const pagePersoHtml = /* @html */ `
 `
 
 function getProfilHtml(informations) {
-  return `<p class="card-text">
-    Infiltration en territoire ennemi, journalisme, traffic de drogue international, créateur de polémique en tout genre, je connais également les tarifs des prostituées dans 125 pays.<br />
+  return `<p class="card-text"></p>
+
     <p>
     Nom: ${informations.lastname}<br />
     Prenom: ${informations.firstname}<br />

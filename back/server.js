@@ -193,7 +193,7 @@ app.post('/create-account', (req, res) => {
             })
           }
           const username = req.body.username
-          let request4 = `SELECT User.user, Profile.userID FROM User, Profile WHERE user = '${username}' AND userId = ${results.insertId}`
+          let request4 = `SELECT User.user, Profile.id FROM User, Profile WHERE user = '${username}' AND userId = ${results.insertId}`
           console.log(request4)
           connection.query(request4, (error, resultat) => {
             if (error){
@@ -220,18 +220,20 @@ app.post('/informations-personnelles', (req, res) => {
   const prenom = req.body.firstname
   const codePostal = req.body.zipCode
   const ville = req.body.city
+  // const email = req.body.email
   const linkedin = req.body.linkedin
-  const description = req.body.description
 
-  const query = `INSERT INTO Profile (lastname, firstname, zipCode, city, linkedin, description) VALUE
-  ('${lastname}', '${firstname}', '${zipCode}', '${city}', '${linkedin}', '${description}')`
-  connection.query(query, (error, results) => {
+  const query1 = `UPDATE Profile SET lastname = '${nom}', firstname = '${prenom}', zipCode = '${codePostal}', city = '${ville}', linkedin = '${linkedin}' WHERE id = '32'`
+  // const query2 = `UPDATE User SET email = '${email}'`
+  connection.query(query1, (error, resultats) => {
     if (error) {
       return res.status(500).json({
         error: error.message
       })
     }
-    res.json({})
+    const profile = resultats
+    console.log(profile)
+    res.json({result: profile})
   })
 })
 //Fin gestion du formulaire

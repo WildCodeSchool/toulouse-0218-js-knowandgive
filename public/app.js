@@ -492,6 +492,7 @@ const form = () => {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: infoDataJSON
     })
     .then(response => response.json())

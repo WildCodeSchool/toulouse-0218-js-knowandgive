@@ -63,7 +63,7 @@ const html = user => /* @html */`
 
     connection.query(sql, (error, resultats) => {
       console.log(resultats)
-      if (error) return res.status(500).send(error.message);
+      if (error) return res.status(500).send(error.message)
 
       if (resultats.length === 0) {
         return res.json([])
@@ -72,26 +72,23 @@ const html = user => /* @html */`
       const sqlPivot = `SELECT profileId FROM ProfileSkill WHERE skillId = ${skillId}`
 
       connection.query(sqlPivot, (error, resultats2) =>{
-        if (error) return res.status(500).send(error.message);
+        if (error) return res.status(500).send(error.message)
 
+        if (resultats2.length === 0) {
+          return res.json([])
+        }
         const profileIds = resultats2.map(x => {
           return x.profileId
         })
 
-        // if (resultats <= 0 ) {
-        //   return "aucun resultat n'est disponible"
-        // }
-
         const finalQuery = `SELECT id, firstname, lastname, photo, description FROM Profile WHERE id IN (${profileIds.join()}) `
         connection.query(finalQuery, (error, resultats3) =>{
-          if (error) return res.status(500).send(error.message);
+          if (error) return res.status(500).send(error.message)
           // const profilesId = resultats2[0].profileIds
           console.log(resultats3)
           res.json(resultats3)
 
         })
-
-          // console.log(profileIds)
 
       })
    })
@@ -355,25 +352,59 @@ console.log(sqlMessage)
   })
 
 
-    app.get('/pageProfil/:profilId', (req, res ) => {
-      const profilId = req.params.profilId
-      const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin FROM Profile WHERE id = ${profilId}`
+    app.get('/getProfileData/:profileId', (req, res ) => {
+      const profileId = req.params.profileId
+      const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin FROM Profile WHERE id = ${profileId}`
 
       connection.query(query, (error, pageProfil) => {
         if(error) {
           return res.status(500).json({
           error: error.message
           })
-      }
+        }
         if(pageProfil.length === 0) {
           return res.status(404).json({
-            error: `Task with id ${profilId} not found`
+            error: `${profileId} not found`
           })
-      }
+        }
 
-      res.json(pageProfil[0])
+        // res.json(pageProfil[0])
+
+        const sqlPivot2 = `SELECT skillId FROM ProfileSkill WHERE profileId = ${profileId}`
+
+        connection.query(sqlPivot2, (error, pageProfil2) => {
+          if (error) return res.status(500).send(error.message)
+
+          if (pageProfil2.length === 0) {
+            return res.json([])
+          }
+            const skillIds = pageProfil2.map(x => {
+            return x.skillId
+          })
+
+        const finalQuery2 = `SELECT skill FROM Skill WHERE id IN (${skillIds.join()}) `
+        connection.query(finalQuery2, (error, pageProfil3) =>{
+          if (error) return res.status(500).send(error.message)
+              // const profilesId = resultats2[0].profileIds
+          console.log(pageProfil3)
+            const skillNames = pageProfil3.map(skillObj => {
+            return skillObj.skill
+          })
+
+
+          const informationUser = pageProfil[0]
+          informationUser.skills = skillNames
+
+          console.log(informationUser, pageProfil3)
+
+          res.json(informationUser)
+
+        })
       })
     })
+    })
+
+    
 
 
 

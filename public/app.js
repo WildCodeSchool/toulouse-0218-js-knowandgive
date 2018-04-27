@@ -373,7 +373,7 @@ const pageProfilHtml = informations => /* @html */ `
   <div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
-          <img src="" alt="portrait" class=""><br/>
+          <img src="/images/${informations.photo}" alt="portrait" class=""><br/>
           <a href="#" class="btn btn-primary">Contacter</a>
         </div>
         <div class="card-body col-md-10">
@@ -414,7 +414,7 @@ const showPagePerso = () => {
 }
 
 const showPageProfil = () => {
-  mainDiv.innerHTML = navbarHtml + pageProfilHtml({ nom: 'Toto' }) + footerHtml
+  render(pageProfilHtml({}))
 }
 
 const showNavConnected = () => {

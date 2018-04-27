@@ -9,7 +9,7 @@ const session = require('express-session')
 const fs = require('fs')
 const path = require('path')
 const staticPath = path.normalize(__dirname + '/../public')
-app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
+// app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
 app.use(express.static(staticPath))
 app.use(bodyParser.json())
 app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
@@ -230,10 +230,8 @@ app.post('/informations-personnelles', (req, res) => {
   // const email = req.body.email
   const linkedin = req.body.linkedin
   const description = req.body.description
-  const competence = req.body.skill
 
   const query1 = `UPDATE Profile SET lastname = '${nom}', firstname = '${prenom}', zipCode = '${codePostal}', city = '${ville}', linkedin = '${linkedin}', description = '${description}' WHERE id = '32'`
-  const query2 = `INSERT INTO Skill (skill) VALUES ('${competence}')`
   console.log(competence)
   connection.query(query1, (error, resultats) => {
     if (error) {
@@ -246,6 +244,40 @@ app.post('/informations-personnelles', (req, res) => {
     res.json({result: profile})
   })
 })
+
+app.post('/competences', (req, res) => {
+  console.log(req.body)
+
+  const competence = req.body.competence
+  console.log(competence)
+
+  const query1 = `INSERT INTO Skill (skill) VALUES ('${competence}')`
+
+  connection.query(query1, (error, resultats) => {
+    if (error) {
+      return res.status(500).json({
+        error: error.message
+      })
+    }
+    const competenceEntree = resultats
+    console.log(competenceEntree)
+    let LoggedInUser = JSON.stringify(user)
+    console.log(LoggedInUser)
+    const profileId = LoggedInUser.id
+    const query2 = `INSERT INTO ProfileSkill (skillId, profileId) VALUES ('${resultats.insertId}', '${profileId}') `
+    console.log(query2)
+    connection.query(query2, (error, result) => {
+      if (error) {
+        return res.status(500).json({
+          error: error.message
+        })
+      }
+    })
+    res.json({result: competenceEntree})
+  })
+})
+
+
 //Fin gestion du formulaire
 
 

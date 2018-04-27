@@ -404,7 +404,7 @@ const pagePersoHtml = /* @html */ `
                      <span class="badge badge-pill badge-success">Cuisine</span>
                      <span class="badge badge-pill badge-success">Mode et beauté</span>
                      <span class="badge badge-pill badge-success">Art</span><br />
-                     <form id="formSkill" method="POST" action="/informations-personnelles">
+                     <form id="formSkill" method="POST" action="/competences">
                        <input type="text" class="form-control" id="competence" name="competence"></textarea>
                      </form>
                    <input form="formSkill" type="submit" class="btn btn-primary" value="Valider une compétence"></input>
@@ -580,6 +580,38 @@ const form = () => {
   })
   console.log('page perso')
 
+  // Entrer des compétences
+
+  const competences = document.getElementById('formSkill')
+  competences.addEventListener('submit', event => {
+    event.preventDefault()
+
+    const inputs = competences.getElementsByTagName('input')
+    let skillData = {}
+    for (let input of inputs) {
+      if (input.name !== '') {
+       skillData[input.name] = input.value
+      }
+    }
+
+    const skillDataJSON = JSON.stringify(skillData)
+
+    fetch('/competences', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: skillDataJSON
+    })
+    .then(response => response.json())
+    .then(data => {
+        LoggedInUser = data
+        page('/pagePerso')
+      })
+  })
+
   const informations = document.getElementById('formProfile')
   informations.addEventListener('submit', profileFormsListener)
   const description = document.getElementById('formDescription')
@@ -599,18 +631,6 @@ const profileFormsListener = event => {
      infoData[input.name] = input.value
     }
   }
-
-    fetch('/informations-personnelles', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-      body: infoDataJSON
-    })
-    .then(response => response.json())
-    .then(data => {
 
 
   const infoDataJSON = JSON.stringify(infoData)

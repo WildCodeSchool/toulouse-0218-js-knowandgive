@@ -317,7 +317,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
     app.get('/chat/messages/:otherId',(req, res) => {
       const connectionId = 7
       const otherId = req.params.otherId
-      const sqlMessage = `SELECT message, dateTime, senderId FROM Message WHERE (recipientId = ${connectionId}
+      const sqlMessage = `SELECT message, dateTime, senderId, recipientId FROM Message WHERE (recipientId = ${connectionId}
       AND senderId = ${otherId})
       OR senderId = ${connectionId} AND recipientId = ${otherId}
       ORDER by dateTime ASC`
@@ -330,8 +330,20 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
         }
         console.log(results)
         res.json(results)
+
+
       })
+
     })
+    app.post('/chat',(req, res) => {
+      const connectionId = 7
+      const message = req.body.message
+      console.log(req.body,req.session)
+
+  })
+
+    //const queryInsertMessage = `INSERT INTO Message (senderId, recipientId, dateTime, messages)
+    //value ()`
 
 
     app.get('/getProfileData/:profilId', (req, res ) => {

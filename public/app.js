@@ -251,11 +251,62 @@ function getGivemanHtml(giveman){
               </div>
             </div>
           </div>
+          <div class="col-md-9 messagerie" id="messages">
           </div>
         </div>
+      </div>
       `
 
+const connectionId = 7
 
+
+      function getMessageHTML(message) {
+        let offset = (connectionId == message.senderId) ? "'col-md-3 offset-md-6'" : "'col-md-4'"
+        let statut = (connectionId == message.senderId) ? "envoie" : "recu"
+
+        return /* @html */`
+        <div class="row">
+          <div class= ${offset}>
+            <div class="card-recu">
+              <div class= ${statut}>
+                <div class="card-body">
+                  <p class="card-text">
+                    ${message.message}
+                  </p>
+                  <span class="time-left">${message.dateTime}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        `
+      }
+      const messagesHTML = messages => /* @html */`
+        <div class="contenu-message">
+
+<<<<<<< HEAD
+=======
+            ${
+              messages.map(getMessageHTML).join('\n')
+            }
+        </div>
+        <div class="chat-input-holder">
+          <form id="sendMessage">
+          <input class="chat-input"></input>
+          <input type="submit" value="Send" class="message-send" />
+        </form>
+        </div>
+
+      `
+
+function formatDateTime(dateTime) {
+
+}
+
+
+
+
+>>>>>>> Messagerie
 // Fin Test //
 // console.log(givemen.map(getGivemanHtml).join('\n'))
 
@@ -438,6 +489,7 @@ function removeBackdrops() {
 
 
 const showContacts = () => {
+  let recipientId
   // 1. Récupération des données depuis le serveur
   fetch('/chat/people')
   .then(response => response.json())
@@ -455,10 +507,32 @@ const showContacts = () => {
       div.addEventListener('click', function (event) {
         console.log(event.target.dataset.id)
         event.target.classList.add('active')
+        recipientId = event.target.dataset.id
         fetch(`/chat/messages/${event.target.dataset.id}`)
+        .then(response => response.json())
+        .then(messages => {
+          const divMessages = document.getElementById('messages')
+          divMessages.innerHTML = messagesHTML(messages)
+
+          const formSendMessage = document.getElementById('sendMessage')
+          formSendMessage.addEventListener('submit', function (event) {
+            event.preventDefault()
+            const input = formSendMessage.getElementsByTagName('input')[0]
+            console.log(input.value)
+            const data = {message: input.value, recipientId: recipientId}
+            fetch('/chat', {
+              method: 'POST',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+              },
+              credentials: 'include',
+              body: JSON.stringify(data)
+            })
+          })
+        })
       })
     }
-
   })
 }
 //FIn de test //

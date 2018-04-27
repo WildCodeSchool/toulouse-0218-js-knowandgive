@@ -214,13 +214,6 @@ const charteGivemanHtml = /* @html */ `<div class="giveman">
       </div>
 `
 
-// // test page profil //
-// const PageProfil = /* @html */ `<div class="Pageperso">
-// <h3> Page profil </h3>
-// <p> ceci est un test <p>
-// </div>
-// `
-// // fin test page profil //
 
 
 function getGivemanHtml(giveman){
@@ -275,7 +268,7 @@ const resultHtml = givemen => `<ul class="list-unstyled">
 const pagePersoHtml = /* @html */ `
 
        <h1>Informations personnelles</h1>
-       <div class="container">
+       <div class="container" id="formInfo">
            <div class="row">
                <div class="col-md-6 imgProfil">
                    <!-- Upload de la photo -->
@@ -326,7 +319,13 @@ const pagePersoHtml = /* @html */ `
                                        <input type="text" class="form-control" id="linkedin" name="linkedin">
                                    </div>
                                </div>
-                           </div>
+                            </form>
+                        </div>
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="col-md-4">
+                       <input form="formProfile" type="submit" class="btn btn-primary" value="Mettre à jour mes coordonnées"></input>
                    </div>
                </div>
            </div>
@@ -334,7 +333,10 @@ const pagePersoHtml = /* @html */ `
                <div class="col-md-6">
                    <div class="form-group">
                        <h4>Description</h4>
-                       <input class="form-control" id="description" rows="7" name="description"></input>
+                        <form id="formDescription" method="POST" action="/informations-personnelles">
+                          <textarea class="form-control" id="description" rows="7" name="description"></textarea>
+                        </form>
+                      <input form="formDescription" type="submit" class="btn btn-primary" value="Mettre à jour ma description"></input>
                    </div>
                </div>
 
@@ -348,12 +350,6 @@ const pagePersoHtml = /* @html */ `
                      <span class="badge badge-pill badge-success">Cuisine</span>
                      <span class="badge badge-pill badge-success">Mode et beauté</span>
                      <span class="badge badge-pill badge-success">Art</span><br />
-               </div>
-               </form>
-           </div>
-           <div class="row">
-               <div class="col-md-12">
-                   <input form="formProfile" type="submit" class="btn btn-primary" value="Mettre à jour"></input>
                </div>
            </div>
        </div>
@@ -424,7 +420,7 @@ const showPageProfil = () => {
   mainDiv.innerHTML = navbarHtml + pageProfilHtml({ nom: 'Toto' }) + footerHtml
 }
 
-const showIndexConnecte = () => {
+const showNavConnected = () => {
   mainDiv.innerHTML = navbarBisHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml
   removeBackdrops()
 }
@@ -464,55 +460,77 @@ const showContacts = () => {
 }
 //FIn de test //
 
-const search = () => {
-  mainDiv.innerHTML = navbarHtml + searchPageHtml() + footerHtml
-}
+// const search = () => {
+//   mainDiv.innerHTML = navbarHtml + searchPageHtml() + footerHtml
+// }
 
 const render = mainHTML => {
-  mainDiv.innerHTML = navbarHtml + mainHTML + footerHtml
+  const navBar = LoggedInUser === undefined ? navbarHtml : navbarBisHtml
+  mainDiv.innerHTML = navBar+ mainHTML + footerHtml
+  removeBackdrops()
 }
 
 const form = () => {
   render(pagePersoHtml)
-  removeBackdrops()
-
-  console.log('page perso')
 
   const informations = document.getElementById('formProfile')
-  informations.addEventListener('submit', event => {
+  informations.addEventListener('submit', profileFormsListener)
+  const description = document.getElementById('formDescription')
+  description.addEventListener('submit', profileFormsListener)
 
-    event.preventDefault()
-    const champs = informations.getElementsByTagName('input')
-    let infoData = {}
-    for (let input of champs) {
-      if (input.name !== '') {
-       infoData[input.name] = input.value
-      }
+}
+
+
+const profileFormsListener = event => {
+  const container = document.getElementById('formInfo')
+  event.preventDefault()
+  const champs = container.getElementsByClassName('form-control')
+  let infoData = {}
+  for (let input of champs) {
+    if (input.name !== '') {
+     infoData[input.name] = input.value
     }
+  }
 
-    const infoDataJSON = JSON.stringify(infoData)
+  const infoDataJSON = JSON.stringify(infoData)
 
-    fetch('/informations-personnelles', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: infoDataJSON
-    })
-    .then(response => response.json())
-    .then(data => {
-
-      console.log(data)
-    })
+  fetch('/informations-personnelles', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include',
+    body: infoDataJSON
+  })
+  .then(response => response.json())
+  .then(user => {
+    LoggedInUser = user
+    page('/')
+    console.log(data)
   })
 }
 
 const home = () => {
   render(searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml)
+  const autocompleteInput = document.getElementById("myInput")
+  const searchForm = document.getElementById("search-form")
+  console.log(searchForm)
+  searchForm.addEventListener('submit', event => {
+    event.preventDefault()
+    showResultForKeyword(autocompleteInput.value)
+  })
+
+  var skill = ["Jardinage", "Famille", "Decoration", "Cuisine", "Art", "Enseignement", "Bricolage", "Mode et beauté"];
+    /* FIN DE LA PARTIE MOTS CLEFS */
+
+  autocomplete(autocompleteInput, skill);
+
+  if (LoggedInUser) {
+    return
+  }
+
   const connexion = document.getElementById('form-post')
-
-
   connexion.addEventListener('submit', event => {
 
     event.preventDefault()
@@ -541,7 +559,8 @@ const home = () => {
         alert(data.error)
       }
       else {
-        page('/pageIndexConnecte')
+        LoggedInUser = data
+        page(window.location.pathname)
       }
       console.log(data)
     })
@@ -576,6 +595,7 @@ const home = () => {
           Accept: 'application/json',
           'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: accountDataJSON
       })
       .then(response => response.json())
@@ -584,28 +604,12 @@ const home = () => {
           alert(data.error)
         }
         else {
+          LoggedInUser = data
           page('/pagePerso')
         }
         console.log(accountData)
       })
   })
-
-    const autocompleteInput = document.getElementById("myInput")
-    const searchForm = document.getElementById("search-form")
-    console.log(searchForm)
-    searchForm.addEventListener('submit', event => {
-      event.preventDefault()
-      showResultForKeyword(autocompleteInput.value)
-      // const inputElements = searchForm.getElementsByTagName('input')
-      // console.log(searchForm.getElementsByTagName('input'))
-
-    })
-
-    var skill = ["Jardinage", "Famille", "Decoration", "Cuisine", "Art", "Enseignement", "Bricolage", "Mode et beauté"];
-      /* FIN DE LA PARTIE MOTS CLEFS */
-
-    autocomplete(autocompleteInput, skill);
-
 }
 
 // début test navigation thomas //
@@ -624,11 +628,18 @@ const showPagePerso1 = context => {
 
 // Fin test navigation thomas //
 
+const checkLoginMiddleware = (context, next) => {
+  if (LoggedInUser === undefined){
+    page('/')
+  }
+  next()
+}
+
 page("/", home)
-page("/pagePerso", form)
-page("/pageIndexConnecte", showIndexConnecte)
+page("/pagePerso",checkLoginMiddleware, form)
+// page("/pageIndexConnecte", showNavConnected)
 page("/pageProfil", showPageProfil)
-page("/chat", showContacts)
+page("/chat", checkLoginMiddleware, showContacts)
 page("/pageProfil/:profilId", showPagePerso1)
 page()
 /////// NE RIEN ECRIRE EN DESSOUS DES APPELS page() ///////

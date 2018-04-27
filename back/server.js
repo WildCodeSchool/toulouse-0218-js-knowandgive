@@ -12,9 +12,11 @@ const staticPath = path.normalize(__dirname + '/../public')
 app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
 app.use(express.static(staticPath))
 app.use(bodyParser.json())
+app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
 
 
-const html = /* @html */`
+
+const html = user => /* @html */`
 <!doctype html>
 <html lang="en">
   <head>
@@ -28,6 +30,7 @@ const html = /* @html */`
     <link rel="stylesheet" href="recherche.css">
     <link rel="stylesheet" href="css/givemenStyle.css">
     <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Amaranth" rel="stylesheet">
@@ -45,6 +48,9 @@ const html = /* @html */`
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
       <script src="/js/autocomplete.js"></script>
       <script src="page.js"></script>
+      <script>
+      let LoggedInUser = ${JSON.stringify(user)}
+      </script>
       <script src="app.js"></script>
 </html>
 `
@@ -108,7 +114,8 @@ app.post('/connexion', (req, res) => {
 
     const userConnection = req.body.userConnection
     const passwordConnection = req.body.passwordConnection
-    const query = `SELECT user, password FROM User WHERE user = '${userConnection}'`
+    const query = `SELECT User.user, User.password, Profile.id FROM User, Profile WHERE User = '${userConnection}' AND User.id = Profile.userId`
+    // const query = `SELECT u.user, u.password, p.id FROM User u WHERE u.user = '${userConnection}' INNER JOIN Profile p ON u.id = p.userId`
 
   connection.query(query, (error, results) => {
   console.log(results)
@@ -133,6 +140,17 @@ app.post('/connexion', (req, res) => {
   })
 })
 
+const newAccount = (req, res, next) => {
+  if((req.session !== undefined) && (req.session.user !== undefined)) {
+    const user = req.session.user
+    next()
+  }
+  else {
+    res.status(401).json({
+      error: 'Unauthorized Access'
+    })
+  }
+}
 
 app.post('/create-account', (req, res) => {
   console.log(req.body)
@@ -142,10 +160,10 @@ app.post('/create-account', (req, res) => {
   const email = req.body.email
   const confirmPassword = req.body.confirmPassword
   const password = req.body.password
-  let query
-  let request = `SELECT user FROM User WHERE user = '${username}'`
-  console.log(request)
-  connection.query(request, (error, resultats) => {
+  let request1 = `SELECT user FROM User WHERE user = '${username}'`
+  let request2
+
+  connection.query(request1, (error, resultats) => {
     if (error) {
       return res.status(500).json({
         error: error.message
@@ -158,8 +176,8 @@ app.post('/create-account', (req, res) => {
       })
     }
     if ((email == confirmEmail) && (password == confirmPassword)) {
-      query = `INSERT INTO User (user, email, password) VALUES ('${username}', '${confirmEmail}', '${confirmPassword}')`
-      connection.query(query, (error, results) => {
+      request2 = `INSERT INTO User (user, email, password) VALUES ('${username}', '${confirmEmail}', '${confirmPassword}')`
+      connection.query(request2, (error, results) => {
         if (error) {
           return res.status(500).json({
             error: error.message
@@ -167,7 +185,29 @@ app.post('/create-account', (req, res) => {
         }
         const username = results[0]
         console.log(results)
-        res.json({ result: results[0]})
+        let request3 = `INSERT INTO Profile (userId) VALUES (${results.insertId})`
+        console.log(request3)
+        connection.query(request3, (error, resultat) => {
+          if (error){
+            return res.status(500).json({
+              error: error.message
+            })
+          }
+          const username = req.body.username
+          let request4 = `SELECT User.user, User.email, Profile.id FROM User, Profile WHERE user = '${username}' AND userId = ${results.insertId}`
+          console.log(request4)
+          connection.query(request4, (error, resultat) => {
+            if (error){
+              return res.status(500).json({
+                error: error.message
+              })
+            }
+            const user = resultat[0]
+            req.session.user = user
+            console.log(user)
+            res.json(user)
+          })
+        })
       })
     }
   })
@@ -181,18 +221,21 @@ app.post('/informations-personnelles', (req, res) => {
   const prenom = req.body.firstname
   const codePostal = req.body.zipCode
   const ville = req.body.city
+  // const email = req.body.email
   const linkedin = req.body.linkedin
   const description = req.body.description
 
-  const query = `INSERT INTO Profile (lastname, firstname, zipCode, city, linkedin, description) VALUE
-  ('${lastname}', '${firstname}', '${zipCode}', '${city}', '${linkedin}', '${description}')`
-  connection.query(query, (error, results) => {
+  const query1 = `UPDATE Profile SET lastname = '${nom}', firstname = '${prenom}', zipCode = '${codePostal}', city = '${ville}', linkedin = '${linkedin}', description = '${description}' WHERE id = '32'`
+  // const query2 = `UPDATE User SET email = '${email}'`
+  connection.query(query1, (error, resultats) => {
     if (error) {
       return res.status(500).json({
         error: error.message
       })
     }
-    res.json({})
+    const profile = resultats
+    console.log(profile)
+    res.json({result: profile})
   })
 })
 //Fin gestion du formulaire
@@ -337,8 +380,11 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
 
     
 
+
+
 app.get('*', (req, res) => {
-    res.send(html)
+    console.log(req.session.user)
+    res.send(html(req.session.user))
     res.end()
 })
 

@@ -341,6 +341,7 @@ const pagePersoHtml = /* @html */ `
                </div>
 
                <div class="col-md-6">
+                  <div class="form-group">
                    <h4>Compétences</h4>
                      <span class="badge badge-pill badge-success">Jardinage</span>
                      <span class="badge badge-pill badge-success">Famille</span>
@@ -350,7 +351,12 @@ const pagePersoHtml = /* @html */ `
                      <span class="badge badge-pill badge-success">Cuisine</span>
                      <span class="badge badge-pill badge-success">Mode et beauté</span>
                      <span class="badge badge-pill badge-success">Art</span><br />
-               </div>
+                     <form id="formSkill" method="POST" action="/informations-personnelles">
+                       <input type="text" class="form-control" id="competence" name="competence"></textarea>
+                     </form>
+                   <input form="formSkill" type="submit" class="btn btn-primary" value="Valider une compétence"></input>
+                </div>
+              </div>
            </div>
        </div>
 `
@@ -500,7 +506,7 @@ const profileFormsListener = event => {
   .then(response => response.json())
   .then(user => {
     LoggedInUser = user
-    page('/')
+    page('/pagePerso')
     console.log(data)
   })
 }

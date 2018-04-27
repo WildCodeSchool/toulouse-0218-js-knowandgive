@@ -227,9 +227,11 @@ app.post('/informations-personnelles', (req, res) => {
   // const email = req.body.email
   const linkedin = req.body.linkedin
   const description = req.body.description
+  const competence = req.body.skill
 
   const query1 = `UPDATE Profile SET lastname = '${nom}', firstname = '${prenom}', zipCode = '${codePostal}', city = '${ville}', linkedin = '${linkedin}', description = '${description}' WHERE id = '32'`
-  // const query2 = `UPDATE User SET email = '${email}'`
+  const query2 = `INSERT INTO Skill (skill) VALUES ('${competence}')`
+  console.log(competence)
   connection.query(query1, (error, resultats) => {
     if (error) {
       return res.status(500).json({

@@ -221,12 +221,12 @@ app.post('/informations-personnelles', (req, res) => {
   const prenom = req.body.firstname
   const codePostal = req.body.zipCode
   const ville = req.body.city
-  // const email = req.body.email
+  let profileId = req.session.user.id
   const linkedin = req.body.linkedin
   const description = req.body.description
 
-  const query1 = `UPDATE Profile SET lastname = '${nom}', firstname = '${prenom}', zipCode = '${codePostal}', city = '${ville}', linkedin = '${linkedin}', description = '${description}' WHERE id = '32'`
-  console.log(competence)
+  const query1 = `UPDATE Profile SET lastname = '${nom}', firstname = '${prenom}', zipCode = '${codePostal}', city = '${ville}', linkedin = '${linkedin}', description = '${description}' WHERE id = '${profileId}'`
+  console.log(query1)
   connection.query(query1, (error, resultats) => {
     if (error) {
       return res.status(500).json({
@@ -456,7 +456,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
     })
     })
 
-    
+
 
 
 

@@ -629,7 +629,7 @@ const profileFormsListener = event => {
   .then(user => {
     LoggedInUser = user
     page('/pagePerso')
-    console.log(data)
+    console.log(user)
     })
 
 }

@@ -506,6 +506,7 @@ const showContacts = () => {
           formSendMessage.addEventListener('submit', function (event) {
             event.preventDefault()
             const input = formSendMessage.getElementsByTagName('input')[0]
+
             console.log(input.value)
             const data = {message: input.value, recipientId: recipientId}
             fetch('/messagerie', {

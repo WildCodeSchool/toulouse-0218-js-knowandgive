@@ -347,6 +347,7 @@ console.log(sqlMessage)
         }
         const sendedMessage = results
         console.log(sendedMessage)
+
         res.json({
           result: sendedMessage
         })

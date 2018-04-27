@@ -63,7 +63,7 @@ const html = user => /* @html */`
 
     connection.query(sql, (error, resultats) => {
       console.log(resultats)
-      if (error) return res.status(500).send(error.message)
+      if (error) return res.status(500).send(error.message);
 
       if (resultats.length === 0) {
         return res.json([])
@@ -72,11 +72,8 @@ const html = user => /* @html */`
       const sqlPivot = `SELECT profileId FROM ProfileSkill WHERE skillId = ${skillId}`
 
       connection.query(sqlPivot, (error, resultats2) =>{
-        if (error) return res.status(500).send(error.message)
+        if (error) return res.status(500).send(error.message);
 
-        if (resultats2.length === 0) {
-          return res.json([])
-        }
         const profileIds = resultats2.map(x => {
           return x.profileId
         })
@@ -87,7 +84,7 @@ const html = user => /* @html */`
 
         const finalQuery = `SELECT id, firstname, lastname, photo, description FROM Profile WHERE id IN (${profileIds.join()}) `
         connection.query(finalQuery, (error, resultats3) =>{
-          if (error) return res.status(500).send(error.message)
+          if (error) return res.status(500).send(error.message);
           // const profilesId = resultats2[0].profileIds
           console.log(resultats3)
           res.json(resultats3)
@@ -245,29 +242,57 @@ app.post('/informations-personnelles', (req, res) => {
   })
 })
 //Fin gestion du formulaire
+const slugify = (str) => {
+  str = str.replace(/^\s+|\s+$/g, ''); // trim
+  str = str.toLowerCase();
 
+  // remove accents, swap ñ for n, etc
+  const from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+  const to   = "aaaaeeeeiiiioooouuuunc------";
+
+  for (let i=0, l=from.length ; i<l ; i++)
+    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+
+
+  str = str.replace(/[^a-z0-9 -.]/g, '') // remove invalid chars
+    .replace(/\s+/g, '-') // collapse whitespace and replace by -
+    .replace(/-+/g, '-'); // collapse dashes
+
+  return str
+}
 
 //fonction upload de la photo
 app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, next) {
     //traitement du formulaire
-    fs.rename(req.file.path, './public/images/' + req.file.originalname, function(err) {
+    console.log(req.session.user)
+    const fileName = slugify(`${req.session.user.user}-${req.file.originalname}`)
+    fs.rename(req.file.path, './public/images/' + fileName, function(err) {
       if (err) {
-        res.status(500).json({
+        return res.status(500).json({
           error: error.message
         })
       }
-    //Type de fichier
-      // if (req.file.mimetype !== 'image/jpeg') {
+      //Type de fichier
+      // if (req.file.mimetype !== image/jpeg) {
       //   res.send('Type de fichier non-supporté')
       // }
       //Limite de poids du fichier
       if (req.file.size > 2000000) {
-        res.send('Fichier trop gros')
+        return res.status(413).json({
+          error: 'Fichier trop important (2Mo max autorisé)'
+        })
       }
       //Succès de l'upload
-      else {
-      res.send('Fichier uploadé avec succès')
-      }
+      // res.send('Fichier uploadé avec succès')
+      const updatePhoto = `UPDATE Profile SET photo = '${fileName}' WHERE id = ${req.session.user.id}`
+      connection.query(updatePhoto, (error, resultats) => {
+        if (error) {
+          return res.status(500).json({
+            error: error.message
+          })
+        }
+        res.json({fileName})
+      })
     })
     //Fin traitement formulaire
 })
@@ -332,7 +357,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
     })
 
 
-    app.get('/getProfileData/:profilId', (req, res ) => {
+    app.get('/pageProfil/:profilId', (req, res ) => {
       const profilId = req.params.profilId
       const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin FROM Profile WHERE id = ${profilId}`
 
@@ -344,7 +369,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
       }
         if(pageProfil.length === 0) {
           return res.status(404).json({
-            error: `${profilId} not found`
+            error: `Task with id ${profilId} not found`
           })
       }
 

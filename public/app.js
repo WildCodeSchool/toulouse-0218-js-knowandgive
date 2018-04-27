@@ -509,17 +509,6 @@ const form = () => {
 
 
 
-    fetch('/informations-personnelles', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-      body: infoDataJSON
-    })
-    .then(response => response.json())
-    .then(data => {
 
 const profileFormsListener = event => {
   const container = document.getElementById('formInfo')

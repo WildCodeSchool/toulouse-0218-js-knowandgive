@@ -282,33 +282,10 @@ const connectionId = 7
         `
       }
       const messagesHTML = messages => /* @html */`
-        <div class="contenu-message">
+        <div class="contenu-message">`
 
-<<<<<<< HEAD
-=======
-            ${
-              messages.map(getMessageHTML).join('\n')
-            }
-        </div>
-        <div class="chat-input-holder">
-          <form id="sendMessage">
-          <input class="chat-input"></input>
-          <input type="submit" value="Send" class="message-send" />
-        </form>
-        </div>
-
-      `
-
-function formatDateTime(dateTime) {
-
-}
-
-
-
-
->>>>>>> Messagerie
 // Fin Test //
-// console.log(givemen.map(getGivemanHtml).join('\n'))
+
 
 const resultHtml = givemen => `<ul class="list-unstyled">
   ${
@@ -549,7 +526,7 @@ const render = mainHTML => {
 
 const form = () => {
   render(pagePersoHtml)
-  removeBackdrops()
+
   const fileForm = document.getElementById('file-form');
   const fileSelect = document.getElementById('file-select');
   const uploadButton = document.getElementById('upload-button');
@@ -580,12 +557,9 @@ const form = () => {
   })
   console.log('page perso')
 
-  // Entrer des compétences
-
   const competences = document.getElementById('formSkill')
   competences.addEventListener('submit', event => {
     event.preventDefault()
-
     const inputs = competences.getElementsByTagName('input')
     let skillData = {}
     for (let input of inputs) {
@@ -606,11 +580,14 @@ const form = () => {
       body: skillDataJSON
     })
     .then(response => response.json())
-    .then(data => {
-        LoggedInUser = data
-        page('/pagePerso')
+    .then(user => {
+      LoggedInUser = user
+      page('/pagePerso')
+      console.log(user)
       })
+
   })
+
 
   const informations = document.getElementById('formProfile')
   informations.addEventListener('submit', profileFormsListener)
@@ -632,7 +609,6 @@ const profileFormsListener = event => {
     }
   }
 
-
   const infoDataJSON = JSON.stringify(infoData)
 
   fetch('/informations-personnelles', {
@@ -649,7 +625,8 @@ const profileFormsListener = event => {
     LoggedInUser = user
     page('/pagePerso')
     console.log(data)
-  })
+    })
+
 }
 
 const home = () => {
@@ -764,7 +741,6 @@ const showPagePerso1 = context => {
     const profilHtml = pageProfilHtml(infosProfil)
     render(profilHtml)
   })
-
 }
 
 // Fin test navigation thomas //
@@ -778,9 +754,7 @@ const checkLoginMiddleware = (context, next) => {
 
 page("/", home)
 page("/pagePerso",checkLoginMiddleware, form)
-// page("/pageIndexConnecte", showNavConnected)
 page("/pageProfil", showPageProfil)
 page("/chat", checkLoginMiddleware, showContacts)
 page("/pageProfil/:profilId", showPagePerso1)
 page()
-/////// NE RIEN ECRIRE EN DESSOUS DES APPELS page() ///////

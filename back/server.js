@@ -28,9 +28,9 @@ const html = user => /* @html */`
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="recherche.css">
-    <link rel="stylesheet" href="css/givemenStyle.css">
-    <link rel="stylesheet" href="css/chat.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/givemenStyle.css">
+    <link rel="stylesheet" href="/css/chat.css">
+    <link rel="stylesheet" href="/css/style.css">
 
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Amaranth" rel="stylesheet">
@@ -47,11 +47,11 @@ const html = user => /* @html */`
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
       <script src="/js/autocomplete.js"></script>
-      <script src="page.js"></script>
+      <script src="/page.js"></script>
       <script>
       let LoggedInUser = ${JSON.stringify(user)}
       </script>
-      <script src="app.js"></script>
+      <script src="/app.js"></script>
 </html>
 `
 
@@ -175,13 +175,13 @@ app.post('/create-account', (req, res) => {
         error: error.message
       })
     }
-    if ((resultats.length > 0) && (resultats[0].user == username)) {
+    if ((resultats.length > 0) && (resultats[0].user === username)) {
       console.log('Identifiant déjà pris')
       return res.status(400).json({
         error: 'Identifiant déjà pris'
       })
     }
-    if ((email == confirmEmail) && (password == confirmPassword)) {
+    if ((email === confirmEmail) && (password === confirmPassword)) {
       request2 = `INSERT INTO User (user, email, password) VALUES ('${username}', '${confirmEmail}', '${confirmPassword}')`
       connection.query(request2, (error, results) => {
         if (error) {
@@ -249,33 +249,65 @@ app.post('/competences', (req, res) => {
   console.log(req.body)
 
   const competence = req.body.competence
-  console.log(competence)
+  let request1 = `SELECT id, skill FROM Skill where skill = '${competence}'`
+  let LoggedInUserId = req.session.user.id
+  const profileId = LoggedInUserId
 
-  const query1 = `INSERT INTO Skill (skill) VALUES ('${competence}')`
-
-  connection.query(query1, (error, resultats) => {
+//1. On vérifie si la compétence existe
+  connection.query(request1, (error, results) => {
     if (error) {
       return res.status(500).json({
         error: error.message
       })
     }
-    const competenceEntree = resultats
-    console.log(competenceEntree)
-    let LoggedInUser = JSON.stringify(user)
-    console.log(LoggedInUser)
-    const profileId = LoggedInUser.id
-    const query2 = `INSERT INTO ProfileSkill (skillId, profileId) VALUES ('${resultats.insertId}', '${profileId}') `
-    console.log(query2)
-    connection.query(query2, (error, result) => {
+// 2. Cas où elle existe
+    if(results.length > 0) {
+      const skill = results[0]
+      console.log(skill)
+      const skillId = skill.id
+      let request2 = `INSERT INTO ProfileSkill (skillId, profileId) VALUES ('${skillId}', '${profileId}')`
+      console.log(request2)
+      connection.query(request2, (error, result) => {
+        if (error) {
+          return res.status(500).json({
+            error: error.message
+          })
+        }
+        const profileSkill = result
+        console.log(profileSkill)
+        return res.json({result: profileSkill})
+      })
+    }
+//2. Cas où elle n'existe pas
+    const query1 = `INSERT INTO Skill (skill) VALUES ('${competence}')`
+
+    connection.query(query1, (error, resultats) => {
       if (error) {
         return res.status(500).json({
           error: error.message
         })
       }
+      const competenceEntree = resultats
+      console.log(competenceEntree)
+      const query2 = `INSERT INTO ProfileSkill (skillId, profileId) VALUES ('${resultats.insertId}', '${profileId}') `
+      console.log(query2)
+      connection.query(query2, (error, result) => {
+        if (error) {
+          return res.status(500).json({
+            error: error.message
+          })
+        }
+        const newSkill = result
+        console.log(newSkill)
+        res.json({result: newSkill})
+      })
     })
-    res.json({result: competenceEntree})
   })
 })
+
+
+
+
 
 
 //Fin gestion du formulaire

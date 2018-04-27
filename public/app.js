@@ -403,6 +403,13 @@ function getProfilHtml(informations) {
     linkedin: ${informations.linkedin}</p>`
 }
 
+function getSkillBadge(skill) {
+  return `<span class="badge badge-pill badge-success">
+    ${skill}
+  </span>`
+
+}
+
 const pageProfilHtml = informations => /* @html */ `
   <div class="container-fluid">
     <div class="row">
@@ -417,10 +424,8 @@ const pageProfilHtml = informations => /* @html */ `
 
           <h5>Mes compétences<h5>
 
-          <span class="badge badge-pill badge-success">Jardinage</span>
-          <span class="badge badge-pill badge-success">Famille</span>
-          <span class="badge badge-pill badge-success">Decoration</span>
-          <span class="badge badge-pill badge-success">Bricolage</span>
+          ${informations.skills.map(getSkillBadge).join('')}
+
         </div>
       </div>
   </div>

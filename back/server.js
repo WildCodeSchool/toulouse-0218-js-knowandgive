@@ -27,10 +27,10 @@ const html = user => /* @html */`
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="recherche.css">
-    <link rel="stylesheet" href="css/givemenStyle.css">
-    <link rel="stylesheet" href="css/chat.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/recherche.css">
+    <link rel="stylesheet" href="/css/givemenStyle.css">
+    <link rel="stylesheet" href="/css/chat.css">
+    <link rel="stylesheet" href="/css/style.css">
 
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Amaranth" rel="stylesheet">
@@ -47,11 +47,11 @@ const html = user => /* @html */`
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
       <script src="/js/autocomplete.js"></script>
-      <script src="page.js"></script>
+      <script src="/page.js"></script>
       <script>
       let LoggedInUser = ${JSON.stringify(user)}
       </script>
-      <script src="app.js"></script>
+      <script src="/app.js"></script>
 </html>
 `
 
@@ -268,17 +268,20 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
 //fin upload photo
 
   app.get('/messagerie/people',(req, res) => {
-    const connectionId = 7
+    const contactId = req.query.contactId ?
+      Number(req.query.contactId) : undefined
+    const connectionId = req.session.user.id
+    console.log(req.session.user)
     const sql =`SELECT recipientId, senderId FROM Message WHERE senderId = ${connectionId}
     OR recipientId = ${connectionId}`
-
+console.log('get people id', sql)
     connection.query(sql, (error, results)=> {
       if (error) {
         return res.status(500).json({
           error: error.message
         })
       }
-      const profileIds = []
+      const profileIds = contactId ? [contactId] : []
       for (let message of results) {
         if (connectionId == message.senderId ) {
           if (profileIds.includes(message.recipientId) === false) {
@@ -368,6 +371,7 @@ console.log(sqlMessage)
           })
         }
 
+
         // res.json(pageProfil[0])
 
         const sqlPivot2 = `SELECT skillId FROM ProfileSkill WHERE profileId = ${profileId}`
@@ -404,7 +408,7 @@ console.log(sqlMessage)
     })
     })
 
-    
+
 
 
 

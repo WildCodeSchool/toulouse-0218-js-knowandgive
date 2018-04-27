@@ -239,6 +239,8 @@ function getGivemanHtml(giveman){
         `
       }
 
+
+
       const contactHtml = contacts => /* @html */ `
       <div class="container">
         <div class="row">
@@ -304,8 +306,7 @@ function formatDateTime(dateTime) {
 
 
 
-// Fin Test //
-// console.log(givemen.map(getGivemanHtml).join('\n'))
+
 
 const resultHtml = givemen => `<ul class="list-unstyled">
   ${
@@ -427,7 +428,7 @@ const pageProfilHtml = informations => /* @html */ `
     <div class="row">
         <div class="col-md-2">
           <img src="" alt="portrait" class=""><br/>
-          <a href="#" class="btn btn-primary">Contacter</a>
+          <a href="/messagerie?contactId=${informations.id}" id="btnContact"  class="btn btn-primary">Contacter</a>
         </div>
         <div class="card-body col-md-10">
           <h5 class="card-title">Description de mes talents</h5>
@@ -484,10 +485,22 @@ function removeBackdrops() {
 
 const showContacts = () => {
   let recipientId
+  console.log(window.location)
+  const search = window.location.search.split("=")
+  console.log(search)
+  const contactId = search.pop()
+  let url = '/messagerie/people'
+  if(contactId) {
+    url += `?contactId=${contactId}`
+  }
+
   // 1. Récupération des données depuis le serveur
-  fetch('/messagerie/people')
+  fetch(url, {
+    credentials: 'include'
+  })
   .then(response => response.json())
   .then(contacts => {
+
     // 2. Affichage
     console.log(contactHtml(contacts))
     render(contactHtml(contacts))
@@ -685,7 +698,6 @@ const home = () => {
 }
 
 // début test navigation thomas //
-
 const showPagePerso1 = context => {
   console.log(context)
   const profilId = context.params.profilId
@@ -694,6 +706,10 @@ const showPagePerso1 = context => {
   .then(infosProfil => {
     const profilHtml = pageProfilHtml(infosProfil)
     render(profilHtml)
+
+    console.log(profilId)
+
+
   })
 
 }

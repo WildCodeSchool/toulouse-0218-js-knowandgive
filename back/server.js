@@ -63,7 +63,7 @@ const html = user => /* @html */`
 
     connection.query(sql, (error, resultats) => {
       console.log(resultats)
-      if (error) return res.status(500).send(error.message);
+      if (error) return res.status(500).send(error.message)
 
       if (resultats.length === 0) {
         return res.json([])
@@ -72,8 +72,11 @@ const html = user => /* @html */`
       const sqlPivot = `SELECT profileId FROM ProfileSkill WHERE skillId = ${skillId}`
 
       connection.query(sqlPivot, (error, resultats2) =>{
-        if (error) return res.status(500).send(error.message);
+        if (error) return res.status(500).send(error.message)
 
+        if (resultats2.length === 0) {
+          return res.json([])
+        }
         const profileIds = resultats2.map(x => {
           return x.profileId
         })
@@ -84,7 +87,7 @@ const html = user => /* @html */`
 
         const finalQuery = `SELECT id, firstname, lastname, photo, description FROM Profile WHERE id IN (${profileIds.join()}) `
         connection.query(finalQuery, (error, resultats3) =>{
-          if (error) return res.status(500).send(error.message);
+          if (error) return res.status(500).send(error.message)
           // const profilesId = resultats2[0].profileIds
           console.log(resultats3)
           res.json(resultats3)
@@ -255,8 +258,8 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
           error: error.message
         })
       }
-      //Type de fichier
-      // if (req.file.mimetype !== image/jpeg) {
+    //Type de fichier
+      // if (req.file.mimetype !== 'image/jpeg') {
       //   res.send('Type de fichier non-supporté')
       // }
       //Limite de poids du fichier
@@ -331,7 +334,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
     })
 
 
-    app.get('/pageProfil/:profilId', (req, res ) => {
+    app.get('/getProfileData/:profilId', (req, res ) => {
       const profilId = req.params.profilId
       const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin FROM Profile WHERE id = ${profilId}`
 
@@ -343,7 +346,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
       }
         if(pageProfil.length === 0) {
           return res.status(404).json({
-            error: `Task with id ${profilId} not found`
+            error: `${profilId} not found`
           })
       }
 

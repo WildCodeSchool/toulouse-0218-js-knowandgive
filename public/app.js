@@ -3,7 +3,7 @@ const mainDiv = document.getElementById('main')
 
 const navbarHtml = /* @html */ `
   <nav class="navbar navbar-expand-lg">
-      <img class="logo" src="img/logo.png">
+      <img class="logo" src="/img/logo.png">
       <a class="navbar-brand" href="/">Know & Give</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -105,7 +105,7 @@ const navbarHtml = /* @html */ `
 `
 const navbarBisHtml = /* @html */ `
 <nav class="navbar navbar-expand-lg">
-    <img class="logo" src="img/logo.png">
+    <img class="logo" src="/img/logo.png">
     <a class="navbar-brand" href="/">Know & Give</a>
     <div class="collapse navbar-collapse" id="icons-position">
       <div class="icons">
@@ -120,7 +120,7 @@ const navbarBisHtml = /* @html */ `
 `
 
 const searchbarHtml = /* @html */ `<div class="row position">
-      <img src="img/banniere-know-and-give.png" alt="imageSearch"/>
+      <img src="/img/banniere-know-and-give.png" alt="imageSearch"/>
       <div id="searchbar">
         <form id="search-form" action="#" class="formulaire">
           <div class="autocomplete">
@@ -185,10 +185,10 @@ const footerHtml = /* @html */ `<footer class="footer">
         <div class="row justify-content-md-center">
           <div class="col-md-6  col-lg-3 ">
             <ul class="nav">
-                <li class="nav-item"><a href="" class="nav-link"><img src="img/facebook.png" alt="facebook" width="13px"></a></li>
-                <li class="nav-item"><a href="" class="nav-link"><img src="img/instagram.png" alt="instagram" width="35px"></a></li>
-                <li class="nav-item"><a href="" class="nav-link"><img src="img/wcs.png" alt="instagram" width="30px"></a></li>
-                <li class="nav-item"><a href="" class="nav-link"><img src="img/twitter.png" alt="instagram" width="30px"></a></li>
+                <li class="nav-item"><a href="" class="nav-link"><img src="/img/facebook.png" alt="facebook" width="13px"></a></li>
+                <li class="nav-item"><a href="" class="nav-link"><img src="/img/instagram.png" alt="instagram" width="35px"></a></li>
+                <li class="nav-item"><a href="" class="nav-link"><img src="/img/wcs.png" alt="instagram" width="30px"></a></li>
+                <li class="nav-item"><a href="" class="nav-link"><img src="/img/twitter.png" alt="instagram" width="30px"></a></li>
             </ul>
             <br>
             <p>By Wild Code School</p>
@@ -265,6 +265,8 @@ const resultHtml = givemen => `<ul class="list-unstyled">
   }
   </ul>
 `
+
+
 const pagePersoHtml = /* @html */ `
 
        <h1>Informations personnelles</h1>
@@ -272,9 +274,9 @@ const pagePersoHtml = /* @html */ `
            <div class="row">
                <div class="col-md-6 imgProfil">
                    <!-- Upload de la photo -->
-                   <form method="POST" enctype="multipart/form-data" action="/uploaddufichier">
-                      <input type="file" name="monfichier">
-                        <button> envoyer </button>
+                   <form method="POST" id="file-form" enctype="multipart/form-data" action="/uploaddufichier">
+                      <input type="file" id="file-select" name="monfichier">
+                        <button id="upload-button"> envoyer </button>
                    </form>
                    <!-- fin Upload photo -->
                </div>
@@ -362,8 +364,8 @@ const pagePersoHtml = /* @html */ `
 `
 
 function getProfilHtml(informations) {
-  return `<p class="card-text">
-    Infiltration en territoire ennemi, journalisme, traffic de drogue international, créateur de polémique en tout genre, je connais également les tarifs des prostituées dans 125 pays.<br />
+  return `<p class="card-text"></p>
+
     <p>
     Nom: ${informations.lastname}<br />
     Prenom: ${informations.firstname}<br />
@@ -386,6 +388,7 @@ const pageProfilHtml = informations => /* @html */ `
           ${getProfilHtml(informations)}
 
           <h5>Mes compétences<h5>
+
           <span class="badge badge-pill badge-success">Jardinage</span>
           <span class="badge badge-pill badge-success">Famille</span>
           <span class="badge badge-pill badge-success">Decoration</span>
@@ -472,6 +475,36 @@ const render = mainHTML => {
 
 const form = () => {
   render(pagePersoHtml)
+  removeBackdrops()
+  const fileForm = document.getElementById('file-form');
+  const fileSelect = document.getElementById('file-select');
+  const uploadButton = document.getElementById('upload-button');
+  fileForm.addEventListener('submit', event => {
+    event.preventDefault()
+    uploadButton.innerHTML = 'Uploading...'
+    const files = fileSelect.files
+    const formData = new FormData()
+    for (let file of files) {
+      if (!file.type.match('image.*')) {
+        continue
+      }
+      formData.append('monfichier', file, file.name)
+    }
+    fetch('/uploaddufichier', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        // 'Content-Type': ''
+      },
+      credentials: 'include',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+    })
+  })
+  console.log('page perso')
 
   const informations = document.getElementById('formProfile')
   informations.addEventListener('submit', profileFormsListener)
@@ -479,6 +512,7 @@ const form = () => {
   description.addEventListener('submit', profileFormsListener)
 
 }
+
 
 
 const profileFormsListener = event => {
@@ -491,6 +525,19 @@ const profileFormsListener = event => {
      infoData[input.name] = input.value
     }
   }
+
+    fetch('/informations-personnelles', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: infoDataJSON
+    })
+    .then(response => response.json())
+    .then(data => {
+
 
   const infoDataJSON = JSON.stringify(infoData)
 

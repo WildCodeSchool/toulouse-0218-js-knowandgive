@@ -22,6 +22,7 @@ const html = user => /* @html */`
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
@@ -37,7 +38,7 @@ const html = user => /* @html */`
 
     <title>Know & Give</title>
   </head>
-  <body>
+  <body onLoad="window.setTimeout('history.go(0)', 10000)">
     <div id="main">
 
     </div>
@@ -274,7 +275,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
     console.log(req.session.user)
     const sql =`SELECT recipientId, senderId FROM Message WHERE senderId = ${connectionId}
     OR recipientId = ${connectionId}`
-console.log('get people id', sql)
+
     connection.query(sql, (error, results)=> {
       if (error) {
         return res.status(500).json({
@@ -282,6 +283,7 @@ console.log('get people id', sql)
         })
       }
       const profileIds = contactId ? [contactId] : []
+      console.log(profileIds)
       for (let message of results) {
         if (connectionId == message.senderId ) {
           if (profileIds.includes(message.recipientId) === false) {
@@ -297,11 +299,11 @@ console.log('get people id', sql)
       }
 
       const finalQuery = `SELECT id, firstname, lastname FROM Profile WHERE id IN (${profileIds.join()}) `
-      console.log(results, profileIds, finalQuery)
+
         connection.query(finalQuery, (error, profiles) =>{
           if (error) return res.status(500).send(error.message);
           // const profilesId = resultats2[0].profileIds
-          console.log(profiles)
+
           res.json(profiles)
 
         })
@@ -310,13 +312,13 @@ console.log('get people id', sql)
   })
 
     app.get('/messagerie/messages/:otherId',(req, res) => {
-      const connectionId = 7
+      const connectionId = req.session.user.id
       const otherId = req.params.otherId
       const sqlMessage = `SELECT message, dateTime, senderId, recipientId FROM Message WHERE (recipientId = ${connectionId}
       AND senderId = ${otherId})
       OR senderId = ${connectionId} AND recipientId = ${otherId}
       ORDER by dateTime ASC`
-console.log(sqlMessage)
+    console.log(req.session.user.id, otherId)
       connection.query(sqlMessage, (error, results)=> {
         if (error) {
           return res.status(500).json({
@@ -331,13 +333,13 @@ console.log(sqlMessage)
 
     })
     app.post('/messagerie',(req, res) => {
-      const senderId =  7
+      const senderId = req.session.user.id
       const recipientId = req.body.recipientId
       const message = req.body.message
-      console.log(req.body)
+      console.log(req.body.message)
       const query = `INSERT INTO Message (senderId, recipientId, message)
       VALUES ('${senderId}', '${recipientId}', '${message}')`
-      console.log(query)
+
 
       connection.query(query, (error, results) => {
         if (error) {
@@ -390,7 +392,7 @@ console.log(sqlMessage)
         connection.query(finalQuery2, (error, pageProfil3) =>{
           if (error) return res.status(500).send(error.message)
               // const profilesId = resultats2[0].profileIds
-          console.log(pageProfil3)
+
             const skillNames = pageProfil3.map(skillObj => {
             return skillObj.skill
           })
@@ -399,7 +401,7 @@ console.log(sqlMessage)
           const informationUser = pageProfil[0]
           informationUser.skills = skillNames
 
-          console.log(informationUser, pageProfil3)
+
 
           res.json(informationUser)
 
@@ -413,7 +415,7 @@ console.log(sqlMessage)
 
 
 app.get('*', (req, res) => {
-    console.log(req.session.user)
+
     res.send(html(req.session.user))
     res.end()
 })

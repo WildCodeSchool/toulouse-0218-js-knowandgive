@@ -259,15 +259,13 @@ function getGivemanHtml(giveman){
       </div>
       `
 
-const connectionId = 7
-
-
       function getMessageHTML(message) {
-        let offset = (connectionId == message.senderId) ? "'col-md-3 offset-md-6'" : "'col-md-4'"
-        let statut = (connectionId == message.senderId) ? "envoie" : "recu"
+
+        let offset = (LoggedInUser.id == message.senderId) ? "'col-md-3 offset-md-6'" : "'col-md-4'"
+        let statut = (LoggedInUser.id== message.senderId) ? "envoie" : "recu"
 
         return /* @html */`
-        <div class="row">
+        <div class="row row-messagerie">
           <div class= ${offset}>
             <div class="card-recu">
               <div class= ${statut}>
@@ -290,12 +288,11 @@ const connectionId = 7
               messages.map(getMessageHTML).join('\n')
             }
         </div>
-        <div class="chat-input-holder">
           <form id="sendMessage">
-          <input class="chat-input"></input>
+          <input class="chat-input" required></input>
           <input type="submit" value="Send" class="message-send" />
         </form>
-        </div>
+
 
       `
 
@@ -509,13 +506,16 @@ const showContacts = () => {
 
     const divAllContacts = document.getElementsByClassName('contacts')
     const h4InContacts = divAllContacts[0].getElementsByTagName('h4')
-    console.dir(divAllContacts)
+
+
     for( let div of h4InContacts) {
       div.addEventListener('click', function (event) {
         console.log(event.target.dataset.id)
         event.target.classList.add('active')
         recipientId = event.target.dataset.id
-        fetch(`/messagerie/messages/${event.target.dataset.id}`)
+        fetch(`/messagerie/messages/${event.target.dataset.id}`, {
+          credentials: 'include'
+        })
         .then(response => response.json())
         .then(messages => {
           const divMessages = document.getElementById('messages')
@@ -652,7 +652,7 @@ const home = () => {
   })
 
     const createAccount = document.getElementById('form-account')
-    console.log(createAccount)
+
     createAccount.addEventListener('submit', event => {
 
       event.preventDefault()
@@ -692,14 +692,14 @@ const home = () => {
           LoggedInUser = data
           page('/pagePerso')
         }
-        console.log(accountData)
+
       })
   })
 }
 
 // début test navigation thomas //
 const showPagePerso1 = context => {
-  console.log(context)
+
   const profilId = context.params.profilId
   fetch(`/getProfileData/${profilId}`)
   .then(response => response.json())
@@ -707,7 +707,7 @@ const showPagePerso1 = context => {
     const profilHtml = pageProfilHtml(infosProfil)
     render(profilHtml)
 
-    console.log(profilId)
+
 
 
   })

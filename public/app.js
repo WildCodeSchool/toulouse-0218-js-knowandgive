@@ -62,11 +62,7 @@ const navbarHtml = /* @html */ `
                   </div>
                 </div>
               </div>
-
-
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Connexion  </button>
-
-
               <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
@@ -76,9 +72,7 @@ const navbarHtml = /* @html */ `
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
-
                     <div class="modal-body">
-
                       <form id="form-post" method="POST" action="/connexion">
                         <div class="form-group row">
                           <label for="identifiant" class="col-sm-4 col-form-label"><i class="fa fa-user"> </i> Identifiant</label>
@@ -86,7 +80,6 @@ const navbarHtml = /* @html */ `
                             <input type="text" class="form-control" id="userConnection" name="userConnection">
                           </div>
                         </div>
-
                     <div class="form-group row">
                       <label for="motDePasse" class="col-sm-4 col-form-label"><i class="fa fa-key"> </i> Mot de passe</label>
                       <div class="col-sm-6">
@@ -281,12 +274,8 @@ function getGivemanHtml(giveman){
         </div>
         `
       }
-
       const messagesHTML = messages => /* @html */`
-        <div class="namecontact">
-        </div>
         <div class="contenu-message">
-
             ${
               messages.map(getMessageHTML).join('\n')
             }
@@ -295,8 +284,6 @@ function getGivemanHtml(giveman){
           <input class="chat-input" required></input>
           <input type="submit" value="Send" class="message-send" />
         </form>
-
-
       `
 
 function formatDateTime(dateTime) {
@@ -315,7 +302,6 @@ const resultHtml = givemen => `<ul class="list-unstyled">
   </ul>
 `
 const pagePersoHtml = /* @html */ `
-
        <h1>Informations personnelles</h1>
        <div class="container" id="formInfo">
            <div class="row">
@@ -388,7 +374,6 @@ const pagePersoHtml = /* @html */ `
                       <input form="formDescription" type="submit" class="btn btn-primary" value="Mettre à jour ma description"></input>
                    </div>
                </div>
-
                <div class="col-md-6">
                    <h4>Compétences</h4>
                      <span class="badge badge-pill badge-success">Jardinage</span>
@@ -406,7 +391,6 @@ const pagePersoHtml = /* @html */ `
 
 function getProfilHtml(informations) {
   return `<p class="card-text"></p>
-
     <p>
     Nom: ${informations.lastname}<br />
     Prenom: ${informations.firstname}<br />
@@ -432,13 +416,9 @@ const pageProfilHtml = informations => /* @html */ `
         </div>
         <div class="card-body col-md-10">
           <h5 class="card-title">Description de mes talents</h5>
-
           ${getProfilHtml(informations)}
-
           <h5>Mes compétences<h5>
-
           ${informations.skills.map(getSkillBadge).join('')}
-
         </div>
       </div>
   </div>

@@ -3,6 +3,7 @@ body  {
   font-family: 'PT Sans';
 }
 
+
 footer {
   background-color: #CFF7DA;
   text-align: center;
@@ -19,6 +20,10 @@ footer img:hover {
   opacity: 1;
 }
 
+footer p {
+  padding-bottom: 3%;
+}
+
 .reseaux > .nav {
   margin: auto;
 }
@@ -30,6 +35,7 @@ footer img:hover {
 
 .navbar {
   font-family: 'Amaranth';
+  border-bottom: 5px solid #00FE44;
 }
 
 .navbar > a {
@@ -39,7 +45,6 @@ footer img:hover {
 
 .video {
   text-align: center;
-  margin-top: 80px;
   margin-bottom: 30px;
 }
 
@@ -57,12 +62,63 @@ footer img:hover {
   color: #00FE44;
 }
 
+h1 {
+  text-align: center;
+  font-family: 'Amaranth';
+  font-size: 40px;
+  margin-top: 2%;
+}
+
 h3 {
   text-align: center;
   padding-top: 60px;
   margin-bottom: 40px;
   font-family: 'Amaranth';
   font-size: 40px;
+}
+
+h2 {
+  text-align: center;
+  font-family:'PT Sans';
+  font-size: 30px;
+  margin-top: 8%;
+  margin-bottom: 3%;
+}
+
+.profil {
+  text-align: center;
+  font-family:'PT Sans';
+  font-size: 30px;
+  margin-top: 4%;
+  margin-bottom: 2%;
+  border-bottom: 2px solid #C4C4C4;
+}
+.nom {
+  font-size: 20px;
+}
+
+.skills span {
+  background-color: #00FE44;
+  font-size: 15px;
+  color: white;
+  margin-right: 1%;
+  margin-bottom: 3%;
+}
+
+.card {
+  margin-bottom: 5%;
+}
+
+.contactInformations input {
+  margin: 0 auto
+}
+
+.description textarea {
+  margin-bottom: 5%;
+}
+
+.skills input {
+  margin-bottom: 5%;
 }
 
 .items {
@@ -74,7 +130,8 @@ h3 {
 .position > img {
   position: relative;
   opacity: 0.6;
-  border: 3px solid #00FE44;
+  border-bottom: 5px solid #00FE44;
+  margin-bottom: 6%;
 }
 
 .position > #searchbar {
@@ -87,9 +144,47 @@ h3 {
   padding: 30px 70px;
 }
 
+.autocomplete {
+  display: flex;
+}
+
+.giveman ul {
+  margin-bottom: 3%;
+}
+
 .giveman li {
   list-style: none;
   margin-bottom: 20px;
+  font-family:'PT Sans';
+  font-size: 20px;
+}
+
+.giveman .valeur1 {
+  margin-left: 15%;
+}
+
+.giveman .valeur2 {
+  margin-left: 16%;
+}
+
+.giveman .valeur3 {
+  margin-left: 17%;
+}
+
+.giveman .valeur4 {
+  margin-left: 18%;
+}
+
+.giveman .valeur5 {
+  margin-left: 19%;
+}
+
+.giveman .valeur6 {
+  margin-left: 20%;
+}
+
+.giveman li img  {
+  margin-right: 1%;
 }
 
 .giveman button {
@@ -121,6 +216,16 @@ h3 {
 .icons{
   position:absolute;
   right: 20px;
+}
+
+.media {
+  margin-bottom: 3%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.media a {
+  color:  #00FE44;
 }
 
 /* .bounceIn {

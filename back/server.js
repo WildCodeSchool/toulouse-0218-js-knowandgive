@@ -97,6 +97,19 @@ const html = user => /* @html */`
 
 // Fin de test Thomas //
 
+app.get('/logout', (req,res) => {
+  req.session.destroy(function(err){
+    if(err){
+      console.log(err)
+    }
+    else{
+      res.redirect('/')
+    }
+  })
+})
+
+
+
 const checkLoggedInUser = (req, res, next) => {
   if((req.session !== undefined) && (req.session.user !== undefined)) {
     const user = req.session.user
@@ -223,9 +236,9 @@ app.post('/informations-personnelles', (req, res) => {
   const ville = req.body.city
   let profileId = req.session.user.id
   const linkedin = req.body.linkedin
-  const description = req.body.description
 
-  const query1 = `UPDATE Profile SET lastname = '${nom}', firstname = '${prenom}', zipCode = '${codePostal}', city = '${ville}', linkedin = '${linkedin}', description = '${description}' WHERE id = '${profileId}'`
+
+  const query1 = `UPDATE Profile SET lastname = '${nom}', firstname = '${prenom}', zipCode = '${codePostal}', city = '${ville}', linkedin = '${linkedin}' WHERE id = '${profileId}'`
   console.log(query1)
   connection.query(query1, (error, resultats) => {
     if (error) {
@@ -238,6 +251,28 @@ app.post('/informations-personnelles', (req, res) => {
     res.json({result: profile})
   })
 })
+
+app.post('/description', (req, res) => {
+  console.log(req.body)
+
+  const description = req.body.description
+  let profileId = req.session.user.id
+
+
+  const query1 = `UPDATE Profile SET description = '${description}' WHERE id = '${profileId}'`
+  console.log(query1)
+  connection.query(query1, (error, resultats) => {
+    if (error) {
+      return res.status(500).json({
+        error: error.message
+      })
+    }
+    const description = resultats
+    console.log(description)
+    res.json({result: description})
+  })
+})
+
 
 app.post('/competences', (req, res) => {
   console.log(req.body)
@@ -299,12 +334,25 @@ app.post('/competences', (req, res) => {
   })
 })
 
-
-
-
-
-
 //Fin gestion du formulaire
+
+
+//Récuperer les informations de la page personnelle
+app.get('/coordonnees', (req,res) => {
+  let profileId = req.session.user.id
+  const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin, description FROM Profile WHERE id = '${profileId}'`
+  console.log(query)
+  connection.query(query, (error, pagePerso) => {
+    if (error) {
+      return res.status(500).json({
+        error: error.message
+      })
+    }
+    const infosPerso = pagePerso[0]
+    console.log(infosPerso)
+    res.json(infosPerso)
+  })
+})
 
 
 //fonction upload de la photo
@@ -419,8 +467,6 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
             error: `${profileId} not found`
           })
         }
-
-        // res.json(pageProfil[0])
 
         const sqlPivot2 = `SELECT skillId FROM ProfileSkill WHERE profileId = ${profileId}`
 

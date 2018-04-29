@@ -99,10 +99,12 @@ const navbarHtml = /* @html */ `
                         <input form="form-post" type="submit" class="btn btn-primary" value="Valider" />
                     </div>
                   </div>
-        </ul>
+                </ul>
       </div>
   </nav>
 `
+
+
 const navbarBisHtml = /* @html */ `
 <nav class="navbar navbar-expand-lg">
     <img class="logo" src="/img/logo.png">
@@ -119,8 +121,9 @@ const navbarBisHtml = /* @html */ `
 </nav>
 `
 
+
 const searchbarHtml = /* @html */ `<div class="row position">
-      <img src="/img/banniere-know-and-give.png" alt="imageSearch"/>
+      <img src="/img/banniere-know-and-give.png" alt="imageSearch" width="99%"/>
       <div id="searchbar">
         <form id="search-form" action="#" class="formulaire">
           <div class="autocomplete">
@@ -132,6 +135,8 @@ const searchbarHtml = /* @html */ `<div class="row position">
       </div>
     </div>
 `
+
+
 const presentationHtml = /* @html */ `<div class="video">
     <p><i>"Il y a une naissance en toute connaissance."</i> - Pascal Quignard</p>
     <iframe width="672" height="378" src="https://www.youtube.com/embed/SOcwXwxl4UU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
@@ -144,75 +149,233 @@ const competencesHtml = /* @html */ `<div class="competences">
       <div class = "row items">
       <div class = "col-md-3">
         <img src="img/bricolage.png" alt="vignette bricolage" width="25%"><br>
-        <h4>Bricolage</h4><!-- Page de recherche correspondante -->
+        <h4>Bricolage</h4>
       </div>
       <div class = "col-md-3">
         <img src="img/decoration.png" alt="vignette Décoration" width="25%"><br>
-        <h4>Décoration</h4><!-- Page de recherche correspondante -->
+        <h4>Décoration</h4>
       </div>
       <div class = "col-md-3">
         <img src="img/enseignement.png" alt="vignette Enseignement" width="25%"><br>
-        <h4>Enseignement</h4><!-- Page de recherche correspondante -->
+        <h4>Enseignement</h4>
       </div>
       <div class = "col-md-3">
         <img src="img/cuisine.png" alt="vignette Cuisine" width="25%"><br>
-        <h4>Cuisine</h4><!-- Page de recherche correspondante -->
+        <h4>Cuisine</h4>
       </div>
     </div>
     <div class = "row items">
       <div class = "col-md-3">
         <img src="img/mode-et-beauté.png" alt="vignette Mode_et_beauté" width="25%"><br>
-        <h4>Mode et beauté</h4><!-- Page de recherche correspondante -->
+        <h4>Mode et beauté</h4>
       </div>
       <div class = "col-md-3">
         <img src="img/art.png" alt="vignette Art" width="25%"><br>
-        <h4>Art</h4><!-- Page de recherche correspondante -->
+        <h4>Art</h4>
       </div>
       <div class = "col-md-3">
         <img src="img/famille.png" alt="vignette Famille" width="25%"><br>
-        <h4>Famille</h4><!-- Page de recherche correspondante -->
+        <h4>Famille</h4>
       </div>
       <div class = "col-md-3">
         <img src="img/jardinerie.png" alt="vignette Jardinerie" width="25%"><br>
-        <h4>Jardinerie</h4><!-- Page de recherche correspondante -->
+        <h4>Jardinerie</h4>
       </div>
     </div>
   </div>
 `
 
-const footerHtml = /* @html */ `<footer class="footer">
-    <div class="container">
-        <div class="row justify-content-md-center">
-          <div class="col-md-6  col-lg-3 ">
-            <ul class="nav">
-                <li class="nav-item"><a href="" class="nav-link"><img src="/img/facebook.png" alt="facebook" width="13px"></a></li>
-                <li class="nav-item"><a href="" class="nav-link"><img src="/img/instagram.png" alt="instagram" width="35px"></a></li>
-                <li class="nav-item"><a href="" class="nav-link"><img src="/img/wcs.png" alt="instagram" width="30px"></a></li>
-                <li class="nav-item"><a href="" class="nav-link"><img src="/img/twitter.png" alt="instagram" width="30px"></a></li>
-            </ul>
-            <br>
-            <p>By Wild Code School</p>
-          </div>
-        </div>
-    </div>
-  </footer>
-`
 const charteGivemanHtml = /* @html */ `<div class="giveman">
         <h3>Un <b>giveman</b> , qu'est ce que c'est ?</h3>
           <ul>
-            <li><img src="img/giveman.png" alt="vignette valeur 1" width="3%">valeur 1</li>
-            <li><img src="img/giveman.png" alt="vignette valeur 2" width="3%">Valeur 2</li>
-            <li><img src="img/giveman.png" alt="vignette valeur 3" width="3%">Valeur 3</li>
-            <li><img src="img/giveman.png" alt="vignette valeur 4" width="3%">Valeur 4</li>
-            <li><img src="img/giveman.png" alt="vignette valeur 5" width="3%">Valeur 5</li>
+            <li class="valeur1"><img src="img/giveman.png" alt="vignette valeur 1" width="3%">Un giveman sait qu'il ne connait rien <b>MAIS</b> veut connaitre.</li>
+            <li class="valeur2"><img src="img/giveman.png" alt="vignette valeur 2" width="3%">Un giveman a le <b>coeur</b> sur la main.</li>
+            <li class="valeur3"><img src="img/giveman.png" alt="vignette valeur 3" width="3%">Un giveman aime <b>donner</b> et <b>recevoir</b>..</li>
+            <li class="valeur4"><img src="img/giveman.png" alt="vignette valeur 4" width="3%">Un giveman appartient à une <b>communauté</b> de <b>partage</b> et d'<b>entraide</b>.</li>
+            <li class="valeur5"><img src="img/giveman.png" alt="vignette valeur 5" width="3%">Un giveman est <b>curieux</b> et à l'affut de nouvelles connaissances.</li>
+            <li class="valeur6"><img src="img/giveman.png" alt="vignette valeur 6" width="3%">Un giveman est <b>universel</b>.</li>
           </ul>
           <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
             <img src="img/giveman.png" alt="giveman" width="10%">
             Toi aussi, deviens un giveman !
             <img src="img/giveman.png" alt="giveman" width="10%">
           </button>
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Bienvenue dans la communauté des GiveMen</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form id="form-account" method="POST" action="/create-account">
+                   <div class="form-group row">
+                       <label for="identifiant" class="col-sm-4 col-form-label">Identifiant :</label>
+                       <div class="col-sm-6">
+                           <input type="text" class="form-control" id="username" name="username">
+                       </div>
+                   </div>
+                   <div class="form-group row">
+                       <label for="mdp" class="col-sm-4 col-form-label">Mot de passe :</label>
+                       <div class="col-sm-6">
+                           <input type="text" class="form-control" id="password" name="password">
+                       </div>
+                   </div>
+                   <div class="form-group row">
+                       <label for="mdp" class="col-sm-4 col-form-label">Confirmer mot de passe :</label>
+                       <div class="col-sm-6">
+                           <input type="text" class="form-control" id="confirmPassword" name="confirmPassword">
+                       </div>
+                   </div>
+                   <div class="form-group row">
+                       <label for="email" class="col-sm-4 col-form-label">Email :</label>
+                       <div class="col-sm-6">
+                           <input type="text" class="form-control" id="email" name="email">
+                       </div>
+                   </div>
+                   <div class="form-group row">
+                       <label for="email" class="col-sm-4 col-form-label">Confirmer Email : </label>
+                       <div class="col-sm-6">
+                           <input type="text" class="form-control" id="confirmEmail" name="confirmEmail">
+                       </div>
+                   </div>
+                </div>
+              </form>
+                <div class="modal-footer">
+                    <input form="form-account" type="submit" class="btn btn-primary" value="Valider">
+                </div>
+              </div>
+            </div>
+          </div>
       </div>
 `
+
+const footerHtml = /* @html */ `<footer class="footer">
+    <div class="container">
+        <div class="row justify-content-md-center">
+          <div class="col-md-">
+            <ul class="nav">
+                <li class="nav-item"><a href="https://www.facebook.com/wildcodeschool/" target="_blank" class="nav-link"><img src="/img/facebook.png" alt="facebook" width="13px"></a></li>
+                <li class="nav-item"><a href="https://twitter.com/wildcodeschool?lang=en" target="_blank" class="nav-link"><img src="/img/instagram.png" alt="instagram" width="35px"></a></li>
+                <li class="nav-item"><a href="https://www.instagram.com/wildcodeschool/" target="_blank" class="nav-link"><img src="/img/twitter.png" alt="twitter" width="30px"></a></li>
+            </ul>
+            <br>
+          </div>
+        </div>
+        <p>By Thomas, Yvan, Alexandre & Vanthika - Etudiants de la <a href="https://wildcodeschool.fr/" target="_blank">Wild Code School</a></p>
+    </div>
+  </footer>
+`
+
+const vanthika = {"id":34,"lastname":"Yos","firstname":"Jack","zipCode":"50000","city":"Toulouse","photo":null,"linkedin":"linked.fr","description":"Je me présente."}
+
+function getContactInformations(infosPerso){
+  return `
+      <form id="formProfile" action="/informations-personnelles" method="POST">
+          <div class="form-group row">
+              <label for="lastname" class="col-sm-4 col-form-label">Nom :</label>
+              <div class="col-sm-6">
+                  <input type="text" class="form-control" id="lastname" name="lastname" value="${infosPerso.lastname}">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="fisrtname" class="col-sm-4 col-form-label">Prénom :</label>
+              <div class="col-sm-6">
+                  <input type="text" class="form-control" id="firstname" name="firstname" value="${infosPerso.firstname}">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="postal" class="col-sm-4 col-form-label">Code postal :</label>
+              <div class="col-sm-6">
+                  <input type="text" class="form-control" id="postal" name="zipCode" value="${infosPerso.zipCode}">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="city" class="col-sm-4 col-form-label">Ville :</label>
+              <div class="col-sm-6">
+                  <input type="text" class="form-control" id="city" name="city" value="${infosPerso.city}">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="email" class="col-sm-4 col-form-label">Email : </label>
+              <div class="col-sm-6">
+                  <input type="text" class="form-control" id="email" name="email">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="linkedin" class="col-sm-4 col-form-label">Linkedin : </label>
+              <div class="col-sm-6">
+                  <input type="text" class="form-control" id="linkedin" name="linkedin" value="${infosPerso.linkedin}">
+              </div>
+          </div>
+       </form>
+  `
+}
+
+console.log(getContactInformations(vanthika))
+
+
+
+const pagePersoHtml = infosPerso => /* @html */ `
+
+       <h1>Informations personnelles</h1>
+       <div class="container" id="formInfo">
+           <div class="row">
+               <div class="col-md-6 imgProfil">
+                   <!-- Upload de la photo -->
+                   <form method="POST" id="file-form" enctype="multipart/form-data" action="/uploaddufichier">
+                      <input type="file" id="file-select" name="monfichier">
+                        <button id="upload-button"> envoyer </button>
+                   </form>
+                   <!-- fin Upload photo -->
+               </div>
+               <div class="col-md-6 contactInformations">
+                 <h2>Coordonnées</h4>
+                   <div class="card">
+                     <div class="card-header">A propos de moi</div>
+                      <div class="card-body">
+
+                     ${getContactInformations(infosPerso)}
+
+                     </div>
+                   </div>
+                   <input form="formProfile" type="submit" class="btn btn-primary formProfileButton" value="Mettre à jour mes coordonnées">
+               </div>
+           </div>
+           <div class="row">
+               <div class="col-md-6">
+                   <div class="form-group description">
+                       <h2>Description</h2>
+                        <form id="formDescription" method="POST" action="/description">
+                          <textarea class="form-control" rows="7" placeholder="Présentez-vous pour faciliter le partage ! Encore mieux, vous pouvez ici préciser vos attentes" id="description" name="description"></textarea>
+                        </form>
+                      <input form="formDescription" type="submit" class="btn btn-primary" value="Mettre à jour ma description">
+                   </div>
+               </div>
+
+               <div class="col-md-6">
+                  <div class="form-group skills">
+                   <h2>Compétences</h2>
+                     <span class="badge badge-pill badge-success">Jardinage</span>
+                     <span class="badge badge-pill badge-success">Famille</span>
+                     <span class="badge badge-pill badge-success">Decoration</span>
+                     <span class="badge badge-pill badge-success">Bricolage</span>
+                     <span class="badge badge-pill badge-success">Enseignement</span>
+                     <span class="badge badge-pill badge-success">Cuisine</span>
+                     <span class="badge badge-pill badge-success">Mode et beauté</span>
+                     <span class="badge badge-pill badge-success">Art</span><br />
+                     <form id="formSkill" method="POST" action="/competences">
+                       <input type="text" class="form-control" id="competence" name="competence"></textarea>
+                     </form>
+                   <input form="formSkill" type="submit" class="btn btn-primary" value="Valider une compétence"></input>
+                </div>
+              </div>
+           </div>
+       </div>
+`
+
 
 
 
@@ -227,6 +390,82 @@ function getGivemanHtml(giveman){
   </li>
   `
 }
+
+const resultHtml = givemen => `<ul class="list-unstyled">
+  ${
+    givemen.map(getGivemanHtml).join('\n')
+  }
+  </ul>
+`
+
+function getProfilHtml(informations) {
+  return `<h2 class="profil">A propos de moi</h2>
+
+    <p class="nom">
+    <b>${informations.firstname} ${informations.lastname}</b></p>
+    <p>Code postal: ${informations.zipCode}<br />
+    Ville: ${informations.city}<br />
+    Email: ${informations.email}<br />
+    Linkedin: ${informations.linkedin}</p>`
+}
+
+function getSkillBadge(skill) {
+  return `<span class="badge badge-pill">
+    ${skill}
+  </span>`
+
+}
+
+// début test navigation thomas //
+const showPageProfil1 = context => {
+  console.log(context)
+  const profilId = context.params.profilId
+  fetch(`/getProfileData/${profilId}`)
+  .then(response => response.json())
+  .then(infosProfil => {
+    const profilHtml = pageProfilHtml(infosProfil)
+    render(profilHtml)
+  })
+}
+// Fin test navigation thomas //
+
+const pageProfilHtml = informations => /* @html */ `
+  <div class="container-fluid">
+    <h1>Bienvenue sur ma page</h1>
+    <div class="row">
+        <div class="col-md-2">
+          <img src="" alt="portrait" class=""><br/>
+          <a href="#" class="btn btn-primary">Contacter</a>
+        </div>
+        <div class="col-md-10 skills">
+
+          ${getProfilHtml(informations)}
+
+          <h2 class="profil">Mes compétences</h2>
+
+          ${informations.skills.map(getSkillBadge).join('')}
+
+        </div>
+      </div>
+  </div>
+`
+
+function resultKeyword(keyword) {
+  return "resultats pour " + keyword
+}
+
+function showResultForKeyword(keyword) {
+  fetch(`/search-givemen?skill=${keyword}`)
+  .then(response =>response.json())
+  .then(givemen => {
+    render(searchbarHtml + resultHtml(givemen))
+  })
+}
+
+
+
+
+
 
 // test //
       function getContactHTML(contact) {
@@ -284,190 +523,6 @@ const connectionId = 7
       const messagesHTML = messages => /* @html */`
         <div class="contenu-message">`
 
-// Fin Test //
-
-
-const resultHtml = givemen => `<ul class="list-unstyled">
-  ${
-    givemen.map(getGivemanHtml).join('\n')
-  }
-  </ul>
-`
-
-
-const pagePersoHtml = /* @html */ `
-
-       <h1>Informations personnelles</h1>
-       <div class="container" id="formInfo">
-           <div class="row">
-               <div class="col-md-6 imgProfil">
-                   <!-- Upload de la photo -->
-                   <form method="POST" id="file-form" enctype="multipart/form-data" action="/uploaddufichier">
-                      <input type="file" id="file-select" name="monfichier">
-                        <button id="upload-button"> envoyer </button>
-                   </form>
-                   <!-- fin Upload photo -->
-               </div>
-               <div class="col-md-6">
-                   <div class="card">
-                       <div class="card-header">A propos de moi</div>
-                       <div class="card-body">
-                           <form id="formProfile" action="/informations-personnelles" method="POST">
-                               <div class="form-group row">
-                                   <label for="lastname" class="col-sm-4 col-form-label">Nom :</label>
-                                   <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="lastname" name="lastname">
-                                   </div>
-                               </div>
-                               <div class="form-group row">
-                                   <label for="fisrtname" class="col-sm-4 col-form-label">Prénom :</label>
-                                   <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="firstname" name="firstname">
-                                   </div>
-                               </div>
-                               <div class="form-group row">
-                                   <label for="postal" class="col-sm-4 col-form-label">Code postal :</label>
-                                   <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="postal" name="zipCode">
-                                   </div>
-                               </div>
-                               <div class="form-group row">
-                                   <label for="city" class="col-sm-4 col-form-label">Ville :</label>
-                                   <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="city" name="city">
-                                   </div>
-                               </div>
-                               <div class="form-group row">
-                                   <label for="email" class="col-sm-4 col-form-label">Email : </label>
-                                   <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="email" name="email">
-                                   </div>
-                               </div>
-                               <div class="form-group row">
-                                   <label for="linkedin" class="col-sm-4 col-form-label">Linkedin : </label>
-                                   <div class="col-sm-6">
-                                       <input type="text" class="form-control" id="linkedin" name="linkedin">
-                                   </div>
-                               </div>
-                            </form>
-                        </div>
-                   </div>
-               </div>
-               <div class="row">
-                   <div class="col-md-4">
-                       <input form="formProfile" type="submit" class="btn btn-primary" value="Mettre à jour mes coordonnées"></input>
-                   </div>
-               </div>
-           </div>
-           <div class="row">
-               <div class="col-md-6">
-                   <div class="form-group">
-                       <h4>Description</h4>
-                        <form id="formDescription" method="POST" action="/informations-personnelles">
-                          <textarea class="form-control" id="description" rows="7" name="description"></textarea>
-                        </form>
-                      <input form="formDescription" type="submit" class="btn btn-primary" value="Mettre à jour ma description"></input>
-                   </div>
-               </div>
-
-               <div class="col-md-6">
-                  <div class="form-group">
-                   <h4>Compétences</h4>
-                     <span class="badge badge-pill badge-success">Jardinage</span>
-                     <span class="badge badge-pill badge-success">Famille</span>
-                     <span class="badge badge-pill badge-success">Decoration</span>
-                     <span class="badge badge-pill badge-success">Bricolage</span>
-                     <span class="badge badge-pill badge-success">Enseignement</span>
-                     <span class="badge badge-pill badge-success">Cuisine</span>
-                     <span class="badge badge-pill badge-success">Mode et beauté</span>
-                     <span class="badge badge-pill badge-success">Art</span><br />
-                     <form id="formSkill" method="POST" action="/competences">
-                       <input type="text" class="form-control" id="competence" name="competence"></textarea>
-                     </form>
-                   <input form="formSkill" type="submit" class="btn btn-primary" value="Valider une compétence"></input>
-                </div>
-              </div>
-           </div>
-       </div>
-`
-
-function getProfilHtml(informations) {
-  return `<p class="card-text"></p>
-
-    <p>
-    Nom: ${informations.lastname}<br />
-    Prenom: ${informations.firstname}<br />
-    Code postal: ${informations.zipCode}<br />
-    Ville: ${informations.city}<br />
-    Email: ${informations.email}<br />
-    linkedin: ${informations.linkedin}</p>`
-}
-
-function getSkillBadge(skill) {
-  return `<span class="badge badge-pill badge-success">
-    ${skill}
-  </span>`
-
-}
-
-const pageProfilHtml = informations => /* @html */ `
-  <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2">
-          <img src="" alt="portrait" class=""><br/>
-          <a href="#" class="btn btn-primary">Contacter</a>
-        </div>
-        <div class="card-body col-md-10">
-          <h5 class="card-title">Description de mes talents</h5>
-
-          ${getProfilHtml(informations)}
-
-          <h5>Mes compétences<h5>
-
-          ${informations.skills.map(getSkillBadge).join('')}
-
-        </div>
-      </div>
-  </div>
-`
-
-function resultKeyword(keyword) {
-  return "resultats pour " + keyword
-}
-
-function showResultForKeyword(keyword) {
-  fetch(`/search-givemen?skill=${keyword}`)
-  .then(response =>response.json())
-  .then(givemen => {
-    render(searchbarHtml + resultHtml(givemen))
-  })
-}
-//
-// const showHome = () => {
-//   mainDiv.innerHTML = navbarHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml
-// }
-
-const showPagePerso = () => {
-  mainDiv.innerHTML = navbarBisHtml + pagePersoHtml + footerHtml
-  removeBackdrops()
-}
-
-const showPageProfil = () => {
-  mainDiv.innerHTML = navbarHtml + pageProfilHtml({ nom: 'Toto' }) + footerHtml
-}
-
-const showNavConnected = () => {
-  mainDiv.innerHTML = navbarBisHtml + searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml + footerHtml
-  removeBackdrops()
-}
-
-function removeBackdrops() {
-  const backdrops = document.getElementsByClassName('modal-backdrop')
-  if (backdrops.length > 0) {
-    document.body.removeChild(backdrops[0])
-  }
-  document.body.classList.remove('modal-open')
-}
 
 
 const showContacts = () => {
@@ -519,18 +574,32 @@ const showContacts = () => {
 }
 //FIn de test //
 
-// const search = () => {
-//   mainDiv.innerHTML = navbarHtml + searchPageHtml() + footerHtml
-// }
+
+// Render
+const search = () => {
+  mainDiv.innerHTML = navbarHtml + searchPageHtml() + footerHtml
+}
+
+function removeBackdrops() {
+  const backdrops = document.getElementsByClassName('modal-backdrop')
+  if (backdrops.length > 0) {
+    document.body.removeChild(backdrops[0])
+  }
+  document.body.classList.remove('modal-open')
+}
 
 const render = mainHTML => {
   const navBar = LoggedInUser === undefined ? navbarHtml : navbarBisHtml
   mainDiv.innerHTML = navBar+ mainHTML + footerHtml
   removeBackdrops()
 }
+// Fin render
+
+
 
 const form = () => {
-  render(pagePersoHtml)
+  console.log('Page perso', LoggedInUser)
+  render(pagePersoHtml(LoggedInUser))
 
   const fileForm = document.getElementById('file-form');
   const fileSelect = document.getElementById('file-select');
@@ -562,6 +631,8 @@ const form = () => {
   })
   console.log('page perso')
 
+
+// Entrée de compétences
   const competences = document.getElementById('formSkill')
   competences.addEventListener('submit', event => {
     event.preventDefault()
@@ -594,45 +665,73 @@ const form = () => {
   })
 
 
+// Entrée d'informations personnelles
   const informations = document.getElementById('formProfile')
-  informations.addEventListener('submit', profileFormsListener)
-  const description = document.getElementById('formDescription')
-  description.addEventListener('submit', profileFormsListener)
-
-}
-
-
-
-const profileFormsListener = event => {
-  const container = document.getElementById('formInfo')
-  event.preventDefault()
-  const champs = container.getElementsByClassName('form-control')
-  let infoData = {}
-  for (let input of champs) {
-    if (input.name !== '') {
-     infoData[input.name] = input.value
+  informations.addEventListener('submit', event => {
+    event.preventDefault()
+    const inputs = informations.getElementsByTagName('input')
+    let infoData = {}
+    for (let input of inputs) {
+      if (input.name !== '') {
+       infoData[input.name] = input.value
+      }
     }
-  }
 
-  const infoDataJSON = JSON.stringify(infoData)
+    const infoDataJSON = JSON.stringify(infoData)
 
-  fetch('/informations-personnelles', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    },
-    credentials: 'include',
-    body: infoDataJSON
-  })
-  .then(response => response.json())
-  .then(user => {
-    LoggedInUser = user
-    page('/pagePerso')
-    console.log(user)
+    fetch('/informations-personnelles', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: infoDataJSON
+    })
+    .then(response => response.json())
+    .then(user => {
+      LoggedInUser = user
+      page('/pagePerso')
+      console.log(user)
+
+      console.log('retour fetch infos persos', user)
+      })
     })
 
+// Entrer description
+  const description = document.getElementById('formDescription')
+  description.addEventListener('submit', event => {
+    event.preventDefault()
+    const champs = description.getElementsByClassName('form-control')
+    let descriptionData = {}
+    for (let input of champs) {
+      if (input.name !== '') {
+       descriptionData[input.name] = input.value
+      }
+    }
+
+    const descriptionDataJSON = JSON.stringify(descriptionData)
+
+    fetch('/description', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: descriptionDataJSON
+    })
+    .then(response => response.json())
+    .then(user => {
+      LoggedInUser = user
+      page('/pagePerso')
+      console.log(user)
+      })
+
+    })
 }
+
+
 
 const home = () => {
   render(searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml)
@@ -735,20 +834,7 @@ const home = () => {
   })
 }
 
-// début test navigation thomas //
 
-const showPagePerso1 = context => {
-  console.log(context)
-  const profilId = context.params.profilId
-  fetch(`/getProfileData/${profilId}`)
-  .then(response => response.json())
-  .then(infosProfil => {
-    const profilHtml = pageProfilHtml(infosProfil)
-    render(profilHtml)
-  })
-}
-
-// Fin test navigation thomas //
 
 const checkLoginMiddleware = (context, next) => {
   if (LoggedInUser === undefined){
@@ -759,7 +845,7 @@ const checkLoginMiddleware = (context, next) => {
 
 page("/", home)
 page("/pagePerso",checkLoginMiddleware, form)
-page("/pageProfil", showPageProfil)
+// page("/pageProfil", showPageProfil)
 page("/chat", checkLoginMiddleware, showContacts)
-page("/pageProfil/:profilId", showPagePerso1)
+page("/pageProfil/:profilId", showPageProfil1)
 page()

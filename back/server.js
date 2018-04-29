@@ -38,7 +38,8 @@ const html = user => /* @html */`
 
     <title>Know & Give</title>
   </head>
-  <body onLoad="window.setTimeout('history.go(0)', 10000)">
+  <!-- Recharge page auto onLoad="window.setTimeout('history.go(0)', 10000)" -->
+  <body >
     <div id="main">
 
     </div>
@@ -275,7 +276,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
     console.log(req.session.user)
     const sql =`SELECT recipientId, senderId FROM Message WHERE senderId = ${connectionId}
     OR recipientId = ${connectionId}`
-
+    console.log(sql)
     connection.query(sql, (error, results)=> {
       if (error) {
         return res.status(500).json({
@@ -318,8 +319,9 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
       AND senderId = ${otherId})
       OR senderId = ${connectionId} AND recipientId = ${otherId}
       ORDER by dateTime ASC`
+
     console.log(req.session.user.id, otherId)
-      connection.query(sqlMessage, (error, results)=> {
+          connection.query(sqlMessage, (error, results)=> {
         if (error) {
           return res.status(500).json({
             error: error.message

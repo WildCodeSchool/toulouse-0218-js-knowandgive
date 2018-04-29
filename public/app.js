@@ -281,7 +281,10 @@ function getGivemanHtml(giveman){
         </div>
         `
       }
+
       const messagesHTML = messages => /* @html */`
+        <div class="namecontact">
+        </div>
         <div class="contenu-message">
 
             ${

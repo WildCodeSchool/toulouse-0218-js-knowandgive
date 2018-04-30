@@ -403,7 +403,9 @@ function getProfilHtml(informations) {
 
     <p class="nom">
     <b>${informations.firstname} ${informations.lastname}</b></p>
-    <p>Code postal: ${informations.zipCode}<br />
+    <p>${informations.description}</br></p>
+    <p>
+    Code postal: ${informations.zipCode}<br />
     Ville: ${informations.city}<br />
     Email: ${informations.email}<br />
     Linkedin: ${informations.linkedin}</p>`

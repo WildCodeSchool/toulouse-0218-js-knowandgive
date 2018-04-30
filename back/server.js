@@ -338,7 +338,7 @@ app.post('/competences', (req, res) => {
 
 
 //Récuperer les informations de la page personnelle
-app.get('/coordonnees', (req,res) => {
+app.get('/coordonnées', (req,res) => {
   let profileId = req.session.user.id
   const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin, description FROM Profile WHERE id = '${profileId}'`
   console.log(query)
@@ -454,7 +454,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
 
     app.get('/getProfileData/:profileId', (req, res ) => {
       const profileId = req.params.profileId
-      const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin FROM Profile WHERE id = ${profileId}`
+      const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin, description FROM Profile WHERE id = ${profileId}`
 
       connection.query(query, (error, pageProfil) => {
         if(error) {

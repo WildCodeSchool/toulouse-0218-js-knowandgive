@@ -7,7 +7,7 @@ body  {
 footer {
   background-color: #CFF7DA;
   text-align: center;
-  padding-top: 20px
+  padding-top: 20px;
   padding-bottom: 20px;
 }
 
@@ -280,6 +280,9 @@ h2 {
 
 .card-header {
   background-color: #C4C4C4;
+  font-family:'PT Sans';
+  font-size: 20px;
+  color: white;
   text-align: center;
   padding: 2%;
 }

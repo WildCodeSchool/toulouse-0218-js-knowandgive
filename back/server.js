@@ -246,9 +246,18 @@ app.post('/informations-personnelles', (req, res) => {
         error: error.message
       })
     }
-    const profile = resultats
-    console.log(profile)
-    res.json({result: profile})
+    const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin FROM Profile WHERE id = '${profileId}'`
+    console.log(query)
+    connection.query(query, (error, pagePerso) => {
+      if (error) {
+        return res.status(500).json({
+          error: error.message
+        })
+      }
+      const infosPerso = pagePerso[0]
+      console.log(infosPerso)
+      res.json(infosPerso)
+    })
   })
 })
 
@@ -267,9 +276,18 @@ app.post('/description', (req, res) => {
         error: error.message
       })
     }
-    const description = resultats
-    console.log(description)
-    res.json({result: description})
+    const query = `SELECT description FROM Profile WHERE id = '${profileId}'`
+    console.log(query)
+    connection.query(query, (error, pagePerso) => {
+      if (error) {
+        return res.status(500).json({
+          error: error.message
+        })
+      }
+      const infosPerso = pagePerso[0]
+      console.log(infosPerso)
+      res.json(infosPerso)
+    })
   })
 })
 
@@ -338,21 +356,21 @@ app.post('/competences', (req, res) => {
 
 
 //Récuperer les informations de la page personnelle
-app.get('/coordonnées', (req,res) => {
-  let profileId = req.session.user.id
-  const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin, description FROM Profile WHERE id = '${profileId}'`
-  console.log(query)
-  connection.query(query, (error, pagePerso) => {
-    if (error) {
-      return res.status(500).json({
-        error: error.message
-      })
-    }
-    const infosPerso = pagePerso[0]
-    console.log(infosPerso)
-    res.json(infosPerso)
-  })
-})
+// app.get('/coordonnées', (req,res) => {
+//   let profileId = req.session.user.id
+//   const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin, description FROM Profile WHERE id = '${profileId}'`
+//   console.log(query)
+//   connection.query(query, (error, pagePerso) => {
+//     if (error) {
+//       return res.status(500).json({
+//         error: error.message
+//       })
+//     }
+//     const infosPerso = pagePerso[0]
+//     console.log(infosPerso)
+//     res.json(infosPerso)
+//   })
+// })
 
 
 //fonction upload de la photo

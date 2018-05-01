@@ -277,13 +277,13 @@ function getContactInformations(infosPerso){
           <div class="form-group row">
               <label for="lastname" class="col-sm-4 col-form-label">Nom :</label>
               <div class="col-sm-6">
-                  <input type="text" class="form-control" id="lastname" name="lastname" value="${infosPerso.lastname}">
+                  <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Votre nom" value="${infosPerso.lastname}">
               </div>
           </div>
           <div class="form-group row">
               <label for="fisrtname" class="col-sm-4 col-form-label">Prénom :</label>
               <div class="col-sm-6">
-                  <input type="text" class="form-control" id="firstname" name="firstname" value="${infosPerso.firstname}">
+                  <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Votre prénom" value="${infosPerso.firstname}">
               </div>
           </div>
           <div class="form-group row">
@@ -316,6 +316,16 @@ function getContactInformations(infosPerso){
 
 console.log(getContactInformations(vanthika))
 
+function getDescription(infosPerso){
+  return `
+<div class="form-group description">
+    <h2>Description</h2>
+     <form id="formDescription" method="POST" action="/description">
+       <textarea class="form-control" rows="7" placeholder="Présentez-vous pour faciliter le partage ! Encore mieux, vous pouvez ici préciser vos attentes." id="description" name="description">${infosPerso.description}</textarea>
+     </form>
+   <input form="formDescription" type="submit" class="btn btn-primary" value="Mettre à jour ma description">
+</div>`
+}
 
 
 const pagePersoHtml = infosPerso => /* @html */ `
@@ -346,13 +356,7 @@ const pagePersoHtml = infosPerso => /* @html */ `
            </div>
            <div class="row">
                <div class="col-md-6">
-                   <div class="form-group description">
-                       <h2>Description</h2>
-                        <form id="formDescription" method="POST" action="/description">
-                          <textarea class="form-control" rows="7" placeholder="Présentez-vous pour faciliter le partage ! Encore mieux, vous pouvez ici préciser vos attentes" id="description" name="description"></textarea>
-                        </form>
-                      <input form="formDescription" type="submit" class="btn btn-primary" value="Mettre à jour ma description">
-                   </div>
+                 ${getDescription(infosPerso)}
                </div>
 
                <div class="col-md-6">
@@ -367,9 +371,9 @@ const pagePersoHtml = infosPerso => /* @html */ `
                      <span class="badge badge-pill badge-success">Mode et beauté</span>
                      <span class="badge badge-pill badge-success">Art</span><br />
                      <form id="formSkill" method="POST" action="/competences">
-                       <input type="text" class="form-control" id="competence" name="competence"></textarea>
+                       <input type="text" class="form-control" id="competence" name="competence">
                      </form>
-                   <input form="formSkill" type="submit" class="btn btn-primary" value="Valider une compétence"></input>
+                   <input form="formSkill" type="submit" class="btn btn-primary" value="Valider une compétence">
                 </div>
               </div>
            </div>
@@ -693,10 +697,7 @@ const form = () => {
     .then(response => response.json())
     .then(user => {
       LoggedInUser = user
-      page('/pagePerso')
       console.log(user)
-
-      console.log('retour fetch infos persos', user)
       })
     })
 
@@ -726,7 +727,7 @@ const form = () => {
     .then(response => response.json())
     .then(user => {
       LoggedInUser = user
-      page('/pagePerso')
+      // page('/pagePerso')
       console.log(user)
       })
 

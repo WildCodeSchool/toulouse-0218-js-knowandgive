@@ -320,7 +320,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
             error: error.message
           })
         }
-        console.log(dateTime)
+        console.log(results)
         res.json(results)
 
 

@@ -406,7 +406,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
 
     app.get('/getProfileData/:profileId', (req, res ) => {
       const profileId = req.params.profileId
-      const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin FROM Profile WHERE id = ${profileId}`
+      const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin, description FROM Profile WHERE id = ${profileId}`
 
       connection.query(query, (error, pageProfil) => {
         if(error) {

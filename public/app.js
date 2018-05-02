@@ -286,14 +286,6 @@ function getGivemanHtml(giveman){
         </form>
       `
 
-function formatDateTime(dateTime) {
-
-}
-
-
-
-
-
 
 const resultHtml = givemen => `<ul class="list-unstyled">
   ${

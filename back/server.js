@@ -129,7 +129,7 @@ app.post('/connexion', (req, res) => {
 
     const userConnection = req.body.userConnection
     const passwordConnection = req.body.passwordConnection
-    const query = `SELECT User.user, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.description FROM User, Profile WHERE User = '${userConnection}' AND User.id = Profile.userId`
+    const query = `SELECT User.user, User,email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.description FROM User, Profile WHERE User = '${userConnection}' AND User.id = Profile.userId`
     // const query = `SELECT u.user, u.password, p.id FROM User u WHERE u.user = '${userConnection}' INNER JOIN Profile p ON u.id = p.userId`
 
   connection.query(query, (error, results) => {
@@ -209,7 +209,7 @@ app.post('/create-account', (req, res) => {
             })
           }
           const username = req.body.username
-          let request4 = `SELECT User.user, User.email, Profile.id FROM User, Profile WHERE user = '${username}' AND userId = ${results.insertId}`
+          let request4 = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.description FROM User, Profile WHERE user = '${username}' AND userId = ${results.insertId}`
           console.log(request4)
           connection.query(request4, (error, resultat) => {
             if (error){
@@ -228,6 +228,19 @@ app.post('/create-account', (req, res) => {
   })
 })
 
+
+const updateLoggedUser = (req, res, next) => {
+  if((req.session !== undefined) && (req.session.user !== undefined)) {
+    const user = req.session.user
+    next()
+  }
+  else {
+    res.status(401).json({
+      error: 'Unauthorized Access'
+    })
+  }
+}
+
 //Gestion de l'envoi du formulaire sur serveur
 app.post('/informations-personnelles', (req, res) => {
   console.log(req.body)
@@ -236,8 +249,10 @@ app.post('/informations-personnelles', (req, res) => {
   const prenom = req.body.firstname
   const codePostal = req.body.zipCode
   const ville = req.body.city
-  let profileId = req.session.user.id
+  const email = req.body.email
   const linkedin = req.body.linkedin
+  let profileId = req.session.user.id
+  let username = req.session.user.user
 
 
   const query1 = `UPDATE Profile SET lastname = '${nom}', firstname = '${prenom}', zipCode = '${codePostal}', city = '${ville}', linkedin = '${linkedin}' WHERE id = '${profileId}'`
@@ -248,17 +263,26 @@ app.post('/informations-personnelles', (req, res) => {
         error: error.message
       })
     }
-    const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin FROM Profile WHERE id = '${profileId}'`
+    const query = `UPDATE User SET email = '${email}' WHERE user = '${username}'`
     console.log(query)
-    connection.query(query, (error, pagePerso) => {
+    connection.query(query, (error, result) => {
       if (error) {
         return res.status(500).json({
           error: error.message
         })
       }
-      const infosPerso = pagePerso[0]
-      console.log(infosPerso)
-      res.json(infosPerso)
+      const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin FROM Profile WHERE id = '${profileId}'`
+      console.log(query)
+      connection.query(query, (error, pagePerso) => {
+        if (error) {
+          return res.status(500).json({
+            error: error.message
+          })
+        }
+        const infosPerso = pagePerso[0]
+        console.log(infosPerso)
+        res.json(infosPerso)
+      })
     })
   })
 })
@@ -359,23 +383,6 @@ app.post('/competences', (req, res) => {
 
 //Fin gestion du formulaire
 
-
-// Récuperer les informations de la page personnelle
-// app.get('/coordonnees', (req,res) => {
-//   let profileId = req.session.user.id
-//   const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin, description FROM Profile WHERE id = '${profileId}'`
-//   console.log(query)
-//   connection.query(query, (error, pagePerso) => {
-//     if (error) {
-//       return res.status(500).json({
-//         error: error.message
-//       })
-//     }
-//     const infosPerso = pagePerso[0]
-//     console.log(infosPerso)
-//     res.json(infosPerso)
-//   })
-// })
 
 
 //fonction upload de la photo

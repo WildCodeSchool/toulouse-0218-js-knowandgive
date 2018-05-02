@@ -98,9 +98,11 @@ const html = user => /* @html */`
 // Fin de test Thomas //
 
 app.get('/logout', (req,res) => {
-  req.session.destroy(function(err){
-    if(err){
-      console.log(err)
+  req.session.destroy(function(error){
+    if (error) {
+      return res.status(500).json({
+        error: error.message
+      })
     }
     else{
       res.redirect('/')
@@ -127,7 +129,7 @@ app.post('/connexion', (req, res) => {
 
     const userConnection = req.body.userConnection
     const passwordConnection = req.body.passwordConnection
-    const query = `SELECT User.user, User.password, Profile.id FROM User, Profile WHERE User = '${userConnection}' AND User.id = Profile.userId`
+    const query = `SELECT User.user, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.description FROM User, Profile WHERE User = '${userConnection}' AND User.id = Profile.userId`
     // const query = `SELECT u.user, u.password, p.id FROM User u WHERE u.user = '${userConnection}' INNER JOIN Profile p ON u.id = p.userId`
 
   connection.query(query, (error, results) => {
@@ -261,6 +263,7 @@ app.post('/informations-personnelles', (req, res) => {
   })
 })
 
+// Gestion de la description de l'utilisateur
 app.post('/description', (req, res) => {
   console.log(req.body)
 
@@ -291,7 +294,7 @@ app.post('/description', (req, res) => {
   })
 })
 
-
+//Gestion d'entrer de compétences
 app.post('/competences', (req, res) => {
   console.log(req.body)
 
@@ -326,37 +329,39 @@ app.post('/competences', (req, res) => {
       })
     }
 //2. Cas où elle n'existe pas
-    const query1 = `INSERT INTO Skill (skill) VALUES ('${competence}')`
+    else {
+      const query1 = `INSERT INTO Skill (skill) VALUES ('${competence}')`
 
-    connection.query(query1, (error, resultats) => {
-      if (error) {
-        return res.status(500).json({
-          error: error.message
-        })
-      }
-      const competenceEntree = resultats
-      console.log(competenceEntree)
-      const query2 = `INSERT INTO ProfileSkill (skillId, profileId) VALUES ('${resultats.insertId}', '${profileId}') `
-      console.log(query2)
-      connection.query(query2, (error, result) => {
+      connection.query(query1, (error, resultats) => {
         if (error) {
           return res.status(500).json({
             error: error.message
           })
         }
-        const newSkill = result
-        console.log(newSkill)
-        res.json({result: newSkill})
+        const competenceEntree = resultats
+        console.log(competenceEntree)
+        const query2 = `INSERT INTO ProfileSkill (skillId, profileId) VALUES ('${resultats.insertId}', '${profileId}') `
+        console.log(query2)
+        connection.query(query2, (error, result) => {
+          if (error) {
+            return res.status(500).json({
+              error: error.message
+            })
+          }
+          const newSkill = result
+          console.log(newSkill)
+          res.json({result: newSkill})
+        })
       })
-    })
+    }
   })
 })
 
 //Fin gestion du formulaire
 
 
-//Récuperer les informations de la page personnelle
-// app.get('/coordonnées', (req,res) => {
+// Récuperer les informations de la page personnelle
+// app.get('/coordonnees', (req,res) => {
 //   let profileId = req.session.user.id
 //   const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin, description FROM Profile WHERE id = '${profileId}'`
 //   console.log(query)

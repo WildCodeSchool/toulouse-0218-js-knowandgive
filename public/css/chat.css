@@ -3,11 +3,64 @@
 {
   margin-top: 15px;
 }
+.p
+{
+  font-size: 15px;
+}
+
+/* CSS Contacts */
+.contacts
+{
+  border-radius: 5px;
+  overflow: auto;
+  height: 500px;
+  border: solid 2px;
+
+}
+
+.contact{
+  background-image: linear-gradient(to top, #37ecba 0%, #72afd3 100%);
+
+}
+.row-messagerie{
+  width: 720px;
+}
+
+.form#sendMessage{
+  width: 780px;
+}
+
+.contact .card-body{
+  padding: 0;
+
+
+}
+.contact .card-body h4{
+  padding: 1.25rem;
+}
+
+.contact:hover{
+    background:#F1F1F1;
+}
+/*FIN CSS Contacts */
+
+.contenu-message
+{
+  border-radius: 10px;
+  overflow: auto;
+  height: 500px;
+  width: 720px;
+  color: black;
+  background-image: linear-gradient(to top, #37ecba 0%, #72afd3 100%);
+}
+
+
+/*Difference message recu et envoyer */
 
 .envoie
 {
   width: 300px;
-  background: #7acd47;
+  background: #B5E655;
   margin-bottom: 10px;
   margin-top: 10px;
   border-radius: 15px;
@@ -19,45 +72,11 @@
   margin-left: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
-  background: #95c2fd;
+  background: #2BD3FD;
   border-radius: 15px;
 }
 
-/*.messagerie{
-  border: solid 2px;
-
-}*/
-
-.contenu-message
-{
-  overflow: auto;
-  height: 500px;
-  color: black;
-  background-image: linear-gradient(rgba(0, 0, 255, 0.5), rgba(255, 255, 0, 0.5)),url("http://www.basketusa.com/wp-content/uploads/2012/09/xoOxK.jpg");
-}
-
-.contacts
-{
-  border-radius: 5px;
-  overflow: auto;
-  height: 500px;
-  border: solid 2px;
-}
-
-.contact
-{
-  background:#E5E8E8;
-}
-.contact .card-body{
-  padding: 0;
-}
-.contact .card-body h4{
-  padding: 1.25rem;
-}
-
-.contact:hover{
-    background:#F1F1F1;
-}
+/*Fin diff messages */
 
 /*.contact .card-body h4.active
 {
@@ -65,23 +84,23 @@
 }
 */
 
-.chat-input-holder 
-{
-  display: flex;
+/* Input message */
+#sendMessage{
+  margin-top: 10px;
+  width: 720px;
 }
+.message-send{
+  border-radius: 10px;
+  width: 56px;
 
-.p
-{
-  font-size: 15px;
 }
-
 .chat-input
 {
-  resize: none;
+  border-radius: 10px;
+  width: 659px;
   padding: 5px 10px;
   height: 40px;
   font-size: 14px;
   color: black;
-  flex: 1;
   background: rgba(0, 0, 0, .05);
 }

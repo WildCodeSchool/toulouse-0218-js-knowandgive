@@ -22,12 +22,13 @@ const html = user => /* @html */`
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="recherche.css">
+    <link rel="stylesheet" href="/recherche.css">
     <link rel="stylesheet" href="/css/givemenStyle.css">
     <link rel="stylesheet" href="/css/chat.css">
     <link rel="stylesheet" href="/css/style.css">
@@ -37,7 +38,7 @@ const html = user => /* @html */`
 
     <title>Know & Give</title>
   </head>
-  <body>
+  <body onLoad="window.setTimeout('history.go(0)', 10000)">
     <div id="main">
 
     </div>
@@ -441,9 +442,11 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
 })
 //fin upload photo
 
-
-  app.get('/chat/people',(req, res) => {
-    const connectionId = 7
+  app.get('/messagerie/people',(req, res) => {
+    const contactId = req.query.contactId ?
+      Number(req.query.contactId) : undefined
+    const connectionId = req.session.user.id
+    console.log(req.session.user)
     const sql =`SELECT recipientId, senderId FROM Message WHERE senderId = ${connectionId}
     OR recipientId = ${connectionId}`
 
@@ -453,7 +456,8 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
           error: error.message
         })
       }
-      const profileIds = []
+      const profileIds = contactId ? [contactId] : []
+      console.log(profileIds)
       for (let message of results) {
         if (connectionId == message.senderId ) {
           if (profileIds.includes(message.recipientId) === false) {
@@ -469,11 +473,11 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
       }
 
       const finalQuery = `SELECT id, firstname, lastname FROM Profile WHERE id IN (${profileIds.join()}) `
-      console.log(results, profileIds, finalQuery)
+
         connection.query(finalQuery, (error, profiles) =>{
           if (error) return res.status(500).send(error.message);
           // const profilesId = resultats2[0].profileIds
-          console.log(profiles)
+
           res.json(profiles)
 
         })
@@ -481,14 +485,14 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
     })
   })
 
-    app.get('/chat/messages/:otherId',(req, res) => {
-      const connectionId = 7
+    app.get('/messagerie/messages/:otherId',(req, res) => {
+      const connectionId = req.session.user.id
       const otherId = req.params.otherId
       const sqlMessage = `SELECT message, dateTime, senderId, recipientId FROM Message WHERE (recipientId = ${connectionId}
       AND senderId = ${otherId})
       OR senderId = ${connectionId} AND recipientId = ${otherId}
       ORDER by dateTime ASC`
-
+    console.log(req.session.user.id, otherId)
       connection.query(sqlMessage, (error, results)=> {
         if (error) {
           return res.status(500).json({
@@ -502,15 +506,29 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
       })
 
     })
-    app.post('/chat',(req, res) => {
-      const connectionId = 7
+    app.post('/messagerie',(req, res) => {
+      const senderId = req.session.user.id
+      const recipientId = req.body.recipientId
       const message = req.body.message
-      console.log(req.body,req.session)
+      console.log(req.body.message)
+      const query = `INSERT INTO Message (senderId, recipientId, message)
+      VALUES ('${senderId}', '${recipientId}', '${message}')`
 
+
+      connection.query(query, (error, results) => {
+        if (error) {
+          return res.status(500).json({
+            error: error.message
+          })
+        }
+        const sendedMessage = results
+        console.log(sendedMessage)
+
+        res.json({
+          result: sendedMessage
+        })
+      })
   })
-
-    //const queryInsertMessage = `INSERT INTO Message (senderId, recipientId, dateTime, messages)
-    //value ()`
 
 
     app.get('/getProfileData/:profileId', (req, res ) => {
@@ -545,7 +563,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
         connection.query(finalQuery2, (error, pageProfil3) =>{
           if (error) return res.status(500).send(error.message)
               // const profilesId = resultats2[0].profileIds
-          console.log(pageProfil3)
+
             const skillNames = pageProfil3.map(skillObj => {
             return skillObj.skill
           })
@@ -554,7 +572,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
           const informationUser = pageProfil[0]
           informationUser.skills = skillNames
 
-          console.log(informationUser, pageProfil3)
+
 
           res.json(informationUser)
 
@@ -568,7 +586,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
 
 
 app.get('*', (req, res) => {
-    console.log(req.session.user)
+
     res.send(html(req.session.user))
     res.end()
 })

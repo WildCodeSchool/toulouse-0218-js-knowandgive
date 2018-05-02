@@ -129,7 +129,7 @@ app.post('/connexion', (req, res) => {
 
     const userConnection = req.body.userConnection
     const passwordConnection = req.body.passwordConnection
-    const query = `SELECT User.user, User,email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description FROM User, Profile WHERE User = '${userConnection}' AND User.id = Profile.userId`
+    const query = `SELECT User.user, User,email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description FROM User, Profile WHERE User.user = '${userConnection}' AND User.id = Profile.userId`
     // const query = `SELECT u.user, u.password, p.id FROM User u WHERE u.user = '${userConnection}' INNER JOIN Profile p ON u.id = p.userId`
 
   connection.query(query, (error, results) => {
@@ -209,7 +209,7 @@ app.post('/create-account', (req, res) => {
             })
           }
           const username = req.body.username
-          let request4 = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.description FROM User, Profile WHERE user = '${username}' AND userId = ${results.insertId}`
+          let request4 = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description FROM User, Profile WHERE user = '${username}' AND userId = ${results.insertId}`
           console.log(request4)
           connection.query(request4, (error, resultat) => {
             if (error){
@@ -229,17 +229,17 @@ app.post('/create-account', (req, res) => {
 })
 
 
-const updateLoggedUser = (req, res, next) => {
-  if((req.session !== undefined) && (req.session.user !== undefined)) {
-    const user = req.session.user
-    next()
-  }
-  else {
-    res.status(401).json({
-      error: 'Unauthorized Access'
-    })
-  }
-}
+// const updateLoggedUser = (req, res, next) => {
+//   if((req.session !== undefined) && (req.session.user !== undefined)) {
+//     const user = req.session.user
+//     next()
+//   }
+//   else {
+//     res.status(401).json({
+//       error: 'Unauthorized Access'
+//     })
+//   }
+// }
 
 //Gestion de l'envoi du formulaire sur serveur
 app.post('/informations-personnelles', (req, res) => {
@@ -271,7 +271,7 @@ app.post('/informations-personnelles', (req, res) => {
           error: error.message
         })
       }
-      const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin FROM Profile WHERE id = '${profileId}'`
+      const query = `SELECT User.user, User,email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description FROM User, Profile WHERE User.user = '${username}' AND Profile.userId = '${profileId}'`
       console.log(query)
       connection.query(query, (error, pagePerso) => {
         if (error) {
@@ -279,9 +279,9 @@ app.post('/informations-personnelles', (req, res) => {
             error: error.message
           })
         }
-        const infosPerso = pagePerso[0]
-        console.log(infosPerso)
-        res.json(infosPerso)
+        const user = pagePerso[0]
+        req.session.user = user
+        res.json(user)
       })
     })
   })

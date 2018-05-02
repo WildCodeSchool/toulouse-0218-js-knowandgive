@@ -1,5 +1,4 @@
 const render = require('./render')
-const vanthika = {"id":34,"lastname":"Yos","firstname":"Jack","zipCode":"50000","city":"Toulouse","photo":null,"linkedin":"linked.fr","description":"Je me présente."}
 
 function getContactInformations(infosPerso){
   return `
@@ -172,7 +171,6 @@ module.exports = () => {
     .then(response => response.json())
     .then(user => {
       LoggedInUser = user
-      page('/pagePerso')
       console.log(user)
       })
 

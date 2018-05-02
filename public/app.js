@@ -463,10 +463,10 @@ function removeBackdrops() {
 }
 
 
-const showContacts = () => {
+const showContacts = (context) => {
   let recipientId
   console.log(window.location)
-  const search = window.location.search.split("=")
+  const search = context.querystring.split("=")
   console.log(search)
   const contactId = search.pop()
   let url = '/messagerie/people'

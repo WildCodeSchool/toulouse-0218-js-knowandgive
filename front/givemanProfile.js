@@ -25,7 +25,7 @@ const pageProfilHtml = informations => /* @html */ `
     <div class="row">
         <div class="col-md-2">
           <img src="" alt="portrait" class=""><br/>
-          <a href="#" class="btn btn-primary">Contacter</a>
+          <a href="/messagerie?contactId=${informations.id}" class="btn btn-primary">Contacter</a>
         </div>
         <div class="col-md-10 skills">
 

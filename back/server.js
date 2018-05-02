@@ -9,7 +9,7 @@ const session = require('express-session')
 const fs = require('fs')
 const path = require('path')
 const staticPath = path.normalize(__dirname + '/../public')
-app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
+// app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
 app.use(express.static(staticPath))
 app.use(bodyParser.json())
 app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
@@ -35,7 +35,7 @@ const html = user => /* @html */`
     <title>Know & Give</title>
   </head>
   <body >
-  <!--  onLoad="window.setTimeout('history.go(0)', 10000)" -->
+
     <div id="main">
     </div>
   </body>
@@ -93,6 +93,19 @@ const html = user => /* @html */`
 
 // Fin de test Thomas //
 
+app.get('/logout', (req,res) => {
+  req.session.destroy(function(err){
+    if(err){
+      console.log(err)
+    }
+    else{
+      res.redirect('/')
+    }
+  })
+})
+
+
+
 const checkLoggedInUser = (req, res, next) => {
   if((req.session !== undefined) && (req.session.user !== undefined)) {
     const user = req.session.user
@@ -110,7 +123,7 @@ app.post('/connexion', (req, res) => {
 
     const userConnection = req.body.userConnection
     const passwordConnection = req.body.passwordConnection
-    const query = `SELECT User.user, User.password, Profile.id FROM User, Profile WHERE User = '${userConnection}' AND User.id = Profile.userId`
+    const query = `SELECT User.user, User.password, Profile.id, Profile.photo FROM User, Profile WHERE User = '${userConnection}' AND User.id = Profile.userId`
     // const query = `SELECT u.user, u.password, p.id FROM User u WHERE u.user = '${userConnection}' INNER JOIN Profile p ON u.id = p.userId`
 
   connection.query(query, (error, results) => {
@@ -165,13 +178,13 @@ app.post('/create-account', (req, res) => {
         error: error.message
       })
     }
-    if ((resultats.length > 0) && (resultats[0].user == username)) {
+    if ((resultats.length > 0) && (resultats[0].user === username)) {
       console.log('Identifiant déjà pris')
       return res.status(400).json({
         error: 'Identifiant déjà pris'
       })
     }
-    if ((email == confirmEmail) && (password == confirmPassword)) {
+    if ((email === confirmEmail) && (password === confirmPassword)) {
       request2 = `INSERT INTO User (user, email, password) VALUES ('${username}', '${confirmEmail}', '${confirmPassword}')`
       connection.query(request2, (error, results) => {
         if (error) {
@@ -217,32 +230,172 @@ app.post('/informations-personnelles', (req, res) => {
   const prenom = req.body.firstname
   const codePostal = req.body.zipCode
   const ville = req.body.city
-  // const email = req.body.email
+  let profileId = req.session.user.id
   const linkedin = req.body.linkedin
-  const description = req.body.description
 
-  const query1 = `UPDATE Profile SET lastname = '${nom}', firstname = '${prenom}', zipCode = '${codePostal}', city = '${ville}', linkedin = '${linkedin}', description = '${description}' WHERE id = '32'`
-  // const query2 = `UPDATE User SET email = '${email}'`
+
+  const query1 = `UPDATE Profile SET lastname = '${nom}', firstname = '${prenom}', zipCode = '${codePostal}', city = '${ville}', linkedin = '${linkedin}' WHERE id = '${profileId}'`
+  console.log(query1)
   connection.query(query1, (error, resultats) => {
     if (error) {
       return res.status(500).json({
         error: error.message
       })
     }
-    const profile = resultats
-    console.log(profile)
-    res.json({result: profile})
+    const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin FROM Profile WHERE id = '${profileId}'`
+    console.log(query)
+    connection.query(query, (error, pagePerso) => {
+      if (error) {
+        return res.status(500).json({
+          error: error.message
+        })
+      }
+      const infosPerso = pagePerso[0]
+      console.log(infosPerso)
+      res.json(infosPerso)
+    })
   })
 })
+
+app.post('/description', (req, res) => {
+  console.log(req.body)
+
+  const description = req.body.description
+  let profileId = req.session.user.id
+
+
+  const query1 = `UPDATE Profile SET description = '${description}' WHERE id = '${profileId}'`
+  console.log(query1)
+  connection.query(query1, (error, resultats) => {
+    if (error) {
+      return res.status(500).json({
+        error: error.message
+      })
+    }
+    const query = `SELECT description FROM Profile WHERE id = '${profileId}'`
+    console.log(query)
+    connection.query(query, (error, pagePerso) => {
+      if (error) {
+        return res.status(500).json({
+          error: error.message
+        })
+      }
+      const infosPerso = pagePerso[0]
+      console.log(infosPerso)
+      res.json(infosPerso)
+    })
+  })
+})
+
+
+app.post('/competences', (req, res) => {
+  console.log(req.body)
+
+  const competence = req.body.competence
+  let request1 = `SELECT id, skill FROM Skill where skill = '${competence}'`
+  let LoggedInUserId = req.session.user.id
+  const profileId = LoggedInUserId
+
+//1. On vérifie si la compétence existe
+  connection.query(request1, (error, results) => {
+    if (error) {
+      return res.status(500).json({
+        error: error.message
+      })
+    }
+// 2. Cas où elle existe
+    if(results.length > 0) {
+      const skill = results[0]
+      console.log(skill)
+      const skillId = skill.id
+      let request2 = `INSERT INTO ProfileSkill (skillId, profileId) VALUES ('${skillId}', '${profileId}')`
+      console.log(request2)
+      connection.query(request2, (error, result) => {
+        if (error) {
+          return res.status(500).json({
+            error: error.message
+          })
+        }
+        const profileSkill = result
+        console.log(profileSkill)
+        return res.json({result: profileSkill})
+      })
+    }
+//2. Cas où elle n'existe pas
+    const query1 = `INSERT INTO Skill (skill) VALUES ('${competence}')`
+
+    connection.query(query1, (error, resultats) => {
+      if (error) {
+        return res.status(500).json({
+          error: error.message
+        })
+      }
+      const competenceEntree = resultats
+      console.log(competenceEntree)
+      const query2 = `INSERT INTO ProfileSkill (skillId, profileId) VALUES ('${resultats.insertId}', '${profileId}') `
+      console.log(query2)
+      connection.query(query2, (error, result) => {
+        if (error) {
+          return res.status(500).json({
+            error: error.message
+          })
+        }
+        const newSkill = result
+        console.log(newSkill)
+        res.json({result: newSkill})
+      })
+    })
+  })
+})
+
+
+
 //Fin gestion du formulaire
 
+
+//Récuperer les informations de la page personnelle
+// app.get('/coordonnées', (req,res) => {
+//   let profileId = req.session.user.id
+//   const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin, description FROM Profile WHERE id = '${profileId}'`
+//   console.log(query)
+//   connection.query(query, (error, pagePerso) => {
+//     if (error) {
+//       return res.status(500).json({
+//         error: error.message
+//       })
+//     }
+//     const infosPerso = pagePerso[0]
+//     console.log(infosPerso)
+//     res.json(infosPerso)
+//   })
+// })
+const slugify = (str) => {
+  str = str.replace(/^\s+|\s+$/g, ''); // trim
+  str = str.toLowerCase();
+
+  // remove accents, swap ñ for n, etc
+  const from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+  const to   = "aaaaeeeeiiiioooouuuunc------";
+
+  for (let i=0, l=from.length ; i<l ; i++)
+    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+
+
+  str = str.replace(/[^a-z0-9 -.]/g, '') // remove invalid chars
+    .replace(/\s+/g, '-') // collapse whitespace and replace by -
+    .replace(/-+/g, '-'); // collapse dashes
+
+  return str
+}
 
 //fonction upload de la photo
 app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, next) {
     //traitement du formulaire
-    fs.rename(req.file.path, './public/images/' + req.file.originalname, function(err) {
+    console.log(req.session.user)
+    const fileName = slugify(`${req.session.user.user}-${req.file.originalname}`)
+    fs.rename(req.file.path, './public/images/' + fileName, function(err) {
       if (err) {
-        res.status(500).json({
+        return res.status(500).json({
           error: error.message
         })
       }
@@ -251,13 +404,22 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
       //   res.send('Type de fichier non-supporté')
       // }
       //Limite de poids du fichier
-      if (req.file.size > 1300000) {
-        res.send('Fichier trop gros')
+      if (req.file.size > 2000000) {
+        return res.status(413).json({
+          error: 'Fichier trop important (2Mo max autorisé)'
+        })
       }
       //Succès de l'upload
-      else {
-      res.send('Fichier uploadé avec succès')
-      }
+      // res.send('Fichier uploadé avec succès')
+      const updatePhoto = `UPDATE Profile SET photo = '${fileName}' WHERE id = ${req.session.user.id}`
+      connection.query(updatePhoto, (error, resultats) => {
+        if (error) {
+          return res.status(500).json({
+            error: error.message
+          })
+        }
+        res.json({fileName})
+      })
     })
     //Fin traitement formulaire
 })
@@ -354,7 +516,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
 
     app.get('/getProfileData/:profileId', (req, res ) => {
       const profileId = req.params.profileId
-      const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin FROM Profile WHERE id = ${profileId}`
+      const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin, description FROM Profile WHERE id = ${profileId}`
 
       connection.query(query, (error, pageProfil) => {
         if(error) {
@@ -367,9 +529,6 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
             error: `${profileId} not found`
           })
         }
-
-
-        // res.json(pageProfil[0])
 
         const sqlPivot2 = `SELECT skillId FROM ProfileSkill WHERE profileId = ${profileId}`
 

@@ -7,7 +7,7 @@ module.exports = /* @html */ `
         <ul class="navbar-nav mr-auto">
             <a href="/messagerie"><span class="icon-envelop fa-2x"></span></a>
             <a href="/pagePerso"><span class="icon-user fa-2x"></span></a>
-            <a href="/"><span class="icon-switch fa-2x"></span></a>
+            <a href="/logout"><span class="icon-switch fa-2x"></span></a>
         </ul>
       </div>
     </div>

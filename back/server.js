@@ -99,8 +99,10 @@ const html = user => /* @html */`
 
 app.get('/logout', (req,res) => {
   req.session.destroy(function(err){
-    if(err){
-      console.log(err)
+    if (error) {
+      return res.status(500).json({
+        error: error.message
+      })
     }
     else{
       res.redirect('/')
@@ -261,6 +263,7 @@ app.post('/informations-personnelles', (req, res) => {
   })
 })
 
+// Gestion de la description de l'utilisateur
 app.post('/description', (req, res) => {
   console.log(req.body)
 
@@ -291,7 +294,7 @@ app.post('/description', (req, res) => {
   })
 })
 
-
+//Gestion d'entrer de compétences
 app.post('/competences', (req, res) => {
   console.log(req.body)
 

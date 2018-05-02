@@ -99,7 +99,7 @@ const navbarHtml = /* @html */ `
                         <input form="form-post" type="submit" class="btn btn-primary" value="Valider" />
                     </div>
                   </div>
-                </ul>
+              </ul>
       </div>
   </nav>
 `
@@ -114,7 +114,8 @@ const navbarBisHtml = /* @html */ `
         <ul class="navbar-nav mr-auto">
             <a href="/messagerie"><span class="icon-envelop fa-2x"></span></a>
             <a href="/pagePerso"><span class="icon-user fa-2x"></span></a>
-            <a href="/"><span class="icon-switch fa-2x"></span></a>
+            <!-- Faire un bouton -->
+            <button class="icon-switch fa-2x" id="logout" method="GET" action="/logout"></button>
         </ul>
       </div>
     </div>

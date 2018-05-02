@@ -28,8 +28,6 @@ const render = require('./render')
       </div>
       `
 
-const connectionId = 7
-
 
       function getMessageHTML(message) {
         let offset = (connectionId == message.senderId) ? "'col-md-3 offset-md-6'" : "'col-md-4'"

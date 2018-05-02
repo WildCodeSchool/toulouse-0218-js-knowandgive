@@ -241,14 +241,9 @@ const pagePersoHtml = infosPerso => /* @html */ `
                <div class="col-md-6">
                   <div class="form-group skills">
                    <h2>Compétences</h2>
-                     <span class="badge badge-pill badge-success">Jardinage</span>
-                     <span class="badge badge-pill badge-success">Famille</span>
-                     <span class="badge badge-pill badge-success">Decoration</span>
-                     <span class="badge badge-pill badge-success">Bricolage</span>
-                     <span class="badge badge-pill badge-success">Enseignement</span>
-                     <span class="badge badge-pill badge-success">Cuisine</span>
-                     <span class="badge badge-pill badge-success">Mode et beauté</span>
-                     <span class="badge badge-pill badge-success">Art</span><br />
+                     <span class="badge badge-pill badge-success">
+                     ${informations.skills.map(getSkillBadge).join('')}
+                     </span><br />
                      <form id="formSkill" method="POST" action="/competences">
                        <input type="text" class="form-control" id="competence" name="competence">
                      </form>
@@ -511,7 +506,7 @@ module.exports = /* @html */ `
         <ul class="navbar-nav mr-auto">
             <a href="/messagerie"><span class="icon-envelop fa-2x"></span></a>
             <a href="/pagePerso"><span class="icon-user fa-2x"></span></a>
-            <a href="/"><span class="icon-switch fa-2x"></span></a>
+            <a href="/logout"><span class="icon-switch fa-2x"></span></a>
         </ul>
       </div>
     </div>
@@ -880,7 +875,7 @@ module.exports = /* @html */ `<div class="giveman">
           <ul>
             <li class="valeur1"><img src="img/giveman.png" alt="vignette valeur 1" width="3%">Un giveman sait qu'il ne connait rien <b>MAIS</b> veut connaitre.</li>
             <li class="valeur2"><img src="img/giveman.png" alt="vignette valeur 2" width="3%">Un giveman a le <b>coeur</b> sur la main.</li>
-            <li class="valeur3"><img src="img/giveman.png" alt="vignette valeur 3" width="3%">Un giveman aime <b>donner</b> et <b>recevoir</b>..</li>
+            <li class="valeur3"><img src="img/giveman.png" alt="vignette valeur 3" width="3%">Un giveman aime <b>donner</b> et <b>recevoir</b>.</li>
             <li class="valeur4"><img src="img/giveman.png" alt="vignette valeur 4" width="3%">Un giveman appartient à une <b>communauté</b> de <b>partage</b> et d'<b>entraide</b>.</li>
             <li class="valeur5"><img src="img/giveman.png" alt="vignette valeur 5" width="3%">Un giveman est <b>curieux</b> et à l'affut de nouvelles connaissances.</li>
             <li class="valeur6"><img src="img/giveman.png" alt="vignette valeur 6" width="3%">Un giveman est <b>universel</b>.</li>

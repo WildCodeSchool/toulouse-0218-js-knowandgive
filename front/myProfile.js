@@ -1,4 +1,5 @@
 const render = require('./render')
+const vanthika = {"id":34,"lastname":"Yos","firstname":"Jack","zipCode":"50000","city":"Toulouse","photo":null,"linkedin":"linked.fr","description":"Je me présente."}
 
 function getContactInformations(infosPerso){
   return `
@@ -91,14 +92,9 @@ const pagePersoHtml = infosPerso => /* @html */ `
                <div class="col-md-6">
                   <div class="form-group skills">
                    <h2>Compétences</h2>
-                     <span class="badge badge-pill badge-success">Jardinage</span>
-                     <span class="badge badge-pill badge-success">Famille</span>
-                     <span class="badge badge-pill badge-success">Decoration</span>
-                     <span class="badge badge-pill badge-success">Bricolage</span>
-                     <span class="badge badge-pill badge-success">Enseignement</span>
-                     <span class="badge badge-pill badge-success">Cuisine</span>
-                     <span class="badge badge-pill badge-success">Mode et beauté</span>
-                     <span class="badge badge-pill badge-success">Art</span><br />
+                     <span class="badge badge-pill badge-success">
+                     ${informations.skills.map(getSkillBadge).join('')}
+                     </span><br />
                      <form id="formSkill" method="POST" action="/competences">
                        <input type="text" class="form-control" id="competence" name="competence">
                      </form>
@@ -169,6 +165,7 @@ module.exports = () => {
     .then(response => response.json())
     .then(user => {
       LoggedInUser = user
+      page('/pagePerso')
       console.log(user)
       })
 

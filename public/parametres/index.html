@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Exemple paramètres page.js</title>
+  </head>
+  <body>
+    <div id="main">
+
+    </div>
+    <script src="../page.js"></script>
+    <script>
+      const divMain = document.getElementById('main')
+      function afficheAccueil() {
+        divMain.innerHTML = `<h2>Accueil</h2>
+          <ul>
+            <li><a href="/parametres/auteurs/thomas/articles/le-javascript-ca-va-5-minutes/">Le JS ça va 5 minutes</a></li>
+            <li><a href="/parametres/auteurs/benoit/articles/le-javascript-jaime-ca/">Le JS c'est bon</a></li>
+          </ul>
+        `
+      }
+
+      function afficheArticle(context) {
+        const nomAuteur = context.params.nomAuteur
+        const nomArticle = context.params.nomArticle
+        divMain.innerHTML = `Vous avez demandé l'article "${nomArticle}" publié par ${nomAuteur}`
+        console.log(context)
+      }
+
+      function afficheNonTrouve() {
+        divMain.innerHTML = 'Non trouvé'
+      }
+
+      page('/parametres/', afficheAccueil)
+      page('/parametres/auteurs/:nomAuteur/articles/:nomArticle/', afficheArticle)
+      page('/parametres/*', afficheNonTrouve)
+
+      page()
+    </script>
+  </body>
+</html>

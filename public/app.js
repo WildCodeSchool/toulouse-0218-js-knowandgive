@@ -242,8 +242,9 @@ const pagePersoHtml = infosPerso => /* @html */ `
                   <div class="form-group skills">
                    <h2>Compétences</h2>
                      <span class="badge badge-pill badge-success">
-                     ${informations.skills.map(getSkillBadge).join('')}
-                     </span><br />
+                     ${infosPerso.skills.map(getSkillBadge).join('')}
+
+                      </span><br />
                      <form id="formSkill" method="POST" action="/competences">
                        <input type="text" class="form-control" id="competence" name="competence">
                      </form>
@@ -253,6 +254,18 @@ const pagePersoHtml = infosPerso => /* @html */ `
            </div>
        </div>
 `
+
+function getSkillBadge(skill) {
+  return `<span class="badge badge-pill">
+    ${skill}
+  </span>`
+
+}
+
+// function getSkillBadgeFromBDD(infosPerso) {
+//   `<span class="badge badge-pill"></span>`
+// }
+
 module.exports = () => {
   console.log('Page perso', LoggedInUser)
   render(pagePersoHtml(LoggedInUser))

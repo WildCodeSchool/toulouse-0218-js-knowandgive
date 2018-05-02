@@ -511,6 +511,8 @@ const showContacts = () => {
 
             console.log(input.value)
             const data = {message: input.value, recipientId: recipientId}
+            input.value = ''
+
             fetch('/messagerie', {
               method: 'POST',
               headers: {

@@ -15,13 +15,12 @@
   overflow: auto;
   height: 500px;
   border: solid 2px;
-  background-image: linear-gradient(to top, #37ecba 0%, #72afd3 100%);
+  background: #37ecba;
 
 }
 
 .contact{
-  background-image: linear-gradient(to top, #37ecba 0%, #72afd3 100%);
-
+background: #37ecba;
 }
 .row-messagerie{
   width: 720px;

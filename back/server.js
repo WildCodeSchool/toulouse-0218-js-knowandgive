@@ -309,10 +309,10 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
     app.get('/messagerie/messages/:otherId',(req, res) => {
       const connectionId = req.session.user.id
       const otherId = req.params.otherId
-      const sqlMessage = `SELECT message, dateTime, senderId, recipientId FROM Message WHERE (recipientId = ${connectionId}
+      const sqlMessage = `SELECT message,DATE_FORMAT(dateTime, '%H:%i %d/%m/%Y ')  as dateTime, senderId, recipientId FROM Message WHERE (recipientId = ${connectionId}
       AND senderId = ${otherId})
       OR senderId = ${connectionId} AND recipientId = ${otherId}
-      ORDER by dateTime ASC`
+      ORDER by Message.dateTime ASC`
     console.log(req.session.user.id, otherId)
       connection.query(sqlMessage, (error, results)=> {
         if (error) {

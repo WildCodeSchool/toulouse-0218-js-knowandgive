@@ -352,6 +352,8 @@ app.post('/competences', (req, res) => {
   })
 })
 
+
+
 //Fin gestion du formulaire
 
 
@@ -371,33 +373,62 @@ app.post('/competences', (req, res) => {
 //     res.json(infosPerso)
 //   })
 // })
+const slugify = (str) => {
+  str = str.replace(/^\s+|\s+$/g, ''); // trim
+  str = str.toLowerCase();
 
+  // remove accents, swap ñ for n, etc
+  const from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+  const to   = "aaaaeeeeiiiioooouuuunc------";
+
+  for (let i=0, l=from.length ; i<l ; i++)
+    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+
+
+  str = str.replace(/[^a-z0-9 -.]/g, '') // remove invalid chars
+    .replace(/\s+/g, '-') // collapse whitespace and replace by -
+    .replace(/-+/g, '-'); // collapse dashes
+
+  return str
+}
 
 //fonction upload de la photo
 app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, next) {
     //traitement du formulaire
-    fs.rename(req.file.path, './public/images/' + req.file.originalname, function(err) {
+    console.log(req.session.user)
+    const fileName = slugify(`${req.session.user.user}-${req.file.originalname}`)
+    fs.rename(req.file.path, './public/images/' + fileName, function(err) {
       if (err) {
-        res.status(500).json({
+        return res.status(500).json({
           error: error.message
         })
       }
-    //Type de fichier
-      // if (req.file.mimetype !== 'image/jpeg') {
+      //Type de fichier
+      // if (req.file.mimetype !== image/jpeg) {
       //   res.send('Type de fichier non-supporté')
       // }
       //Limite de poids du fichier
-      if (req.file.size > 1300000) {
-        res.send('Fichier trop gros')
+      if (req.file.size > 2000000) {
+        return res.status(413).json({
+          error: 'Fichier trop important (2Mo max autorisé)'
+        })
       }
       //Succès de l'upload
-      else {
-      res.send('Fichier uploadé avec succès')
-      }
+      // res.send('Fichier uploadé avec succès')
+      const updatePhoto = `UPDATE Profile SET photo = '${fileName}' WHERE id = ${req.session.user.id}`
+      connection.query(updatePhoto, (error, resultats) => {
+        if (error) {
+          return res.status(500).json({
+            error: error.message
+          })
+        }
+        res.json({fileName})
+      })
     })
     //Fin traitement formulaire
 })
 //fin upload photo
+
 
   app.get('/chat/people',(req, res) => {
     const connectionId = 7

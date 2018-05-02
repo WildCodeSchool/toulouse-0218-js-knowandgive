@@ -68,6 +68,7 @@ const pagePersoHtml = infosPerso => /* @html */ `
        <div class="container" id="formInfo">
            <div class="row">
                <div class="col-md-6 imgProfil">
+                 <img src="" alt="photo de profil">
                    <!-- Upload de la photo -->
                    <form method="POST" id="file-form" enctype="multipart/form-data" action="/uploaddufichier">
                       <input type="file" id="file-select" name="monfichier">

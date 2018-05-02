@@ -138,7 +138,7 @@ const checkLoginMiddleware = (context, next) => {
 
 page("/", home)
 page("/pagePerso",checkLoginMiddleware, showMyProfile)
-page("/chat", checkLoginMiddleware, showContacts)
+page("/messagerie", checkLoginMiddleware, showContacts)
 page("/pageProfil/:profilId", showPageProfil1)
 page()
 
@@ -174,6 +174,12 @@ function getContactInformations(infosPerso){
               <label for="city" class="col-sm-4 col-form-label">Ville :</label>
               <div class="col-sm-6">
                   <input type="text" class="form-control" id="city" name="city" value="${infosPerso.city}">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label for="email" class="col-sm-4 col-form-label">Email : </label>
+              <div class="col-sm-6">
+                  <input type="text" class="form-control" id="email" name="email">
               </div>
           </div>
           <div class="form-group row">
@@ -665,7 +671,7 @@ const connectionId = 7
 module.exports = () => {
   let recipientId
   // 1. Récupération des données depuis le serveur
-  fetch('/chat/people')
+  fetch('/messagerie/people')
   .then(response => response.json())
   .then(contacts => {
     // 2. Affichage
@@ -682,7 +688,7 @@ module.exports = () => {
         console.log(event.target.dataset.id)
         event.target.classList.add('active')
         recipientId = event.target.dataset.id
-        fetch(`/chat/messages/${event.target.dataset.id}`)
+        fetch(`/messagerie/messages/${event.target.dataset.id}`)
         .then(response => response.json())
         .then(messages => {
           const divMessages = document.getElementById('messages')
@@ -694,7 +700,7 @@ module.exports = () => {
             const input = formSendMessage.getElementsByTagName('input')[0]
             console.log(input.value)
             const data = {message: input.value, recipientId: recipientId}
-            fetch('/chat', {
+            fetch('/messagerie', {
               method: 'POST',
               headers: {
                 Accept: 'application/json',

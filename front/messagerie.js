@@ -60,7 +60,7 @@ const connectionId = 7
 module.exports = () => {
   let recipientId
   // 1. Récupération des données depuis le serveur
-  fetch('/chat/people')
+  fetch('/messagerie/people')
   .then(response => response.json())
   .then(contacts => {
     // 2. Affichage
@@ -77,7 +77,7 @@ module.exports = () => {
         console.log(event.target.dataset.id)
         event.target.classList.add('active')
         recipientId = event.target.dataset.id
-        fetch(`/chat/messages/${event.target.dataset.id}`)
+        fetch(`/messagerie/messages/${event.target.dataset.id}`)
         .then(response => response.json())
         .then(messages => {
           const divMessages = document.getElementById('messages')
@@ -89,7 +89,7 @@ module.exports = () => {
             const input = formSendMessage.getElementsByTagName('input')[0]
             console.log(input.value)
             const data = {message: input.value, recipientId: recipientId}
-            fetch('/chat', {
+            fetch('/messagerie', {
               method: 'POST',
               headers: {
                 Accept: 'application/json',

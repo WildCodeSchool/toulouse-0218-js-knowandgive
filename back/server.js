@@ -129,7 +129,7 @@ app.post('/connexion', (req, res) => {
 
     const userConnection = req.body.userConnection
     const passwordConnection = req.body.passwordConnection
-    const query = `SELECT User.user, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.description FROM User, Profile WHERE User = '${userConnection}' AND User.id = Profile.userId`
+    const query = `SELECT User.user, User,email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description FROM User, Profile WHERE User = '${userConnection}' AND User.id = Profile.userId`
     // const query = `SELECT u.user, u.password, p.id FROM User u WHERE u.user = '${userConnection}' INNER JOIN Profile p ON u.id = p.userId`
 
   connection.query(query, (error, results) => {
@@ -209,7 +209,7 @@ app.post('/create-account', (req, res) => {
             })
           }
           const username = req.body.username
-          let request4 = `SELECT User.user, User.email, Profile.id FROM User, Profile WHERE user = '${username}' AND userId = ${results.insertId}`
+          let request4 = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.description FROM User, Profile WHERE user = '${username}' AND userId = ${results.insertId}`
           console.log(request4)
           connection.query(request4, (error, resultat) => {
             if (error){
@@ -228,6 +228,19 @@ app.post('/create-account', (req, res) => {
   })
 })
 
+
+const updateLoggedUser = (req, res, next) => {
+  if((req.session !== undefined) && (req.session.user !== undefined)) {
+    const user = req.session.user
+    next()
+  }
+  else {
+    res.status(401).json({
+      error: 'Unauthorized Access'
+    })
+  }
+}
+
 //Gestion de l'envoi du formulaire sur serveur
 app.post('/informations-personnelles', (req, res) => {
   console.log(req.body)
@@ -236,8 +249,10 @@ app.post('/informations-personnelles', (req, res) => {
   const prenom = req.body.firstname
   const codePostal = req.body.zipCode
   const ville = req.body.city
-  let profileId = req.session.user.id
+  const email = req.body.email
   const linkedin = req.body.linkedin
+  let profileId = req.session.user.id
+  let username = req.session.user.user
 
 
   const query1 = `UPDATE Profile SET lastname = '${nom}', firstname = '${prenom}', zipCode = '${codePostal}', city = '${ville}', linkedin = '${linkedin}' WHERE id = '${profileId}'`
@@ -248,17 +263,26 @@ app.post('/informations-personnelles', (req, res) => {
         error: error.message
       })
     }
-    const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin FROM Profile WHERE id = '${profileId}'`
+    const query = `UPDATE User SET email = '${email}' WHERE user = '${username}'`
     console.log(query)
-    connection.query(query, (error, pagePerso) => {
+    connection.query(query, (error, result) => {
       if (error) {
         return res.status(500).json({
           error: error.message
         })
       }
-      const infosPerso = pagePerso[0]
-      console.log(infosPerso)
-      res.json(infosPerso)
+      const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin FROM Profile WHERE id = '${profileId}'`
+      console.log(query)
+      connection.query(query, (error, pagePerso) => {
+        if (error) {
+          return res.status(500).json({
+            error: error.message
+          })
+        }
+        const infosPerso = pagePerso[0]
+        console.log(infosPerso)
+        res.json(infosPerso)
+      })
     })
   })
 })
@@ -357,52 +381,66 @@ app.post('/competences', (req, res) => {
   })
 })
 
+
+
 //Fin gestion du formulaire
 
+const slugify = (str) => {
+  str = str.replace(/^\s+|\s+$/g, ''); // trim
+  str = str.toLowerCase();
 
-// Récuperer les informations de la page personnelle
-// app.get('/coordonnees', (req,res) => {
-//   let profileId = req.session.user.id
-//   const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin, description FROM Profile WHERE id = '${profileId}'`
-//   console.log(query)
-//   connection.query(query, (error, pagePerso) => {
-//     if (error) {
-//       return res.status(500).json({
-//         error: error.message
-//       })
-//     }
-//     const infosPerso = pagePerso[0]
-//     console.log(infosPerso)
-//     res.json(infosPerso)
-//   })
-// })
+  // remove accents, swap ñ for n, etc
+  const from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+  const to   = "aaaaeeeeiiiioooouuuunc------";
 
+  for (let i=0, l=from.length ; i<l ; i++)
+    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+
+
+  str = str.replace(/[^a-z0-9 -.]/g, '') // remove invalid chars
+    .replace(/\s+/g, '-') // collapse whitespace and replace by -
+    .replace(/-+/g, '-'); // collapse dashes
+
+  return str
+}
 
 //fonction upload de la photo
 app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, next) {
     //traitement du formulaire
-    fs.rename(req.file.path, './public/images/' + req.file.originalname, function(err) {
+    console.log(req.session.user)
+    const fileName = slugify(`${req.session.user.user}-${req.file.originalname}`)
+    fs.rename(req.file.path, './public/images/' + fileName, function(err) {
       if (err) {
-        res.status(500).json({
+        return res.status(500).json({
           error: error.message
         })
       }
-    //Type de fichier
-      // if (req.file.mimetype !== 'image/jpeg') {
+      //Type de fichier
+      // if (req.file.mimetype !== image/jpeg) {
       //   res.send('Type de fichier non-supporté')
       // }
       //Limite de poids du fichier
-      if (req.file.size > 1300000) {
-        res.send('Fichier trop gros')
+      if (req.file.size > 2000000) {
+        return res.status(413).json({
+          error: 'Fichier trop important (2Mo max autorisé)'
+        })
       }
       //Succès de l'upload
-      else {
-      res.send('Fichier uploadé avec succès')
-      }
+      // res.send('Fichier uploadé avec succès')
+      const updatePhoto = `UPDATE Profile SET photo = '${fileName}' WHERE id = ${req.session.user.id}`
+      connection.query(updatePhoto, (error, resultats) => {
+        if (error) {
+          return res.status(500).json({
+            error: error.message
+          })
+        }
+        res.json({fileName})
+      })
     })
     //Fin traitement formulaire
 })
 //fin upload photo
+
 
   app.get('/chat/people',(req, res) => {
     const connectionId = 7

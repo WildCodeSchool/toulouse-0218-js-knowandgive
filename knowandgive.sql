@@ -56,13 +56,13 @@ DROP TABLE IF EXISTS `Profile`;
 CREATE TABLE `Profile` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userId` int(11) NOT NULL,
-  `lastname` varchar(100) DEFAULT NULL,
-  `firstname` varchar(100) DEFAULT NULL,
-  `zipCode` int(11) DEFAULT NULL,
-  `city` varchar(100) DEFAULT NULL,
-  `photo` varchar(250) DEFAULT NULL,
-  `linkedin` varchar(250) DEFAULT NULL,
-  `description` text DEFAULT NULL,
+  `lastname` varchar(100) DEFAULT '',
+  `firstname` varchar(100) DEFAULT '',
+  `zipCode` int(11) DEFAULT '',
+  `city` varchar(100) DEFAULT '',
+  `photo` varchar(250) DEFAULT '',
+  `linkedin` varchar(250) DEFAULT '',
+  `description` varchar(2500) DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;

@@ -35,6 +35,12 @@ function getContactInformations(infosPerso){
               </div>
           </div>
           <div class="form-group row">
+              <label for="email" class="col-sm-4 col-form-label">Email : </label>
+              <div class="col-sm-6">
+                  <input type="text" class="form-control" id="email" name="email" value="${infosPerso.email}">
+              </div>
+          </div>
+          <div class="form-group row">
               <label for="linkedin" class="col-sm-4 col-form-label">Linkedin : </label>
               <div class="col-sm-6">
                   <input type="text" class="form-control" id="linkedin" name="linkedin" value="${infosPerso.linkedin}">
@@ -44,7 +50,6 @@ function getContactInformations(infosPerso){
   `
 }
 
-console.log(getContactInformations(vanthika))
 
 function getDescription(infosPerso){
   return `
@@ -64,6 +69,8 @@ const pagePersoHtml = infosPerso => /* @html */ `
        <div class="container" id="formInfo">
            <div class="row">
                <div class="col-md-6 imgProfil">
+                 <img src="images/${infosPerso.photo}" alt="photo de profil" width="40%">
+
                    <!-- Upload de la photo -->
                    <form method="POST" id="file-form" enctype="multipart/form-data" action="/uploaddufichier">
                       <input type="file" id="file-select" name="monfichier">

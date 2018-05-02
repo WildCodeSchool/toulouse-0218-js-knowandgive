@@ -6,6 +6,7 @@
 
 .envoie
 {
+  width: 300px;
   background: #7acd47;
   margin-bottom: 10px;
   margin-top: 10px;
@@ -14,22 +15,24 @@
 
 .recu
 {
+  width: 300px;
+  margin-left: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
   background: #95c2fd;
   border-radius: 15px;
 }
 
-.messagerie
-{
-  border-radius: 5px;
+/*.messagerie{
   border: solid 2px;
-}
+
+}*/
 
 .contenu-message
 {
   overflow: auto;
   height: 500px;
+  color: black;
   background-image: linear-gradient(rgba(0, 0, 255, 0.5), rgba(255, 255, 0, 0.5)),url("http://www.basketusa.com/wp-content/uploads/2012/09/xoOxK.jpg");
 }
 
@@ -62,7 +65,7 @@
 }
 */
 
-.chat-input-holder
+.chat-input-holder 
 {
   display: flex;
 }

@@ -53,7 +53,7 @@ function getMessageHTML(message) {
   `
 }
 const messagesHTML = messages => /* @html */`
-  <div class="contenu-message">
+  <div id="liste-messages" class="contenu-message">
       ${
         messages.map(getMessageHTML).join('\n')
       }
@@ -108,6 +108,7 @@ module.exports = (context) => {
         .then(messages => {
           const divMessages = document.getElementById('messages')
           divMessages.innerHTML = messagesHTML(messages)
+          const listeMessages = document.getElementById('liste-messages')
 
           const formSendMessage = document.getElementById('sendMessage')
           formSendMessage.addEventListener('submit', function (event) {
@@ -126,6 +127,10 @@ module.exports = (context) => {
               },
               credentials: 'include',
               body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(message => {
+              listeMessages.innerHTML += getMessageHTML(message)
             })
           })
         })

@@ -498,18 +498,28 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
       VALUES ('${senderId}', '${recipientId}', '${message}')`
 
 
-      connection.query(query, (error, results) => {
+      connection.query(query, (error, result) => {
         if (error) {
           return res.status(500).json({
             error: error.message
           })
         }
-        const sendedMessage = results
-        console.log(sendedMessage)
+        // const sendedMessage = results
+        // console.log(sendedMessage)
 
-        res.json({
-          result: sendedMessage
-        })
+        // res.json({
+          // result: sendedMessage
+        // })
+        const selectQuery = `SELECT message,DATE_FORMAT(dateTime, '%H:%i %d/%m/%Y ')
+          as dateTime, senderId, recipientId FROM Message WHERE id = ${result.insertId}`
+          connection.query(selectQuery, (error, messages) => {
+            if (error) {
+              return res.status(500).json({
+                error: error.message
+              })
+            }
+            res.json(messages[0])
+          })
       })
   })
 

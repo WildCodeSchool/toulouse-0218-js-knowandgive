@@ -129,7 +129,7 @@ app.post('/connexion', (req, res) => {
 
     const userConnection = req.body.userConnection
     const passwordConnection = req.body.passwordConnection
-    const query = `SELECT User.user, User,email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.description FROM User, Profile WHERE User = '${userConnection}' AND User.id = Profile.userId`
+    const query = `SELECT User.user, User,email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description FROM User, Profile WHERE User = '${userConnection}' AND User.id = Profile.userId`
     // const query = `SELECT u.user, u.password, p.id FROM User u WHERE u.user = '${userConnection}' INNER JOIN Profile p ON u.id = p.userId`
 
   connection.query(query, (error, results) => {
@@ -385,23 +385,6 @@ app.post('/competences', (req, res) => {
 
 //Fin gestion du formulaire
 
-
-//Récuperer les informations de la page personnelle
-// app.get('/coordonnées', (req,res) => {
-//   let profileId = req.session.user.id
-//   const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin, description FROM Profile WHERE id = '${profileId}'`
-//   console.log(query)
-//   connection.query(query, (error, pagePerso) => {
-//     if (error) {
-//       return res.status(500).json({
-//         error: error.message
-//       })
-//     }
-//     const infosPerso = pagePerso[0]
-//     console.log(infosPerso)
-//     res.json(infosPerso)
-//   })
-// })
 const slugify = (str) => {
   str = str.replace(/^\s+|\s+$/g, ''); // trim
   str = str.toLowerCase();

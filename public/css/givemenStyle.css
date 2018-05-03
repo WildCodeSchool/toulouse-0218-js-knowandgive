@@ -163,6 +163,23 @@ h2 {
     margin-right: 5%; 
   }
 
+@media all and (max-width: 530px) {
+  .navbar-brand {
+    display: none;
+  }
+}
+
+/*@media (max-width: 550px) {
+  .justify-footer {
+    margin-right: 33%;
+    margin-left: 33%;
+  }
+}*/
+
+.navbar-toggler-icon {
+  color: blue; 
+
+}
 
 }
 .global {

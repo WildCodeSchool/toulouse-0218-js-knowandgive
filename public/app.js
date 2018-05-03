@@ -397,8 +397,8 @@ module.exports = () => {
 /***/ (function(module, exports) {
 
 module.exports = /* @html */ `
-  <nav class="navbar navbar-expand-sm">
-      <img class="logo" src="/img/logo.png">
+  <nav class="navbar navbar-expand-sm bg-custom navbar-light">
+      <img class="logo logo-kng" src="/img/logo.png">
       <a class="navbar-brand" href="/">Know & Give</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -507,8 +507,8 @@ module.exports = /* @html */ `
 module.exports = /* @html */ `
 <nav class="navbar navbar-expand-lg">
     <img class="logo" src="/img/logo.png">
-    <a class="navbar-brand" href="/">Know & Give</a>
-    <div class="collapse navbar-collapse" id="icons-position">
+    <a class="navbar-brand navbar-connected" href="/">Know & Give</a>
+    <div class="navbar-collapse" id="icons-position">
       <div class="icons">
         <ul class="navbar-nav mr-auto">
             <a href="/messagerie"><span class="icon-envelop fa-2x"></span></a>
@@ -999,9 +999,9 @@ const searchbarHtml = __webpack_require__(1)
 function getGivemanHtml(giveman){
   return `
   <li class="media">
-    <img class="mr-3" src="images/${giveman.photo}" alt="Generic placeholder image" width="12%">
+    <img class="mr-3 col-md-2" src="images/${giveman.photo}" alt="Generic placeholder image" width="12%">
     <div class="media-body">
-      <h5 class="mt-0 mb-1"><a href="/pageProfil/${giveman.id}">${giveman.firstname} ${giveman.lastname}</a></h5>
+      <h5 class="mt-0 mb-1 col-md-4"><a href="/pageProfil/${giveman.id}">${giveman.firstname} ${giveman.lastname}</a></h5>
       <p>${giveman.description}</p>
        </div>
   </li>

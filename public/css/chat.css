@@ -14,13 +14,14 @@
   border-radius: 5px;
   overflow: auto;
   height: 500px;
-  border: solid 2px;
-  background: #37ecba;
+  color: black;
+  background: #ABEBC6;
 
 }
 
-.contact{
-background: #37ecba;
+.card{
+  background: #ABEBC6;
+
 }
 .row-messagerie{
   width: 720px;
@@ -41,6 +42,7 @@ background: #37ecba;
 
 .contact:hover{
     background:#F1F1F1;
+    color: black;
 }
 /*FIN CSS Contacts */
 
@@ -51,15 +53,15 @@ background: #37ecba;
   height: 500px;
   width: 720px;
   color: black;
-background-image: linear-gradient(to right, #92fe9d 0%, #00c9ff 100%);}
+  background: #ABEBC6;
 
-
+}
 /*Difference message recu et envoyer */
 
 .envoie
 {
   width: 300px;
-  background: #B5E655;
+  background: #DAB30A;
   margin-bottom: 10px;
   margin-top: 10px;
   border-radius: 15px;
@@ -71,7 +73,7 @@ background-image: linear-gradient(to right, #92fe9d 0%, #00c9ff 100%);}
   margin-left: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
-  background: #2BD3FD;
+  background: #85C1E9;
   border-radius: 15px;
 }
 

@@ -66,11 +66,6 @@ const messagesHTML = messages => /* @html */`
   </form>
 `
 
-
-
-
-
-
 module.exports = (context) => {
   let recipientId
   const search = context.querystring.split("=")

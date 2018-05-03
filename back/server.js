@@ -575,9 +575,6 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
     })
 
 
-
-
-
 app.get('*', (req, res) => {
 
     res.send(html(req.session.user))

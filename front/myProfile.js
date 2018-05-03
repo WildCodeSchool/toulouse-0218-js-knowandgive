@@ -65,7 +65,7 @@ const pagePersoHtml = infosPerso => /* @html */ `
 
        <h1>Informations personnelles</h1>
        <div class="container" id="formInfo">
-           <div class="row">
+           <div class="row contactInfo">
                <div class="col-md-6 imgProfil">
                  <img src="images/${infosPerso.photo}" alt="photo de profil" width="40%">
 

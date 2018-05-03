@@ -208,7 +208,7 @@ app.post('/create-account', (req, res) => {
             })
           }
           const username = req.body.username
-          let request4 = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description, Skill.skill FROM User, Profile, Skill, ProfileSkill WHERE User.user = '${username}' AND Profile.userId = ${results.insertId} AND ProfileSkill.profileId = Profile.id AND Skill.id = ProfileSkill.skillId`
+          let request4 = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description FROM User, Profile WHERE User.user = '${username}' AND Profile.userId = ${results.insertId}`
           console.log(request4)
           connection.query(request4, (error, resultat) => {
             if (error){
@@ -216,8 +216,9 @@ app.post('/create-account', (req, res) => {
                 error: error.message
               })
             }
-            const user = resultat
+            let user = resultat[0]
             req.session.user = user
+            user.skill = []
             console.log(user)
             res.json(user)
           })
@@ -363,8 +364,7 @@ app.post('/competences', (req, res) => {
             req.session.user[key] = user[key]
           }
           console.log(user)
-          res.json(user)
-          return res.json({result: user})
+          return res.json(user)
         })
       })
     }

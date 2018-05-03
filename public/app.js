@@ -92,10 +92,10 @@ module.exports = mainHTML => {
 /***/ (function(module, exports) {
 
 module.exports = /* @html */ `<div class="row position">
-      <img src="/img/banniere-know-and-give.png" alt="imageSearch" width="99%"/>
+      <img src="/img/banniere-know-and-give.png" alt="imageSearch" class="img-fluid" />
       <div id="searchbar">
         <form id="search-form" action="#" class="formulaire">
-          <div class="autocomplete">
+          <div class="autocomplete center-block">
             <!-- <input class="champ" type="text" value="Search(...)"/> -->
             <input id="myInput" type="text" name="Skill" placeholder="Rechercher des compétences">
             <input class="bouton" type="submit" value="Je recherche" />
@@ -241,10 +241,14 @@ const pagePersoHtml = infosPerso => /* @html */ `
                <div class="col-md-6">
                   <div class="form-group skills">
                    <h2>Compétences</h2>
-                     <span class="badge badge-pill badge-success">
-                     ${infosPerso.skills.map(getSkillBadge).join('')}
-
-                      </span><br />
+                     <span class="badge badge-pill badge-success">Jardinage</span>
+                     <span class="badge badge-pill badge-success">Famille</span>
+                     <span class="badge badge-pill badge-success">Decoration</span>
+                     <span class="badge badge-pill badge-success">Bricolage</span>
+                     <span class="badge badge-pill badge-success">Enseignement</span>
+                     <span class="badge badge-pill badge-success">Cuisine</span>
+                     <span class="badge badge-pill badge-success">Mode et beauté</span>
+                     <span class="badge badge-pill badge-success">Art</span><br />
                      <form id="formSkill" method="POST" action="/competences">
                        <input type="text" class="form-control" id="competence" name="competence">
                      </form>
@@ -254,18 +258,6 @@ const pagePersoHtml = infosPerso => /* @html */ `
            </div>
        </div>
 `
-
-function getSkillBadge(skill) {
-  return `<span class="badge badge-pill">
-    ${skill}
-  </span>`
-
-}
-
-// function getSkillBadgeFromBDD(infosPerso) {
-//   `<span class="badge badge-pill"></span>`
-// }
-
 module.exports = () => {
   console.log('Page perso', LoggedInUser)
   render(pagePersoHtml(LoggedInUser))
@@ -403,7 +395,7 @@ module.exports = () => {
 /***/ (function(module, exports) {
 
 module.exports = /* @html */ `
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-expand-sm">
       <img class="logo" src="/img/logo.png">
       <a class="navbar-brand" href="/">Know & Give</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -955,7 +947,7 @@ module.exports = /* @html */ `<div class="giveman">
 /* 12 */
 /***/ (function(module, exports) {
 
-module.exports = /* @html */ `<div class="video">
+module.exports = /* @html */ `<div class="video embed-responsive-16by9">
     <p><i>"Il y a une naissance en toute connaissance."</i> - Pascal Quignard</p>
     <iframe width="672" height="378" src="https://www.youtube.com/embed/SOcwXwxl4UU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
@@ -971,7 +963,7 @@ const searchbarHtml = __webpack_require__(1)
 function getGivemanHtml(giveman){
   return `
   <li class="media">
-    <img class="mr-3" src="${giveman.photo}" alt="Generic placeholder image">
+    <img class="mr-3 rounded-circle img-fluid" src="${giveman.photo}" alt="Generic placeholder image">
     <div class="media-body">
       <h5 class="mt-0 mb-1"><a href="/pageProfil/${giveman.id}">${giveman.firstname} ${giveman.lastname}</a></h5>
       <p>${giveman.description}</p>

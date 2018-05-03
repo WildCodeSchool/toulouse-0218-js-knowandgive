@@ -1,6 +1,11 @@
 const render = require('./render')
 function getProfilHtml(informations) {
-  return `<h2 class="profil">A propos de moi</h2>
+  return `<div class="col-md-2">
+    <img src="/images/${informations.photo}" alt="portrait" class="img-fluid"><br/>
+    <a href="/messagerie?contactId=${informations.id}" class="btn btn-primary">Contacter</a>
+  </div>
+  <div class="col-md-10 skills">
+    <h2 class="profil">A propos de moi</h2>
 
     <p class="nom">
     <b>${informations.firstname} ${informations.lastname}</b></p>
@@ -23,12 +28,7 @@ const pageProfilHtml = informations => /* @html */ `
   <div class="container-fluid">
     <h1>Bienvenue sur ma page</h1>
     <div class="row">
-        <div class="col-md-2">
-          <img src="" alt="portrait" class=""><br/>
-          <a href="/messagerie?contactId=${informations.id}" class="btn btn-primary">Contacter</a>
-        </div>
-        <div class="col-md-10 skills">
-
+        
           ${getProfilHtml(informations)}
 
           <h2 class="profil">Mes compétences</h2>

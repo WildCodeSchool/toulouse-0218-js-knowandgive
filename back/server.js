@@ -379,9 +379,6 @@ app.post('/competences', (req, res) => {
 })
 
 
-
-//Fin gestion du formulaire
-
 const slugify = (str) => {
   str = str.replace(/^\s+|\s+$/g, ''); // trim
   str = str.toLowerCase();

@@ -137,11 +137,36 @@ h2 {
 .position > #searchbar {
   position: absolute;
   top: 35%;
-  left: 35%;
+/*  left: 35%;*/
   background-image: linear-gradient(to right, white, #C4C4C4);
   border: 2px solid grey;
   box-shadow: 5px 10px 9px grey;
   padding: 30px 70px;
+  margin-right: 33% ;
+  margin-left: 33%;
+}
+
+.autocomplete .button {
+  max-width: 15%;
+}
+@media all and (max-width: 500px) {
+  .banniere-intro{
+    display: none;
+  }
+
+  .position > #searchbar {
+    position: relative;
+    width: 100% ;
+    margin-bottom: 5% ;
+    margin-top: 5%; 
+    margin-left: 5%;
+    margin-right: 5%; 
+  }
+
+
+}
+.global {
+
 }
 
 .autocomplete {

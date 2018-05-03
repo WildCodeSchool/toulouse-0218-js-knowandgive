@@ -91,17 +91,19 @@ module.exports = mainHTML => {
 /* 1 */
 /***/ (function(module, exports) {
 
-module.exports = /* @html */ `<div class="row position">
-      <img src="/img/banniere-know-and-give.png" alt="imageSearch" class="img-fluid" />
+module.exports = /* @html */ `<div class="global col-12 col-md-12 ">
+      <div class="row position">
+      <img src="/img/banniere-know-and-give.png" alt="imageSearch" class="banniere-intro img-fluid" />
       <div id="searchbar">
         <form id="search-form" action="#" class="formulaire">
           <div class="autocomplete center-block">
             <!-- <input class="champ" type="text" value="Search(...)"/> -->
             <input id="myInput" type="text" name="Skill" placeholder="Rechercher des compétences">
-            <input class="bouton" type="submit" value="Je recherche" />
+            <input class="bouton btn-sm btn-block" type="submit" value="Je recherche" width="40%"/>
           </div>
         </form>
       </div>
+    </div>
     </div>
 `
 
@@ -547,7 +549,12 @@ module.exports = /* @html */ `<footer class="footer">
 
 const render = __webpack_require__(0)
 function getProfilHtml(informations) {
-  return `<h2 class="profil">A propos de moi</h2>
+  return `<div class="col-md-2">
+    <img src="/images/${informations.photo}" alt="portrait" class="img-fluid"><br/>
+    <a href="/messagerie?contactId=${informations.id}" class="btn btn-primary">Contacter</a>
+  </div>
+  <div class="col-md-10 skills">
+    <h2 class="profil">A propos de moi</h2>
 
     <p class="nom">
     <b>${informations.firstname} ${informations.lastname}</b></p>
@@ -570,12 +577,7 @@ const pageProfilHtml = informations => /* @html */ `
   <div class="container-fluid">
     <h1>Bienvenue sur ma page</h1>
     <div class="row">
-        <div class="col-md-2">
-          <img src="" alt="portrait" class=""><br/>
-          <a href="/messagerie?contactId=${informations.id}" class="btn btn-primary">Contacter</a>
-        </div>
-        <div class="col-md-10 skills">
-
+        
           ${getProfilHtml(informations)}
 
           <h2 class="profil">Mes compétences</h2>
@@ -997,7 +999,7 @@ const searchbarHtml = __webpack_require__(1)
 function getGivemanHtml(giveman){
   return `
   <li class="media">
-    <img class="mr-3 rounded-circle img-fluid" src="${giveman.photo}" alt="Generic placeholder image">
+    <img class="mr-3" src="images/${giveman.photo}" alt="Generic placeholder image" width="12%">
     <div class="media-body">
       <h5 class="mt-0 mb-1"><a href="/pageProfil/${giveman.id}">${giveman.firstname} ${giveman.lastname}</a></h5>
       <p>${giveman.description}</p>

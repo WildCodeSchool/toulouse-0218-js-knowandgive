@@ -1,5 +1,5 @@
 module.exports = /* @html */ `
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-expand-sm bg-custom navbar-light">
       <img class="logo" src="/img/logo.png">
       <a class="navbar-brand" href="/">Know & Give</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -8,7 +8,7 @@ module.exports = /* @html */ `
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav ml-auto">
             <div class="navbar-nav">
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">S'inscrire </button>
+              <button type="button" class="btn btn-nav" data-toggle="modal" data-target="#myModal">S'inscrire </button>
               <!-- Modal -->
               <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -61,7 +61,7 @@ module.exports = /* @html */ `
               </div>
 
 
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Connexion  </button>
+              <button type="button" class="btn btn-nav" data-toggle="modal" data-target="#exampleModal">Connexion  </button>
 
 
               <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

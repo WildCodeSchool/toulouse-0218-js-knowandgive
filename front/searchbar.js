@@ -5,7 +5,7 @@ module.exports = /* @html */ `<div class="row position">
           <div class="autocomplete">
             <!-- <input class="champ" type="text" value="Search(...)"/> -->
             <input id="myInput" type="text" name="Skill" placeholder="Rechercher des compétences">
-            <input class="bouton" type="submit" value="Je recherche" />
+            <input class="bouton-recherche" type="submit" value="Je recherche" />
           </div>
         </form>
       </div>

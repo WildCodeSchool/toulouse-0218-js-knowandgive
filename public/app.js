@@ -97,7 +97,7 @@ module.exports = /* @html */ `<div class="row position">
         <form id="search-form" action="#" class="formulaire">
           <div class="autocomplete">
             <!-- <input class="champ" type="text" value="Search(...)"/> -->
-            <input id="myInput" type="text" name="Skill" placeholder="Rechercher des compétences">
+            <input id="myInput" type="text" name="Skill" placeholder="Compétences">
             <input class="bouton-recherche" type="submit" value="Je recherche" />
           </div>
         </form>
@@ -530,8 +530,8 @@ module.exports = /* @html */ `
 module.exports = /* @html */ `<footer class="footer">
     <div class="container">
         <div class="row justify-content-md-center">
-          <div class="col-md-">
-            <ul class="nav">
+          <div class="icones-footer">
+            <ul class="nav offset-xs-3">
                 <li class="nav-item"><a href="https://www.facebook.com/wildcodeschool/" target="_blank" class="nav-link"><img src="/img/facebook.png" alt="facebook" width="13px"></a></li>
                 <li class="nav-item"><a href="https://twitter.com/wildcodeschool?lang=en" target="_blank" class="nav-link"><img src="/img/instagram.png" alt="instagram" width="35px"></a></li>
                 <li class="nav-item"><a href="https://www.instagram.com/wildcodeschool/" target="_blank" class="nav-link"><img src="/img/twitter.png" alt="twitter" width="30px"></a></li>

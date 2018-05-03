@@ -34,7 +34,8 @@ const html = user => /* @html */`
     <link href="https://fonts.googleapis.com/css?family=Amaranth" rel="stylesheet">
     <title>Know & Give</title>
   </head>
-  <body >
+  <body>
+
 
     <div id="main">
     </div>
@@ -125,8 +126,8 @@ app.post('/connexion', (req, res) => {
 
     const userConnection = req.body.userConnection
     const passwordConnection = req.body.passwordConnection
-    const query = `SELECT User.user, User,email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description FROM User, Profile WHERE User.user = '${userConnection}' AND User.id = Profile.userId`
-    // const query = `SELECT u.user, u.password, p.id FROM User u WHERE u.user = '${userConnection}' INNER JOIN Profile p ON u.id = p.userId`
+    // const query = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description FROM User, Profile WHERE User.user = '${userConnection}' AND User.id = Profile.userId`
+    const query = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description, Skill.skill FROM User, Profile, Skill, ProfileSkill WHERE User.user = '${userConnection}' AND User.id = Profile.userId AND ProfileSkill.profileId = Profile.id AND Skill.id = ProfileSkill.skillId`
 
   connection.query(query, (error, results) => {
   console.log(results)
@@ -146,6 +147,8 @@ app.post('/connexion', (req, res) => {
       })
     }
     const user = results[0]
+    const skills = results.map(row => row.skill)
+    user.skill = skills
     req.session.user = user
     res.json(user)
   })
@@ -205,7 +208,7 @@ app.post('/create-account', (req, res) => {
             })
           }
           const username = req.body.username
-          let request4 = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description FROM User, Profile WHERE user = '${username}' AND userId = ${results.insertId}`
+          let request4 = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description, Skill.skill FROM User, Profile, Skill, ProfileSkill WHERE User.user = '${username}' AND Profile.userId = ${results.insertId} AND ProfileSkill.profileId = Profile.id AND Skill.id = ProfileSkill.skillId`
           console.log(request4)
           connection.query(request4, (error, resultat) => {
             if (error){
@@ -213,7 +216,7 @@ app.post('/create-account', (req, res) => {
                 error: error.message
               })
             }
-            const user = resultat[0]
+            const user = resultat
             req.session.user = user
             console.log(user)
             res.json(user)
@@ -224,18 +227,6 @@ app.post('/create-account', (req, res) => {
   })
 })
 
-
-// const updateLoggedUser = (req, res, next) => {
-//   if((req.session !== undefined) && (req.session.user !== undefined)) {
-//     const user = req.session.user
-//     next()
-//   }
-//   else {
-//     res.status(401).json({
-//       error: 'Unauthorized Access'
-//     })
-//   }
-// }
 
 //Gestion de l'envoi du formulaire sur serveur
 app.post('/informations-personnelles', (req, res) => {
@@ -267,7 +258,7 @@ app.post('/informations-personnelles', (req, res) => {
           error: error.message
         })
       }
-      const query = `SELECT User.user, User,email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description FROM User, Profile WHERE User.user = '${username}' AND Profile.userId = '${profileId}'`
+      const query = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description, Skill.skill FROM User, Profile, Skill, ProfileSkill WHERE User.user = '${username}' AND Profile.id = '${profileId}' AND ProfileSkill.profileId = Profile.id AND Skill.id = ProfileSkill.skillId`
       console.log(query)
       connection.query(query, (error, pagePerso) => {
         if (error) {
@@ -276,8 +267,15 @@ app.post('/informations-personnelles', (req, res) => {
           })
         }
         const user = pagePerso[0]
-        req.session.user = user
+        const skills = pagePerso.map(row => row.skill)
+        user.skill = skills
+        for(let key in user) {
+          req.session.user[key] = user[key]
+        }
+        console.log(user)
         res.json(user)
+
+
       })
     })
   })
@@ -289,6 +287,7 @@ app.post('/description', (req, res) => {
 
   const description = req.body.description
   let profileId = req.session.user.id
+  let username = req.session.user.user
 
 
   const query1 = `UPDATE Profile SET description = '${description}' WHERE id = '${profileId}'`
@@ -299,7 +298,7 @@ app.post('/description', (req, res) => {
         error: error.message
       })
     }
-    const query = `SELECT description FROM Profile WHERE id = '${profileId}'`
+    const query = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description, Skill.skill FROM User, Profile, Skill, ProfileSkill WHERE User.user = '${username}' AND Profile.id = '${profileId}' AND ProfileSkill.profileId = Profile.id AND Skill.id = ProfileSkill.skillId`
     console.log(query)
     connection.query(query, (error, pagePerso) => {
       if (error) {
@@ -307,9 +306,14 @@ app.post('/description', (req, res) => {
           error: error.message
         })
       }
-      const infosPerso = pagePerso[0]
-      console.log(infosPerso)
-      res.json(infosPerso)
+      const user = pagePerso[0]
+      const skills = pagePerso.map(row => row.skill)
+      user.skill = skills
+      for(let key in user) {
+        req.session.user[key] = user[key]
+      }
+      console.log(user)
+      res.json(user)
     })
   })
 })
@@ -322,6 +326,7 @@ app.post('/competences', (req, res) => {
   let request1 = `SELECT id, skill FROM Skill where skill = '${competence}'`
   let LoggedInUserId = req.session.user.id
   const profileId = LoggedInUserId
+  let username = req.session.user.user
 
 //1. On vérifie si la compétence existe
   connection.query(request1, (error, results) => {
@@ -343,9 +348,24 @@ app.post('/competences', (req, res) => {
             error: error.message
           })
         }
-        const profileSkill = result
-        console.log(profileSkill)
-        return res.json({result: profileSkill})
+        const request3 = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description, Skill.skill FROM User, Profile, Skill, ProfileSkill WHERE User.user = '${username}' AND Profile.id = '${profileId}' AND ProfileSkill.profileId = Profile.id AND Skill.id = ProfileSkill.skillId`
+        console.log(request3)
+        connection.query(request3, (error, result) => {
+          if (error) {
+            return res.status(500).json({
+              error: error.message
+            })
+          }
+          const user = result[0]
+          const skills = result.map(row => row.skill)
+          user.skill = skills
+          for(let key in user) {
+            req.session.user[key] = user[key]
+          }
+          console.log(user)
+          res.json(user)
+          return res.json({result: user})
+        })
       })
     }
 //2. Cas où elle n'existe pas
@@ -368,9 +388,23 @@ app.post('/competences', (req, res) => {
               error: error.message
             })
           }
-          const newSkill = result
-          console.log(newSkill)
-          res.json({result: newSkill})
+          const query3 = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description, Skill.skill FROM User, Profile, Skill, ProfileSkill WHERE User.user = '${username}' AND Profile.id = '${profileId}' AND ProfileSkill.profileId = Profile.id AND Skill.id = ProfileSkill.skillId`
+          console.log(query3)
+          connection.query(query3, (error, result) => {
+            if (error) {
+              return res.status(500).json({
+                error: error.message
+              })
+            }
+            const user = result[0]
+            const skills = result.map(row => row.skill)
+            user.skill = skills
+            for(let key in user) {
+              req.session.user[key] = user[key]
+            }
+            console.log(user)
+            res.json({result: user})
+          })
         })
       })
     }
@@ -597,5 +631,5 @@ app.get('*', (req, res) => {
 })
 
 
-console.log('Server listening on http://127.0.0.1:4000')
-app.listen(4000)
+console.log('Server listening on http://127.0.0.1:5000')
+app.listen(5000)

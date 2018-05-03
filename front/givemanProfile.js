@@ -16,18 +16,17 @@ function getSkillBadge(skill) {
   return `<span class="badge badge-pill">
     ${skill}
   </span>`
-
 }
 
 const pageProfilHtml = informations => /* @html */ `
-  <div class="container-fluid">
+  <div class="container-fluid givemanProfile">
     <h1>Bienvenue sur ma page</h1>
     <div class="row">
-        <div class="col-md-2">
+        <div class="offset-1 col-md-2 offset-0">
           <img src="" alt="portrait" class=""><br/>
-          <a href="#" class="btn btn-primary">Contacter</a>
+          <a href="/messagerie?contactId=${informations.id}" class="btn btn-primary">Contacter</a>
         </div>
-        <div class="col-md-10 skills">
+        <div class="offset-1 col-md-7 offset-1 skills">
 
           ${getProfilHtml(informations)}
 

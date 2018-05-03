@@ -1,5 +1,4 @@
 const render = require('./render')
-const vanthika = {"id":34,"lastname":"Yos","firstname":"Jack","zipCode":"50000","city":"Toulouse","photo":null,"linkedin":"linked.fr","description":"Je me présente."}
 
 function getContactInformations(infosPerso){
   return `
@@ -31,7 +30,7 @@ function getContactInformations(infosPerso){
           <div class="form-group row">
               <label for="email" class="col-sm-4 col-form-label">Email : </label>
               <div class="col-sm-6">
-                  <input type="text" class="form-control" id="email" name="email">
+                  <input type="text" class="form-control" id="email" name="email" value="${infosPerso.email}">
               </div>
           </div>
           <div class="form-group row">
@@ -44,7 +43,6 @@ function getContactInformations(infosPerso){
   `
 }
 
-console.log(getContactInformations(vanthika))
 
 function getDescription(infosPerso){
   return `
@@ -58,12 +56,19 @@ function getDescription(infosPerso){
 }
 
 
+function getSkill(skill){
+  return `<span class="badge badge-pill badge-success">${skill}</span>`
+}
+
+
 const pagePersoHtml = infosPerso => /* @html */ `
 
        <h1>Informations personnelles</h1>
        <div class="container" id="formInfo">
-           <div class="row">
+           <div class="row contactInfo">
                <div class="col-md-6 imgProfil">
+                 <img src="images/${infosPerso.photo}" alt="photo de profil" width="40%">
+
                    <!-- Upload de la photo -->
                    <form method="POST" id="file-form" enctype="multipart/form-data" action="/uploaddufichier">
                       <input type="file" id="file-select" name="monfichier">
@@ -92,14 +97,9 @@ const pagePersoHtml = infosPerso => /* @html */ `
                <div class="col-md-6">
                   <div class="form-group skills">
                    <h2>Compétences</h2>
-                     <span class="badge badge-pill badge-success">Jardinage</span>
-                     <span class="badge badge-pill badge-success">Famille</span>
-                     <span class="badge badge-pill badge-success">Decoration</span>
-                     <span class="badge badge-pill badge-success">Bricolage</span>
-                     <span class="badge badge-pill badge-success">Enseignement</span>
-                     <span class="badge badge-pill badge-success">Cuisine</span>
-                     <span class="badge badge-pill badge-success">Mode et beauté</span>
-                     <span class="badge badge-pill badge-success">Art</span><br />
+                   ${infosPerso.skill.map(getSkill).join('')}
+
+                     <br />
                      <form id="formSkill" method="POST" action="/competences">
                        <input type="text" class="form-control" id="competence" name="competence">
                      </form>
@@ -170,7 +170,6 @@ module.exports = () => {
     .then(response => response.json())
     .then(user => {
       LoggedInUser = user
-      page('/pagePerso')
       console.log(user)
       })
 

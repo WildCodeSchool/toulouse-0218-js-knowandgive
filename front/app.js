@@ -25,6 +25,6 @@ const checkLoginMiddleware = (context, next) => {
 
 page("/", home)
 page("/pagePerso",checkLoginMiddleware, showMyProfile)
-page("/chat", checkLoginMiddleware, showContacts)
+page("/messagerie", checkLoginMiddleware, showContacts)
 page("/pageProfil/:profilId", showPageProfil1)
 page()

@@ -43,8 +43,6 @@ function getContactInformations(infosPerso){
   `
 }
 
-console.log(getContactInformations(vanthika))
-
 function getDescription(infosPerso){
   return `
 <div class="form-group description">

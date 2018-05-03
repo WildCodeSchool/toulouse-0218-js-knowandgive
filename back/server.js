@@ -439,7 +439,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
 //fin upload photo
 
 
-  app.get('/chat/people',(req, res) => {
+  app.get('/messagerie/people',(req, res) => {
     const connectionId = 7
     const sql =`SELECT recipientId, senderId FROM Message WHERE senderId = ${connectionId}
     OR recipientId = ${connectionId}`
@@ -478,7 +478,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
     })
   })
 
-    app.get('/chat/messages/:otherId',(req, res) => {
+    app.get('/messagerie/messages/:otherId',(req, res) => {
       const connectionId = 7
       const otherId = req.params.otherId
       const sqlMessage = `SELECT message, dateTime, senderId, recipientId FROM Message WHERE (recipientId = ${connectionId}
@@ -499,7 +499,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
       })
 
     })
-    app.post('/chat',(req, res) => {
+    app.post('/messagerie',(req, res) => {
       const connectionId = 7
       const message = req.body.message
       console.log(req.body,req.session)

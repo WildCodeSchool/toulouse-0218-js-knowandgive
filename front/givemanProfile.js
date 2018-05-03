@@ -2,7 +2,7 @@ const render = require('./render')
 function getProfilHtml(informations) {
   return `<div class="col-md-2">
     <img src="/images/${informations.photo}" alt="portrait" class="img-fluid"><br/>
-    <a href="#" class="btn btn-primary">Contacter</a>
+    <a href="/messagerie?contactId=${informations.id}" class="btn btn-primary">Contacter</a>
   </div>
   <div class="col-md-10 skills">
     <h2 class="profil">A propos de moi</h2>

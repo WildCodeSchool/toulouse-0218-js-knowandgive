@@ -14,10 +14,10 @@ module.exports = () => {
     showResultForKeyword(autocompleteInput.value)
   })
 
-  var skill = ["Jardinage", "Famille", "Decoration", "Cuisine", "Art", "Enseignement", "Bricolage", "Mode et beauté"];
-    /* FIN DE LA PARTIE MOTS CLEFS */
-
-  autocomplete(autocompleteInput, skill);
+  // var skill = ["Jardinage", "Famille", "Decoration", "Cuisine", "Art", "Enseignement", "Bricolage", "Mode et beauté"];
+  //   /* FIN DE LA PARTIE MOTS CLEFS */
+  //
+  // autocomplete(autocompleteInput, skill);
 
   if (LoggedInUser) {
     return
@@ -36,7 +36,7 @@ module.exports = () => {
     }
 
     const dataJSON = JSON.stringify(data)
-
+    console.log(dataJSON)
     fetch('/connexion', {
       method: 'POST',
       headers: {

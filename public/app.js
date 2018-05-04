@@ -188,13 +188,13 @@ module.exports = mainHTML => {
 /***/ (function(module, exports) {
 
 module.exports = /* @html */ `<div class="row position">
-      <img src="/img/banniere-know-and-give.png" alt="imageSearch" width="99%"/>
+      <img src="/img/banniere-know-and-give.png" alt="imageSearch" width="99%" class="banniere-intro img-fluid"/>
       <div id="searchbar">
         <form id="search-form" action="#" class="formulaire">
           <div class="autocomplete">
             <!-- <input class="champ" type="text" value="Search(...)"/> -->
-            <input id="myInput" type="text" name="Skill" placeholder="Rechercher des compétences">
-            <input class="bouton" type="submit" value="Je recherche" />
+            <input id="myInput" type="text" name="Skill" placeholder="Compétences">
+            <input class="bouton-recherche" type="submit" value="Je recherche" />
           </div>
         </form>
       </div>
@@ -287,7 +287,6 @@ function getContactInformations(infosPerso){
        </form>
   `
 }
-
 
 function getDescription(infosPerso){
   return `
@@ -490,7 +489,7 @@ module.exports = () => {
 /***/ (function(module, exports) {
 
 module.exports = /* @html */ `
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-expand-sm bg-custom">
       <img class="logo" src="/img/logo.png">
       <a class="navbar-brand" href="/">Know & Give</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -499,7 +498,7 @@ module.exports = /* @html */ `
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <ul class="navbar-nav ml-auto">
             <div class="navbar-nav">
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">S'inscrire </button>
+              <button type="button" class="btn btn-nav" data-toggle="modal" data-target="#myModal">S'inscrire </button>
               <!-- Modal -->
               <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -552,7 +551,7 @@ module.exports = /* @html */ `
               </div>
 
 
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Connexion  </button>
+              <button type="button" class="btn btn-nav" data-toggle="modal" data-target="#exampleModal">Connexion  </button>
 
 
               <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -604,9 +603,9 @@ module.exports = /* @html */ `
     <div class="collapse navbar-collapse" id="icons-position">
       <div class="icons">
         <ul class="navbar-nav mr-auto">
-            <a href="/messagerie"><span class="icon-envelop fa-2x"></span></a>
-            <a href="/pagePerso"><span class="icon-user fa-2x"></span></a>
-            <a href="/logout"><span class="icon-switch fa-2x"></span></a>
+            <a href="/messagerie"><span class="icon-envelop fa-1x"></span></a>
+            <a href="/pagePerso"><span class="icon-user fa-1x"></span></a>
+            <a href="/logout"><span class="icon-switch fa-1x"></span></a>
         </ul>
       </div>
     </div>
@@ -620,9 +619,9 @@ module.exports = /* @html */ `
 
 module.exports = /* @html */ `<footer class="footer">
     <div class="container">
-        <div class="row justify-content-md-center">
-          <div class="col-md-">
-            <ul class="nav">
+        <div class="row d-flex justify-content-center">
+          <div class="icones-footer">
+            <ul class="nav footer-align">
                 <li class="nav-item"><a href="https://www.facebook.com/wildcodeschool/" target="_blank" class="nav-link"><img src="/img/facebook.png" alt="facebook" width="13px"></a></li>
                 <li class="nav-item"><a href="https://twitter.com/wildcodeschool?lang=en" target="_blank" class="nav-link"><img src="/img/instagram.png" alt="instagram" width="35px"></a></li>
                 <li class="nav-item"><a href="https://www.instagram.com/wildcodeschool/" target="_blank" class="nav-link"><img src="/img/twitter.png" alt="twitter" width="30px"></a></li>
@@ -642,7 +641,13 @@ module.exports = /* @html */ `<footer class="footer">
 
 const render = __webpack_require__(0)
 function getProfilHtml(informations) {
-  return `<h2 class="profil">A propos de moi</h2>
+  return `<div class="offset-2 col-md-2">
+    <img src="/images/${informations.photo}" alt="portrait" class="photo-profile img-fluid"><br/>
+    <a href="/messagerie?contactId=${informations.id}" class="btn btn-primary bouton-photo">Contacter</a>
+  </div>
+  <div class="col-md-7 skills">
+  <div class="col-md-10 skills paragraph">
+    <h2 class="profil">A propos de moi</h2>
 
     <p class="nom">
     <b>${informations.firstname} ${informations.lastname}</b></p>
@@ -664,11 +669,8 @@ const pageProfilHtml = informations => /* @html */ `
   <div class="container-fluid givemanProfile">
     <h1>Bienvenue sur ma page</h1>
     <div class="row">
-        <div class="offset-1 col-md-2 offset-0">
-          <img src="" alt="portrait" class=""><br/>
-          <a href="/messagerie?contactId=${informations.id}" class="btn btn-primary">Contacter</a>
-        </div>
-        <div class="offset-1 col-md-7 offset-1 skills">
+
+
 
           ${getProfilHtml(informations)}
 
@@ -691,8 +693,6 @@ module.exports = context => {
     const profilHtml = pageProfilHtml(infosProfil)
     render(profilHtml)
   })
-
-
 }
 // Fin test navigation thomas //
 
@@ -926,12 +926,10 @@ module.exports = /* @html */ `<div class="competences">
 module.exports = /* @html */ `<div class="giveman">
         <h3>Un <b>giveman</b> , qu'est ce que c'est ?</h3>
           <ul>
-            <li class="valeur1"><img src="img/giveman.png" alt="vignette valeur 1" width="3%">Un giveman sait qu'il ne connait rien <b>MAIS</b> veut connaitre.</li>
             <li class="valeur2"><img src="img/giveman.png" alt="vignette valeur 2" width="3%">Un giveman a le <b>coeur</b> sur la main.</li>
             <li class="valeur3"><img src="img/giveman.png" alt="vignette valeur 3" width="3%">Un giveman aime <b>donner</b> et <b>recevoir</b>.</li>
             <li class="valeur4"><img src="img/giveman.png" alt="vignette valeur 4" width="3%">Un giveman appartient à une <b>communauté</b> de <b>partage</b> et d'<b>entraide</b>.</li>
             <li class="valeur5"><img src="img/giveman.png" alt="vignette valeur 5" width="3%">Un giveman est <b>curieux</b> et à l'affut de nouvelles connaissances.</li>
-            <li class="valeur6"><img src="img/giveman.png" alt="vignette valeur 6" width="3%">Un giveman est <b>universel</b>.</li>
           </ul>
           <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
             <img src="img/giveman.png" alt="giveman" width="10%">
@@ -997,7 +995,13 @@ module.exports = /* @html */ `<div class="giveman">
 
 module.exports = /* @html */ `<div class="video">
     <p><i>"Il y a une naissance en toute connaissance."</i> - Pascal Quignard</p>
-    <iframe width="672" height="378" src="https://www.youtube.com/embed/SOcwXwxl4UU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <div class="row">
+        <div class="offset-md-3 col-md-6 col-sm-12">
+            <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/SOcwXwxl4UU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+        </div>
+      </div>
     </div>
     `
 
@@ -1013,7 +1017,7 @@ const searchbarHtml = __webpack_require__(1)
 function getGivemanHtml(giveman){
   return `
   <li class="media">
-    <img class="mr-3" src="${giveman.photo}" alt="Generic placeholder image">
+    <img class="mr-3" src="images/${giveman.photo}" alt="Generic placeholder image" width="12%">
     <div class="media-body">
       <h5 class="mt-0 mb-1"><a href="/pageProfil/${giveman.id}">${giveman.firstname} ${giveman.lastname}</a></h5>
       <p>${giveman.description}</p>

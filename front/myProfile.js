@@ -43,7 +43,6 @@ function getContactInformations(infosPerso){
   `
 }
 
-
 function getDescription(infosPerso){
   return `
 <div class="form-group description">

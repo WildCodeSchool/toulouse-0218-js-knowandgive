@@ -1,14 +1,39 @@
+.video-container {
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+  overflow: hidden;
+  position: relative;
+}
+
+.video-container iframe, .video-container embed, .video-container object{
+  width: 100%!important;
+  height: 100%!important;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.paragraph {
+  margin-top: 14%;
+}
+
+.bouton-photo {
+  margin-left: 25%;
+  margin-top: 5%;
+}
+
 body  {
   color: grey;
   font-family: 'PT Sans';
 }
-
 
 footer {
   background-color: #CFF7DA;
   text-align: center;
   padding-top: 20px;
   padding-bottom: 20px;
+  margin-top: 12%;
 }
 
 footer img {
@@ -22,6 +47,39 @@ footer img:hover {
 
 footer p {
   padding-bottom: 3%;
+}
+
+/* @media all and (max-width: 500px) {
+
+  .position > #searchbar {
+    position: absolute;
+    width: 100%;
+    margin-bottom: 5%;
+    margin-top: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+} */
+
+
+@media only screen and (max-width: 768px) {
+  .footer-align {
+    width: auto;
+    text-align: justify;
+    float: none;
+  }
+}
+
+@media all and (max-width: 530px) {
+  .navbar-brand {
+    display: none;
+  }
+}
+
+.btn-nav {
+  background-color: #6fcedb;
+  color: white;
+  margin-left: 3%;
 }
 
 .reseaux > .nav {
@@ -38,14 +96,19 @@ footer p {
   border-bottom: 5px solid #00FE44;
 }
 
-.navbar > a {
+.navbar  a {
   font-size: 40px;
+  color: grey;
+}
+
+.navbar-toggler {
   color: grey;
 }
 
 .video {
   text-align: center;
   margin-bottom: 30px;
+
 }
 
 .competences {
@@ -177,7 +240,7 @@ h2 {
   position: relative;
   opacity: 0.6;
   border-bottom: 5px solid #00FE44;
-  margin-bottom: 6%;
+  margin-bottom: 10%;
 }
 
 .position > #searchbar {

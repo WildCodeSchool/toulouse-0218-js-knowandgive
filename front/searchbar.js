@@ -1,11 +1,11 @@
 module.exports = /* @html */ `<div class="row position">
-      <img src="/img/banniere-know-and-give.png" alt="imageSearch" width="99%"/>
+      <img src="/img/banniere-know-and-give.png" alt="imageSearch" width="99%" class="banniere-intro img-fluid"/>
       <div id="searchbar">
         <form id="search-form" action="#" class="formulaire">
           <div class="autocomplete">
             <!-- <input class="champ" type="text" value="Search(...)"/> -->
-            <input id="myInput" type="text" name="Skill" placeholder="Rechercher des compétences">
-            <input class="bouton" type="submit" value="Je recherche" />
+            <input id="myInput" type="text" name="Skill" placeholder="Compétences">
+            <input class="bouton-recherche" type="submit" value="Je recherche" />
           </div>
         </form>
       </div>

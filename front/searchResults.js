@@ -1,5 +1,7 @@
 const render = require('./render')
 const searchbarHtml = require('./searchbar')
+// const searchFormEvents = require('./searchFormEvents')
+
 function getGivemanHtml(giveman){
   return `
   <li class="media">
@@ -21,6 +23,19 @@ function showResultForKeyword(keyword) {
   .then(response =>response.json())
   .then(givemen => {
     render(searchbarHtml + resultHtml(givemen))
+    const autocompleteInput = document.getElementById("myInput")
+    const searchForm = document.getElementById("search-form")
+    console.log(searchForm)
+    searchForm.addEventListener('submit', event => {
+      event.preventDefault()
+      showResultForKeyword(autocompleteInput.value)
+    })
+
+    // var skill = ["Jardinage", "Famille", "Decoration", "Cuisine", "Art", "Enseignement", "Bricolage", "Mode et beauté"];
+      /* FIN DE LA PARTIE MOTS CLEFS */
+      console.log(skills)
+    autocomplete(autocompleteInput, skills);
+    // console.log(searchFormEvents)
   })
 }
 

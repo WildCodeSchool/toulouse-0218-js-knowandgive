@@ -40,6 +40,7 @@ const pageProfilHtml = informations => /* @html */ `
 `
 // début test navigation thomas //
 module.exports = context => {
+
   console.log(context)
   const profilId = context.params.profilId
   fetch(`/getProfileData/${profilId}`)
@@ -48,5 +49,7 @@ module.exports = context => {
     const profilHtml = pageProfilHtml(infosProfil)
     render(profilHtml)
   })
+
+
 }
 // Fin test navigation thomas //

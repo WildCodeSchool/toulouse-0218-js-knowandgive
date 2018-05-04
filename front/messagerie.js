@@ -53,11 +53,13 @@ function getMessageHTML(message) {
   `
 }
 const messagesHTML = messages => /* @html */`
+  <div id="scroll">
   <div id="liste-messages" class="contenu-message">
       ${
         messages.map(getMessageHTML).join('\n')
       }
   </div>
+</div>
     <form id="sendMessage">
     <input class="chat-input" required></input>
     <input type="submit" value="Send" class="message-send" />
@@ -108,6 +110,18 @@ module.exports = (context) => {
         .then(messages => {
           const divMessages = document.getElementById('messages')
           divMessages.innerHTML = messagesHTML(messages)
+        function scrollToBottom() {
+          const contenantScroll = $('#scroll')
+          const contenuScroll = $('#scroll > div')
+          const offset = contenuScroll.height() - contenantScroll.height()
+          console.log( $('#scroll').height() )
+          $('#scroll').scrollTop(offset)
+          $("#scroll").on('scroll', () => {
+            console.log($('#scroll').scrollTop())
+            })
+        }
+        scrollToBottom()
+
           const listeMessages = document.getElementById('liste-messages')
 
           const formSendMessage = document.getElementById('sendMessage')
@@ -131,6 +145,8 @@ module.exports = (context) => {
             .then(response => response.json())
             .then(message => {
               listeMessages.innerHTML += getMessageHTML(message)
+              scrollToBottom()
+
             })
           })
         })

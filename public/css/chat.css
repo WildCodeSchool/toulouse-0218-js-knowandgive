@@ -44,15 +44,14 @@ background: #37ecba;
 }
 /*FIN CSS Contacts */
 
-.contenu-message
+#scroll
 {
   border-radius: 10px;
   overflow: auto;
   height: 500px;
   width: 720px;
   color: black;
-  background-image: linear-gradient(to top, #37ecba 0%, #72afd3 100%);
-}
+background-image: linear-gradient(to right, #92fe9d 0%, #00c9ff 100%);}
 
 
 /*Difference message recu et envoyer */

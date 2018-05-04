@@ -17,7 +17,7 @@
   overflow: auto;
   height: 500px;
   color: black;
-  background: #97DFC6;
+  background: #CFF7DA;
   border: solid grey 1px;
   width: 200px;
   font-size: 10px;
@@ -28,8 +28,8 @@
 .col-md-9{
   width: auto;
 }
-.card{
-  background: #97DFC6;
+#color-card{
+  background: #CFF7DA;
 
 }
 .row-messagerie{
@@ -84,7 +84,7 @@
   margin-left: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
-  background: #97DFC6;
+  background: #CFF7DA;
   border-radius: 15px;
   color: black;
 }

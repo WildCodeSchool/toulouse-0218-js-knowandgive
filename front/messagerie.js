@@ -13,11 +13,11 @@ function getContactHTML(contact) {
 
 
 const contactHtml = contacts => /* @html */ `
-<div class="container-fluid">
+<div class="container">
   <div class="row">
     <div class="col-md-3">
       <div class="contacts">
-        <div class="card">
+        <div class="card" id="color-card">
           ${
             contacts.map(getContactHTML).join('\n')
           }

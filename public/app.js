@@ -693,6 +693,8 @@ module.exports = context => {
     const profilHtml = pageProfilHtml(infosProfil)
     render(profilHtml)
   })
+
+
 }
 // Fin test navigation thomas //
 
@@ -716,7 +718,7 @@ function getContactHTML(contact) {
 
 
 const contactHtml = contacts => /* @html */ `
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <div class="col-md-3">
       <div class="contacts">
@@ -756,21 +758,18 @@ function getMessageHTML(message) {
   `
 }
 const messagesHTML = messages => /* @html */`
+  <div id="scroll">
   <div id="liste-messages" class="contenu-message">
       ${
         messages.map(getMessageHTML).join('\n')
       }
   </div>
+</div>
     <form id="sendMessage">
     <input class="chat-input" required></input>
-    <input type="submit" value="Send" class="message-send" />
+    <input type="submit" value="Envoyer" class="message-send" />
   </form>
 `
-
-
-
-
-
 
 module.exports = (context) => {
   let recipientId
@@ -811,6 +810,18 @@ module.exports = (context) => {
         .then(messages => {
           const divMessages = document.getElementById('messages')
           divMessages.innerHTML = messagesHTML(messages)
+        function scrollToBottom() {
+          const contenantScroll = $('#scroll')
+          const contenuScroll = $('#scroll > div')
+          const offset = contenuScroll.height() - contenantScroll.height()
+          console.log( $('#scroll').height() )
+          $('#scroll').scrollTop(offset)
+          $("#scroll").on('scroll', () => {
+            console.log($('#scroll').scrollTop())
+            })
+        }
+        scrollToBottom()
+
           const listeMessages = document.getElementById('liste-messages')
 
           const formSendMessage = document.getElementById('sendMessage')
@@ -834,6 +845,8 @@ module.exports = (context) => {
             .then(response => response.json())
             .then(message => {
               listeMessages.innerHTML += getMessageHTML(message)
+              scrollToBottom()
+
             })
           })
         })
@@ -866,9 +879,8 @@ module.exports = () => {
     showResultForKeyword(autocompleteInput.value)
   })
 
-  // var skill = ["Jardinage", "Famille", "Decoration", "Cuisine", "Art", "Enseignement", "Bricolage", "Mode et beauté"];
-    /* FIN DE LA PARTIE MOTS CLEFS */
-    console.log(skills)
+
+  console.log(skills)
   autocomplete(autocompleteInput, skills);
 }
 

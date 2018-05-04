@@ -620,9 +620,6 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
     })
 
 
-
-
-
 app.get('*', (req, res) => {
 
   const query = `SELECT skill FROM Skill`

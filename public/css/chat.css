@@ -1,11 +1,13 @@
 
 .container
 {
-  margin-top: 15px;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
+
 .p
 {
-  font-size: 15px;
+  font-size: 10px;
 }
 
 /* CSS Contacts */
@@ -14,13 +16,21 @@
   border-radius: 5px;
   overflow: auto;
   height: 500px;
-  border: solid 2px;
-  background: #37ecba;
-
+  color: black;
+  background: #97DFC6;
+  border: solid grey 1px;
+  width: 200px;
+  font-size: 10px;
 }
+.col-md-3{
+  width: auto;
+}
+.col-md-9{
+  width: auto;
+}
+.card{
+  background: #97DFC6;
 
-.contact{
-background: #37ecba;
 }
 .row-messagerie{
   width: 720px;
@@ -37,10 +47,12 @@ background: #37ecba;
 }
 .contact .card-body h4{
   padding: 1.25rem;
+  font-size: 20px;
 }
 
 .contact:hover{
     background:#F1F1F1;
+    color: black;
 }
 /*FIN CSS Contacts */
 
@@ -51,18 +63,19 @@ background: #37ecba;
   height: 500px;
   width: 720px;
   color: black;
-background-image: linear-gradient(to right, #92fe9d 0%, #00c9ff 100%);}
+  background: #E6EAEA;
 
-
+}
 /*Difference message recu et envoyer */
 
 .envoie
 {
   width: 300px;
-  background: #B5E655;
+  background: white;
   margin-bottom: 10px;
   margin-top: 10px;
   border-radius: 15px;
+  color: black
 }
 
 .recu
@@ -71,8 +84,9 @@ background-image: linear-gradient(to right, #92fe9d 0%, #00c9ff 100%);}
   margin-left: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
-  background: #2BD3FD;
+  background: #97DFC6;
   border-radius: 15px;
+  color: black;
 }
 
 /*Fin diff messages */
@@ -90,16 +104,109 @@ background-image: linear-gradient(to right, #92fe9d 0%, #00c9ff 100%);}
 }
 .message-send{
   border-radius: 10px;
-  width: 56px;
-
+  width: 74px;
+  color: black;
+}
+input.message-send {
+    background-color: #6FCEDB;
+    color: white;
+    font-family: 'Amaranth';
 }
 .chat-input
 {
   border-radius: 10px;
-  width: 659px;
+  width: 641px;
   padding: 5px 10px;
   height: 40px;
   font-size: 14px;
   color: black;
   background: rgba(0, 0, 0, .05);
+}
+/*Responsive */
+
+@media (max-width: 1200px)
+{
+  #scroll{
+  height: 500px;
+  width: 500px;
+}
+.row-messagerie
+{
+  width: 500px;
+}
+.contact .card-body h4{
+  padding: 1rem;
+  font-size: 15px;
+}
+.envoie
+{
+  width: 230px;
+
+}.recu
+{
+  width: 230px;
+  }
+  .form#sendMessage{
+    width: 500px;
+  }
+  #sendMessage{
+    margin-top: 10px;
+    width: 600px;
+  }
+  .message-send{
+    border-radius: 10px;
+    width: 74px;
+    color: black;
+  }
+  .chat-input
+  {
+    width: 426px;
+  }
+  .contacts
+  {
+    width: 100px;
+  }
+}
+@media (max-width: 767px)
+{
+  p
+  {
+    font-size: 13px;
+  }
+  span{
+    font-size: 13px;
+  }
+  #scroll{
+  height: 500px;
+  width: 350px;
+}
+.row-messagerie
+{
+  width: 350px;
+}
+.envoie
+{
+  width: 160px;
+
+}.recu
+{
+  width: 160px;
+  }
+  .form#sendMessage{
+    width: 350px;
+  }
+  #sendMessage{
+    margin-top: 10px;
+    width: 350px;
+  }
+  .message-send{
+    border-radius: 10px;
+    width: 74px;
+    color: black;
+  }
+  .chat-input
+  {
+    width: 271px;
+  }
+
 }

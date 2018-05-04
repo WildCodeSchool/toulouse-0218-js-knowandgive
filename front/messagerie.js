@@ -13,7 +13,7 @@ function getContactHTML(contact) {
 
 
 const contactHtml = contacts => /* @html */ `
-<div class="container">
+<div class="container-fluid">
   <div class="row">
     <div class="col-md-3">
       <div class="contacts">
@@ -62,14 +62,9 @@ const messagesHTML = messages => /* @html */`
 </div>
     <form id="sendMessage">
     <input class="chat-input" required></input>
-    <input type="submit" value="Send" class="message-send" />
+    <input type="submit" value="Envoyer" class="message-send" />
   </form>
 `
-
-
-
-
-
 
 module.exports = (context) => {
   let recipientId

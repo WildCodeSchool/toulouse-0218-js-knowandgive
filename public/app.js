@@ -526,13 +526,13 @@ module.exports = /* @html */ `
 /***/ (function(module, exports) {
 
 module.exports = /* @html */ `<footer class="footer">
-    <div class="container">
-        <div class="row justify-content-md-center">
+    <div class="container col-md-">
+        <div class="row d-flex justify-content-center">
           <div class="col-md-">
-            <ul class="nav">
-                <li class="nav-item"><a href="https://www.facebook.com/wildcodeschool/" target="_blank" class="nav-link"><img src="/img/facebook.png" alt="facebook" width="13px"></a></li>
-                <li class="nav-item"><a href="https://twitter.com/wildcodeschool?lang=en" target="_blank" class="nav-link"><img src="/img/instagram.png" alt="instagram" width="35px"></a></li>
-                <li class="nav-item"><a href="https://www.instagram.com/wildcodeschool/" target="_blank" class="nav-link"><img src="/img/twitter.png" alt="twitter" width="30px"></a></li>
+            <ul class="nav footer-align">
+                <div class="logo-1"><li class="nav-item"><a href="https://www.facebook.com/wildcodeschool/" target="_blank" class="nav-link"><img src="/img/facebook.png" alt="facebook" width="13px"></a></li></div>
+                <div class="logo-2"><li class="nav-item"><a href="https://twitter.com/wildcodeschool?lang=en" target="_blank" class="nav-link"><img src="/img/instagram.png" alt="instagram" width="35px"></a></li></div>
+                <div class="logo-3"><li class="nav-item"><a href="https://www.instagram.com/wildcodeschool/" target="_blank" class="nav-link"><img src="/img/twitter.png" alt="twitter" width="30px"></a></li></div>
             </ul>
             <br>
           </div>
@@ -999,9 +999,9 @@ const searchbarHtml = __webpack_require__(1)
 function getGivemanHtml(giveman){
   return `
   <li class="media">
-    <img class="mr-3 col-md-2" src="images/${giveman.photo}" alt="Generic placeholder image" width="12%">
-    <div class="media-body">
-      <h5 class="mt-0 mb-1 col-md-4"><a href="/pageProfil/${giveman.id}">${giveman.firstname} ${giveman.lastname}</a></h5>
+    <img class="mr-3 col-md-2 img-fluid" src="images/${giveman.photo}" alt="Generic placeholder image" width="12%">
+    <div class="media-body col-md-4">
+      <h5 class="mt-0 mb-1 "><a href="/pageProfil/${giveman.id}">${giveman.firstname} ${giveman.lastname}</a></h5>
       <p>${giveman.description}</p>
        </div>
   </li>

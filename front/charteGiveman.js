@@ -1,12 +1,10 @@
 module.exports = /* @html */ `<div class="giveman">
         <h3>Un <b>giveman</b> , qu'est ce que c'est ?</h3>
           <ul>
-            <li class="valeur1"><img src="img/giveman.png" alt="vignette valeur 1" width="3%">Un giveman sait qu'il ne connait rien <b>MAIS</b> veut connaitre.</li>
             <li class="valeur2"><img src="img/giveman.png" alt="vignette valeur 2" width="3%">Un giveman a le <b>coeur</b> sur la main.</li>
             <li class="valeur3"><img src="img/giveman.png" alt="vignette valeur 3" width="3%">Un giveman aime <b>donner</b> et <b>recevoir</b>.</li>
             <li class="valeur4"><img src="img/giveman.png" alt="vignette valeur 4" width="3%">Un giveman appartient à une <b>communauté</b> de <b>partage</b> et d'<b>entraide</b>.</li>
             <li class="valeur5"><img src="img/giveman.png" alt="vignette valeur 5" width="3%">Un giveman est <b>curieux</b> et à l'affut de nouvelles connaissances.</li>
-            <li class="valeur6"><img src="img/giveman.png" alt="vignette valeur 6" width="3%">Un giveman est <b>universel</b>.</li>
           </ul>
           <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
             <img src="img/giveman.png" alt="giveman" width="10%">

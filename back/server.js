@@ -440,6 +440,9 @@ const slugify = (str) => {
 app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, next) {
     //traitement du formulaire
     console.log(req.session.user)
+    const username = req.session.user.user
+    const profileId = req.session.user.id
+
     const fileName = slugify(`${req.session.user.user}-${req.file.originalname}`)
     fs.rename(req.file.path, './public/images/' + fileName, function(err) {
       if (err) {
@@ -466,7 +469,23 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
             error: error.message
           })
         }
-        res.json({fileName})
+        const query = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description, Skill.skill FROM User, Profile, Skill, ProfileSkill WHERE User.user = '${username}' AND Profile.id = '${profileId}' AND ProfileSkill.profileId = Profile.id AND Skill.id = ProfileSkill.skillId`
+        console.log(query)
+        connection.query(query, (error, pagePerso) => {
+          if (error) {
+            return res.status(500).json({
+              error: error.message
+            })
+          }
+          const user = pagePerso[0]
+          const skills = pagePerso.map(row => row.skill)
+          user.skill = skills
+          for(let key in user) {
+            req.session.user[key] = user[key]
+          }
+          console.log(user)
+          res.json(user)
+        })
       })
     })
     //Fin traitement formulaire

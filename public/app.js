@@ -179,12 +179,6 @@ function getContactInformations(infosPerso){
           <div class="form-group row">
               <label for="email" class="col-sm-4 col-form-label">Email : </label>
               <div class="col-sm-6">
-                  <input type="text" class="form-control" id="email" name="email">
-              </div>
-          </div>
-          <div class="form-group row">
-              <label for="email" class="col-sm-4 col-form-label">Email : </label>
-              <div class="col-sm-6">
                   <input type="text" class="form-control" id="email" name="email" value="${infosPerso.email}">
               </div>
           </div>
@@ -210,11 +204,16 @@ function getDescription(infosPerso){
 }
 
 
+function getSkill(skill){
+  return `<span class="badge badge-pill badge-success">${skill}</span>`
+}
+
+
 const pagePersoHtml = infosPerso => /* @html */ `
 
        <h1>Informations personnelles</h1>
        <div class="container" id="formInfo">
-           <div class="row">
+           <div class="row contactInfo">
                <div class="col-md-6 imgProfil">
                  <img src="images/${infosPerso.photo}" alt="photo de profil" width="40%">
 
@@ -246,14 +245,9 @@ const pagePersoHtml = infosPerso => /* @html */ `
                <div class="col-md-6">
                   <div class="form-group skills">
                    <h2>Compétences</h2>
-                     <span class="badge badge-pill badge-success">Jardinage</span>
-                     <span class="badge badge-pill badge-success">Famille</span>
-                     <span class="badge badge-pill badge-success">Decoration</span>
-                     <span class="badge badge-pill badge-success">Bricolage</span>
-                     <span class="badge badge-pill badge-success">Enseignement</span>
-                     <span class="badge badge-pill badge-success">Cuisine</span>
-                     <span class="badge badge-pill badge-success">Mode et beauté</span>
-                     <span class="badge badge-pill badge-success">Art</span><br />
+                   ${infosPerso.skill.map(getSkill).join('')}
+
+                     <br />
                      <form id="formSkill" method="POST" action="/competences">
                        <input type="text" class="form-control" id="competence" name="competence">
                      </form>
@@ -572,14 +566,18 @@ function getSkillBadge(skill) {
   return `<span class="badge badge-pill">
     ${skill}
   </span>`
-
 }
 
 const pageProfilHtml = informations => /* @html */ `
-  <div class="container-fluid">
+  <div class="container-fluid givemanProfile">
     <h1>Bienvenue sur ma page</h1>
     <div class="row">
-        
+        <div class="offset-1 col-md-2 offset-0">
+          <img src="" alt="portrait" class=""><br/>
+          <a href="/messagerie?contactId=${informations.id}" class="btn btn-primary">Contacter</a>
+        </div>
+        <div class="offset-1 col-md-7 offset-1 skills">
+
           ${getProfilHtml(informations)}
 
           <h2 class="profil">Mes compétences</h2>
@@ -599,6 +597,41 @@ module.exports = context => {
   .then(infosProfil => {
     const profilHtml = pageProfilHtml(infosProfil)
     render(profilHtml)
+  })
+  const connexion = document.getElementById('form-post')
+  connexion.addEventListener('submit', event => {
+
+    event.preventDefault()
+    const inputs = connexion.getElementsByTagName('input')
+    let data = {}
+    for (let input of inputs) {
+      if (input.name !== '') {
+       data[input.name] = input.value
+      }
+    }
+
+    const dataJSON = JSON.stringify(data)
+    console.log(dataJSON)
+    fetch('/connexion', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: dataJSON
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.error) {
+        alert(data.error)
+      }
+      else {
+        LoggedInUser = data
+        page(window.location.pathname)
+      }
+      console.log(data)
+    })
   })
 }
 // Fin test navigation thomas //
@@ -771,10 +804,10 @@ module.exports = () => {
     showResultForKeyword(autocompleteInput.value)
   })
 
-  var skill = ["Jardinage", "Famille", "Decoration", "Cuisine", "Art", "Enseignement", "Bricolage", "Mode et beauté"];
-    /* FIN DE LA PARTIE MOTS CLEFS */
-
-  autocomplete(autocompleteInput, skill);
+  // var skill = ["Jardinage", "Famille", "Decoration", "Cuisine", "Art", "Enseignement", "Bricolage", "Mode et beauté"];
+  //   /* FIN DE LA PARTIE MOTS CLEFS */
+  //
+  // autocomplete(autocompleteInput, skill);
 
   if (LoggedInUser) {
     return
@@ -793,7 +826,7 @@ module.exports = () => {
     }
 
     const dataJSON = JSON.stringify(data)
-
+    console.log(dataJSON)
     fetch('/connexion', {
       method: 'POST',
       headers: {

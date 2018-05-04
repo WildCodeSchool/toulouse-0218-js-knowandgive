@@ -16,8 +16,7 @@ module.exports = () => {
     showResultForKeyword(autocompleteInput.value)
   })
 
-  // var skill = ["Jardinage", "Famille", "Decoration", "Cuisine", "Art", "Enseignement", "Bricolage", "Mode et beauté"];
-    /* FIN DE LA PARTIE MOTS CLEFS */
-    console.log(skills)
+
+  console.log(skills)
   autocomplete(autocompleteInput, skills);
 }

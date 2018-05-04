@@ -92,7 +92,7 @@ module.exports = mainHTML => {
 /***/ (function(module, exports) {
 
 module.exports = /* @html */ `<div class="row position">
-      <img src="/img/banniere-know-and-give.png" alt="imageSearch" width="99%"/>
+      <img src="/img/banniere-know-and-give.png" alt="imageSearch" width="99%" class="banniere-intro img-fluid"/>
       <div id="searchbar">
         <form id="search-form" action="#" class="formulaire">
           <div class="autocomplete">
@@ -399,7 +399,7 @@ module.exports = () => {
 /***/ (function(module, exports) {
 
 module.exports = /* @html */ `
-  <nav class="navbar navbar-expand-sm bg-custom navbar-light">
+  <nav class="navbar navbar-expand-sm bg-custom">
       <img class="logo" src="/img/logo.png">
       <a class="navbar-brand" href="/">Know & Give</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -513,9 +513,9 @@ module.exports = /* @html */ `
     <div class="collapse navbar-collapse" id="icons-position">
       <div class="icons">
         <ul class="navbar-nav mr-auto">
-            <a href="/messagerie"><span class="icon-envelop fa-2x"></span></a>
-            <a href="/pagePerso"><span class="icon-user fa-2x"></span></a>
-            <a href="/logout"><span class="icon-switch fa-2x"></span></a>
+            <a href="/messagerie"><span class="icon-envelop fa-1x"></span></a>
+            <a href="/pagePerso"><span class="icon-user fa-1x"></span></a>
+            <a href="/logout"><span class="icon-switch fa-1x"></span></a>
         </ul>
       </div>
     </div>
@@ -529,9 +529,9 @@ module.exports = /* @html */ `
 
 module.exports = /* @html */ `<footer class="footer">
     <div class="container">
-        <div class="row justify-content-md-center">
+        <div class="row d-flex justify-content-center">
           <div class="icones-footer">
-            <ul class="nav offset-xs-3">
+            <ul class="nav footer-align">
                 <li class="nav-item"><a href="https://www.facebook.com/wildcodeschool/" target="_blank" class="nav-link"><img src="/img/facebook.png" alt="facebook" width="13px"></a></li>
                 <li class="nav-item"><a href="https://twitter.com/wildcodeschool?lang=en" target="_blank" class="nav-link"><img src="/img/instagram.png" alt="instagram" width="35px"></a></li>
                 <li class="nav-item"><a href="https://www.instagram.com/wildcodeschool/" target="_blank" class="nav-link"><img src="/img/twitter.png" alt="twitter" width="30px"></a></li>

@@ -1,5 +1,5 @@
 module.exports = /* @html */ `<div class="row position">
-      <img src="/img/banniere-know-and-give.png" alt="imageSearch" width="99%"/>
+      <img src="/img/banniere-know-and-give.png" alt="imageSearch" width="99%" class="banniere-intro img-fluid"/>
       <div id="searchbar">
         <form id="search-form" action="#" class="formulaire">
           <div class="autocomplete">

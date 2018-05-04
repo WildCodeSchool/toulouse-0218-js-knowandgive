@@ -40,9 +40,32 @@ footer p {
   padding-bottom: 3%;
 }
 
-/* .bouton-recherche {
-  background-color: #6fcedb;
+/* @media all and (max-width: 500px) {
+
+  .position > #searchbar {
+    position: absolute;
+    width: 100%;
+    margin-bottom: 5%;
+    margin-top: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
 } */
+
+
+@media only screen and (max-width: 768px) {
+  .footer-align {
+    width: auto;
+    text-align: justify;
+    float: none;
+  }
+}
+
+@media all and (max-width: 530px) {
+  .navbar-brand {
+    display: none;
+  }
+}
 
 .btn-nav {
   background-color: #6fcedb;
@@ -64,8 +87,12 @@ footer p {
   border-bottom: 5px solid #00FE44;
 }
 
-.navbar > a {
+.navbar  a {
   font-size: 40px;
+  color: grey;
+}
+
+.navbar-toggler {
   color: grey;
 }
 

@@ -1,5 +1,5 @@
 module.exports = /* @html */ `
-  <nav class="navbar navbar-expand-sm bg-custom navbar-light">
+  <nav class="navbar navbar-expand-sm bg-custom">
       <img class="logo" src="/img/logo.png">
       <a class="navbar-brand" href="/">Know & Give</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">

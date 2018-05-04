@@ -68,8 +68,16 @@ footer p {
   margin-bottom: 2%;
 }
 
-.contactInfo a {
-  background-color: #C4C4C4;
+.contactInfo .btn {
+  background-color: #6fcedb;
+  border-color: #6fcedb;
+  font-family: 'Amaranth';
+}
+
+.contactInfo button {
+  background-color: #6fcedb;
+  border-color: #6fcedb;
+  font-family: 'Amaranth';
 }
 
 .givemanProfile h1{
@@ -78,6 +86,12 @@ footer p {
 
 .givemanProfile img{
   margin-top: 75%;
+}
+
+.givemanProfile .btn {
+  background-color: #6fcedb;
+  border-color: #6fcedb;
+  font-family: 'Amaranth';
 }
 
 h1 {
@@ -123,9 +137,21 @@ h2 {
   margin-bottom: 3%;
 }
 
+.skills .btn {
+  background-color: #6fcedb;
+  border-color: #6fcedb;
+  font-family: 'Amaranth';
+}
+
+.skills input {
+  margin-bottom: 5%;
+}
+
 .card {
   margin-bottom: 5%;
 }
+
+
 
 .contactInformations input {
   margin: 0 auto
@@ -135,8 +161,10 @@ h2 {
   margin-bottom: 5%;
 }
 
-.skills input {
-  margin-bottom: 5%;
+.description .btn {
+  background-color: #6fcedb;
+  border-color: #6fcedb;
+  font-family: 'Amaranth';
 }
 
 .items {

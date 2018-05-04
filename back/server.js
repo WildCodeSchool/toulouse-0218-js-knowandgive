@@ -16,7 +16,7 @@ app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
 
 
 
-const html = user => /* @html */`
+const html = (user, skills) => /* @html */`
 <!doctype html>
 <html lang="en">
   <head>
@@ -47,6 +47,8 @@ const html = user => /* @html */`
       <script src="/page.js"></script>
       <script>
       let LoggedInUser = ${JSON.stringify(user)}
+      let skills = ${JSON.stringify(skills)}
+
       </script>
       <script src="/app.js"></script>
 </html>
@@ -94,6 +96,7 @@ const html = user => /* @html */`
 
 // Fin de test Thomas //
 
+
 app.get('/logout', (req,res) => {
   req.session.destroy(function(error){
     if (error) {
@@ -126,7 +129,6 @@ app.post('/connexion', (req, res) => {
 
     const userConnection = req.body.userConnection
     const passwordConnection = req.body.passwordConnection
-    // const query = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description FROM User, Profile WHERE User.user = '${userConnection}' AND User.id = Profile.userId`
     const query = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description, Skill.skill FROM User, Profile, Skill, ProfileSkill WHERE User.user = '${userConnection}' AND User.id = Profile.userId AND ProfileSkill.profileId = Profile.id AND Skill.id = ProfileSkill.skillId`
 
   connection.query(query, (error, results) => {
@@ -438,6 +440,9 @@ const slugify = (str) => {
 app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, next) {
     //traitement du formulaire
     console.log(req.session.user)
+    const username = req.session.user.user
+    const profileId = req.session.user.id
+
     const fileName = slugify(`${req.session.user.user}-${req.file.originalname}`)
     fs.rename(req.file.path, './public/images/' + fileName, function(err) {
       if (err) {
@@ -464,7 +469,23 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
             error: error.message
           })
         }
-        res.json({fileName})
+        const query = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description, Skill.skill FROM User, Profile, Skill, ProfileSkill WHERE User.user = '${username}' AND Profile.id = '${profileId}' AND ProfileSkill.profileId = Profile.id AND Skill.id = ProfileSkill.skillId`
+        console.log(query)
+        connection.query(query, (error, pagePerso) => {
+          if (error) {
+            return res.status(500).json({
+              error: error.message
+            })
+          }
+          const user = pagePerso[0]
+          const skills = pagePerso.map(row => row.skill)
+          user.skill = skills
+          for(let key in user) {
+            req.session.user[key] = user[key]
+          }
+          console.log(user)
+          res.json(user)
+        })
       })
     })
     //Fin traitement formulaire
@@ -626,10 +647,22 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
 
 app.get('*', (req, res) => {
 
-    res.send(html(req.session.user))
+  const query = `SELECT skill FROM Skill`
+  console.log(query)
+  connection.query(query, (error, result) => {
+    // const skills = result[0]
+    // req.session.skills = skills
+    // res.json(skills)
+    const skills = result
+      .map(row => row.skill)
+      .filter(skill => skill !== null)
+    res.send(html(req.session.user, skills))
     res.end()
+
+  })
+
 })
 
 
-console.log('Server listening on http://127.0.0.1:5000')
-app.listen(5000)
+console.log('Server listening on http://127.0.0.1:4000')
+app.listen(4000)

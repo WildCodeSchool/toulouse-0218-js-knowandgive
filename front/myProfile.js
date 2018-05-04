@@ -71,8 +71,8 @@ const pagePersoHtml = infosPerso => /* @html */ `
 
                    <!-- Upload de la photo -->
                    <form method="POST" id="file-form" enctype="multipart/form-data" action="/uploaddufichier">
-                      <input type="file" id="file-select" name="monfichier">
-                        <button id="upload-button"> envoyer </button>
+                      <input type="file" id="file-select" name="monfichier"><br/>
+                        <button class="btn btn-primary" id="upload-button"> Envoyer </button>
                    </form>
                    <!-- fin Upload photo -->
                </div>

@@ -80,9 +80,105 @@ function removeBackdrops() {
   document.body.classList.remove('modal-open')
 }
 
+function setEventListeners (){
+    const connexion = document.getElementById('form-post')
+    connexion.addEventListener('submit', event => {
+
+      event.preventDefault()
+      const inputs = connexion.getElementsByTagName('input')
+      let data = {}
+      for (let input of inputs) {
+        if (input.name !== '') {
+         data[input.name] = input.value
+        }
+      }
+
+      const dataJSON = JSON.stringify(data)
+      console.log(dataJSON)
+      fetch('/connexion', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: dataJSON
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.error) {
+          alert(data.error)
+        }
+        else {
+          LoggedInUser = data
+          page(window.location.pathname)
+        }
+        console.log(data)
+      })
+    })
+
+      const createAccount = document.getElementById('form-account')
+      console.log(createAccount)
+      createAccount.addEventListener('submit', event => {
+
+        event.preventDefault()
+        const inputsForm = createAccount.getElementsByTagName('input')
+        let accountData = {}
+        for (let input of inputsForm) {
+          if (input.name !== '') {
+              accountData[input.name] = input.value
+          }
+          if (input.value === '') {
+            return alert('Veuillez renseigner tous les champs')
+          }
+        }
+
+        if ((accountData.email !== accountData.confirmEmail) || (accountData.password !== accountData.confirmPassword)) {
+          alert('Mot de passe ou email de confirmation incorrect')
+        }
+
+        const accountDataJSON = JSON.stringify(accountData)
+
+
+        fetch('/create-account', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include',
+          body: accountDataJSON
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.error) {
+            alert(data.error)
+          }
+          else {
+            LoggedInUser = data
+            page('/pagePerso')
+          }
+          console.log(accountData)
+        })
+    })
+}
+
+
+
 module.exports = mainHTML => {
-  const navBar = LoggedInUser === undefined ? navbarHtml : navbarBisHtml
+  let navBar
+   if (LoggedInUser === undefined) {
+     navBar = navbarHtml
+   }
+   else {
+     navBar = navbarBisHtml
+   }
+
   mainDiv.innerHTML = navBar+ mainHTML + footerHtml
+
+  if (LoggedInUser === undefined) {
+    setEventListeners ()
+  }
   removeBackdrops()
 }
 
@@ -220,8 +316,8 @@ const pagePersoHtml = infosPerso => /* @html */ `
 
                    <!-- Upload de la photo -->
                    <form method="POST" id="file-form" enctype="multipart/form-data" action="/uploaddufichier">
-                      <input type="file" id="file-select" name="monfichier">
-                        <button id="upload-button"> envoyer </button>
+                      <input type="file" id="file-select" name="monfichier"><br/>
+                        <button class="btn btn-primary" id="upload-button"> Envoyer </button>
                    </form>
                    <!-- fin Upload photo -->
                </div>
@@ -586,6 +682,7 @@ const pageProfilHtml = informations => /* @html */ `
 `
 // début test navigation thomas //
 module.exports = context => {
+
   console.log(context)
   const profilId = context.params.profilId
   fetch(`/getProfileData/${profilId}`)
@@ -594,6 +691,8 @@ module.exports = context => {
     const profilHtml = pageProfilHtml(infosProfil)
     render(profilHtml)
   })
+
+
 }
 // Fin test navigation thomas //
 
@@ -755,6 +854,8 @@ const competencesHtml = __webpack_require__(10)
 const charteGivemanHtml = __webpack_require__(11)
 const presentationHtml = __webpack_require__(12)
 const showResultForKeyword = __webpack_require__(13)
+// const searchFormEvents = require('./searchFormEvents')
+
 module.exports = () => {
   render(searchbarHtml + presentationHtml + competencesHtml + charteGivemanHtml)
   const autocompleteInput = document.getElementById("myInput")
@@ -766,94 +867,9 @@ module.exports = () => {
   })
 
   // var skill = ["Jardinage", "Famille", "Decoration", "Cuisine", "Art", "Enseignement", "Bricolage", "Mode et beauté"];
-  //   /* FIN DE LA PARTIE MOTS CLEFS */
-  //
-  // autocomplete(autocompleteInput, skill);
-
-  if (LoggedInUser) {
-    return
-  }
-
-  const connexion = document.getElementById('form-post')
-  connexion.addEventListener('submit', event => {
-
-    event.preventDefault()
-    const inputs = connexion.getElementsByTagName('input')
-    let data = {}
-    for (let input of inputs) {
-      if (input.name !== '') {
-       data[input.name] = input.value
-      }
-    }
-
-    const dataJSON = JSON.stringify(data)
-    console.log(dataJSON)
-    fetch('/connexion', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-      body: dataJSON
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.error) {
-        alert(data.error)
-      }
-      else {
-        LoggedInUser = data
-        page(window.location.pathname)
-      }
-      console.log(data)
-    })
-  })
-
-    const createAccount = document.getElementById('form-account')
-    console.log(createAccount)
-    createAccount.addEventListener('submit', event => {
-
-      event.preventDefault()
-      const inputsForm = createAccount.getElementsByTagName('input')
-      let accountData = {}
-      for (let input of inputsForm) {
-        if (input.name !== '') {
-            accountData[input.name] = input.value
-        }
-        if (input.value === '') {
-          return alert('Veuillez renseigner tous les champs')
-        }
-      }
-
-      if ((accountData.email !== accountData.confirmEmail) || (accountData.password !== accountData.confirmPassword)) {
-        alert('Mot de passe ou email de confirmation incorrect')
-      }
-
-      const accountDataJSON = JSON.stringify(accountData)
-
-
-      fetch('/create-account', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: accountDataJSON
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.error) {
-          alert(data.error)
-        }
-        else {
-          LoggedInUser = data
-          page('/pagePerso')
-        }
-        console.log(accountData)
-      })
-  })
+    /* FIN DE LA PARTIE MOTS CLEFS */
+    console.log(skills)
+  autocomplete(autocompleteInput, skills);
 }
 
 
@@ -992,6 +1008,8 @@ module.exports = /* @html */ `<div class="video">
 
 const render = __webpack_require__(0)
 const searchbarHtml = __webpack_require__(1)
+// const searchFormEvents = require('./searchFormEvents')
+
 function getGivemanHtml(giveman){
   return `
   <li class="media">
@@ -1013,6 +1031,19 @@ function showResultForKeyword(keyword) {
   .then(response =>response.json())
   .then(givemen => {
     render(searchbarHtml + resultHtml(givemen))
+    const autocompleteInput = document.getElementById("myInput")
+    const searchForm = document.getElementById("search-form")
+    console.log(searchForm)
+    searchForm.addEventListener('submit', event => {
+      event.preventDefault()
+      showResultForKeyword(autocompleteInput.value)
+    })
+
+    // var skill = ["Jardinage", "Famille", "Decoration", "Cuisine", "Art", "Enseignement", "Bricolage", "Mode et beauté"];
+      /* FIN DE LA PARTIE MOTS CLEFS */
+      console.log(skills)
+    autocomplete(autocompleteInput, skills);
+    // console.log(searchFormEvents)
   })
 }
 

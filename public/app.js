@@ -594,41 +594,6 @@ module.exports = context => {
     const profilHtml = pageProfilHtml(infosProfil)
     render(profilHtml)
   })
-  const connexion = document.getElementById('form-post')
-  connexion.addEventListener('submit', event => {
-
-    event.preventDefault()
-    const inputs = connexion.getElementsByTagName('input')
-    let data = {}
-    for (let input of inputs) {
-      if (input.name !== '') {
-       data[input.name] = input.value
-      }
-    }
-
-    const dataJSON = JSON.stringify(data)
-    console.log(dataJSON)
-    fetch('/connexion', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-      body: dataJSON
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.error) {
-        alert(data.error)
-      }
-      else {
-        LoggedInUser = data
-        page(window.location.pathname)
-      }
-      console.log(data)
-    })
-  })
 }
 // Fin test navigation thomas //
 

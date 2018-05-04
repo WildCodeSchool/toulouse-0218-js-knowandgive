@@ -62,7 +62,7 @@ const messagesHTML = messages => /* @html */`
 </div>
     <form id="sendMessage">
     <input class="chat-input" required></input>
-    <input type="submit" value="Send" class="message-send" />
+    <input type="submit" value="Envoyer" class="message-send" />
   </form>
 `
 

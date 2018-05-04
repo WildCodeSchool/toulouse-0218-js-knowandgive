@@ -545,11 +545,12 @@ module.exports = /* @html */ `<footer class="footer">
 
 const render = __webpack_require__(0)
 function getProfilHtml(informations) {
-  return `<div class="col-md-2">
-    <img src="/images/${informations.photo}" alt="portrait" class="img-fluid"><br/>
-    <a href="/messagerie?contactId=${informations.id}" class="btn btn-primary">Contacter</a>
+  return `<div class="offset-2 col-md-2">
+    <img src="/images/${informations.photo}" alt="portrait" class="photo-profile img-fluid"><br/>
+    <a href="/messagerie?contactId=${informations.id}" class="btn btn-primary bouton-photo">Contacter</a>
   </div>
-  <div class="col-md-10 skills">
+  <div class="col-md-7 skills">
+  <div class="col-md-10 skills paragraph">
     <h2 class="profil">A propos de moi</h2>
 
     <p class="nom">
@@ -572,11 +573,8 @@ const pageProfilHtml = informations => /* @html */ `
   <div class="container-fluid givemanProfile">
     <h1>Bienvenue sur ma page</h1>
     <div class="row">
-        <div class="offset-1 col-md-2 offset-0">
-          <img src="" alt="portrait" class=""><br/>
-          <a href="/messagerie?contactId=${informations.id}" class="btn btn-primary">Contacter</a>
-        </div>
-        <div class="offset-1 col-md-7 offset-1 skills">
+
+
 
           ${getProfilHtml(informations)}
 
@@ -597,41 +595,6 @@ module.exports = context => {
   .then(infosProfil => {
     const profilHtml = pageProfilHtml(infosProfil)
     render(profilHtml)
-  })
-  const connexion = document.getElementById('form-post')
-  connexion.addEventListener('submit', event => {
-
-    event.preventDefault()
-    const inputs = connexion.getElementsByTagName('input')
-    let data = {}
-    for (let input of inputs) {
-      if (input.name !== '') {
-       data[input.name] = input.value
-      }
-    }
-
-    const dataJSON = JSON.stringify(data)
-    console.log(dataJSON)
-    fetch('/connexion', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-      body: dataJSON
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.error) {
-        alert(data.error)
-      }
-      else {
-        LoggedInUser = data
-        page(window.location.pathname)
-      }
-      console.log(data)
-    })
   })
 }
 // Fin test navigation thomas //

@@ -16,33 +16,30 @@ app.use(session({ secret: "cats", resave: true, saveUninitialized: true }))
 
 
 
-const html = user => /* @html */`
+const html = (user, skills) => /* @html */`
 <!doctype html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="recherche.css">
+    <link rel="stylesheet" href="/recherche.css">
     <link rel="stylesheet" href="/css/givemenStyle.css">
     <link rel="stylesheet" href="/css/chat.css">
     <link rel="stylesheet" href="/css/style.css">
-
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Amaranth" rel="stylesheet">
-
     <title>Know & Give</title>
   </head>
   <body>
-    <div id="main">
 
+
+    <div id="main">
     </div>
   </body>
-
  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -50,6 +47,8 @@ const html = user => /* @html */`
       <script src="/page.js"></script>
       <script>
       let LoggedInUser = ${JSON.stringify(user)}
+      let skills = ${JSON.stringify(skills)}
+
       </script>
       <script src="/app.js"></script>
 </html>
@@ -97,10 +96,13 @@ const html = user => /* @html */`
 
 // Fin de test Thomas //
 
+
 app.get('/logout', (req,res) => {
-  req.session.destroy(function(err){
-    if(err){
-      console.log(err)
+  req.session.destroy(function(error){
+    if (error) {
+      return res.status(500).json({
+        error: error.message
+      })
     }
     else{
       res.redirect('/')
@@ -127,8 +129,7 @@ app.post('/connexion', (req, res) => {
 
     const userConnection = req.body.userConnection
     const passwordConnection = req.body.passwordConnection
-    const query = `SELECT User.user, User.password, Profile.id FROM User, Profile WHERE User = '${userConnection}' AND User.id = Profile.userId`
-    // const query = `SELECT u.user, u.password, p.id FROM User u WHERE u.user = '${userConnection}' INNER JOIN Profile p ON u.id = p.userId`
+    const query = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description, Skill.skill FROM User, Profile, Skill, ProfileSkill WHERE User.user = '${userConnection}' AND User.id = Profile.userId AND ProfileSkill.profileId = Profile.id AND Skill.id = ProfileSkill.skillId`
 
   connection.query(query, (error, results) => {
   console.log(results)
@@ -148,6 +149,8 @@ app.post('/connexion', (req, res) => {
       })
     }
     const user = results[0]
+    const skills = results.map(row => row.skill)
+    user.skill = skills
     req.session.user = user
     res.json(user)
   })
@@ -207,7 +210,7 @@ app.post('/create-account', (req, res) => {
             })
           }
           const username = req.body.username
-          let request4 = `SELECT User.user, User.email, Profile.id FROM User, Profile WHERE user = '${username}' AND userId = ${results.insertId}`
+          let request4 = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description FROM User, Profile WHERE User.user = '${username}' AND Profile.userId = ${results.insertId}`
           console.log(request4)
           connection.query(request4, (error, resultat) => {
             if (error){
@@ -215,8 +218,9 @@ app.post('/create-account', (req, res) => {
                 error: error.message
               })
             }
-            const user = resultat[0]
+            let user = resultat[0]
             req.session.user = user
+            user.skill = []
             console.log(user)
             res.json(user)
           })
@@ -226,6 +230,7 @@ app.post('/create-account', (req, res) => {
   })
 })
 
+
 //Gestion de l'envoi du formulaire sur serveur
 app.post('/informations-personnelles', (req, res) => {
   console.log(req.body)
@@ -234,8 +239,10 @@ app.post('/informations-personnelles', (req, res) => {
   const prenom = req.body.firstname
   const codePostal = req.body.zipCode
   const ville = req.body.city
-  let profileId = req.session.user.id
+  const email = req.body.email
   const linkedin = req.body.linkedin
+  let profileId = req.session.user.id
+  let username = req.session.user.user
 
 
   const query1 = `UPDATE Profile SET lastname = '${nom}', firstname = '${prenom}', zipCode = '${codePostal}', city = '${ville}', linkedin = '${linkedin}' WHERE id = '${profileId}'`
@@ -246,26 +253,44 @@ app.post('/informations-personnelles', (req, res) => {
         error: error.message
       })
     }
-    const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin FROM Profile WHERE id = '${profileId}'`
+    const query = `UPDATE User SET email = '${email}' WHERE user = '${username}'`
     console.log(query)
-    connection.query(query, (error, pagePerso) => {
+    connection.query(query, (error, result) => {
       if (error) {
         return res.status(500).json({
           error: error.message
         })
       }
-      const infosPerso = pagePerso[0]
-      console.log(infosPerso)
-      res.json(infosPerso)
+      const query = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description, Skill.skill FROM User, Profile, Skill, ProfileSkill WHERE User.user = '${username}' AND Profile.id = '${profileId}' AND ProfileSkill.profileId = Profile.id AND Skill.id = ProfileSkill.skillId`
+      console.log(query)
+      connection.query(query, (error, pagePerso) => {
+        if (error) {
+          return res.status(500).json({
+            error: error.message
+          })
+        }
+        const user = pagePerso[0]
+        const skills = pagePerso.map(row => row.skill)
+        user.skill = skills
+        for(let key in user) {
+          req.session.user[key] = user[key]
+        }
+        console.log(user)
+        res.json(user)
+
+
+      })
     })
   })
 })
 
+// Gestion de la description de l'utilisateur
 app.post('/description', (req, res) => {
   console.log(req.body)
 
   const description = req.body.description
   let profileId = req.session.user.id
+  let username = req.session.user.user
 
 
   const query1 = `UPDATE Profile SET description = '${description}' WHERE id = '${profileId}'`
@@ -276,7 +301,7 @@ app.post('/description', (req, res) => {
         error: error.message
       })
     }
-    const query = `SELECT description FROM Profile WHERE id = '${profileId}'`
+    const query = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description, Skill.skill FROM User, Profile, Skill, ProfileSkill WHERE User.user = '${username}' AND Profile.id = '${profileId}' AND ProfileSkill.profileId = Profile.id AND Skill.id = ProfileSkill.skillId`
     console.log(query)
     connection.query(query, (error, pagePerso) => {
       if (error) {
@@ -284,14 +309,19 @@ app.post('/description', (req, res) => {
           error: error.message
         })
       }
-      const infosPerso = pagePerso[0]
-      console.log(infosPerso)
-      res.json(infosPerso)
+      const user = pagePerso[0]
+      const skills = pagePerso.map(row => row.skill)
+      user.skill = skills
+      for(let key in user) {
+        req.session.user[key] = user[key]
+      }
+      console.log(user)
+      res.json(user)
     })
   })
 })
 
-
+//Gestion d'entrer de compétences
 app.post('/competences', (req, res) => {
   console.log(req.body)
 
@@ -299,6 +329,7 @@ app.post('/competences', (req, res) => {
   let request1 = `SELECT id, skill FROM Skill where skill = '${competence}'`
   let LoggedInUserId = req.session.user.id
   const profileId = LoggedInUserId
+  let username = req.session.user.user
 
 //1. On vérifie si la compétence existe
   connection.query(request1, (error, results) => {
@@ -320,87 +351,149 @@ app.post('/competences', (req, res) => {
             error: error.message
           })
         }
-        const profileSkill = result
-        console.log(profileSkill)
-        return res.json({result: profileSkill})
+        const request3 = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description, Skill.skill FROM User, Profile, Skill, ProfileSkill WHERE User.user = '${username}' AND Profile.id = '${profileId}' AND ProfileSkill.profileId = Profile.id AND Skill.id = ProfileSkill.skillId`
+        console.log(request3)
+        connection.query(request3, (error, result) => {
+          if (error) {
+            return res.status(500).json({
+              error: error.message
+            })
+          }
+          const user = result[0]
+          const skills = result.map(row => row.skill)
+          user.skill = skills
+          for(let key in user) {
+            req.session.user[key] = user[key]
+          }
+          console.log(user)
+          return res.json(user)
+        })
       })
     }
 //2. Cas où elle n'existe pas
-    const query1 = `INSERT INTO Skill (skill) VALUES ('${competence}')`
+    else {
+      const query1 = `INSERT INTO Skill (skill) VALUES ('${competence}')`
 
-    connection.query(query1, (error, resultats) => {
-      if (error) {
-        return res.status(500).json({
-          error: error.message
-        })
-      }
-      const competenceEntree = resultats
-      console.log(competenceEntree)
-      const query2 = `INSERT INTO ProfileSkill (skillId, profileId) VALUES ('${resultats.insertId}', '${profileId}') `
-      console.log(query2)
-      connection.query(query2, (error, result) => {
+      connection.query(query1, (error, resultats) => {
         if (error) {
           return res.status(500).json({
             error: error.message
           })
         }
-        const newSkill = result
-        console.log(newSkill)
-        res.json({result: newSkill})
+        const competenceEntree = resultats
+        console.log(competenceEntree)
+        const query2 = `INSERT INTO ProfileSkill (skillId, profileId) VALUES ('${resultats.insertId}', '${profileId}') `
+        console.log(query2)
+        connection.query(query2, (error, result) => {
+          if (error) {
+            return res.status(500).json({
+              error: error.message
+            })
+          }
+          const query3 = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description, Skill.skill FROM User, Profile, Skill, ProfileSkill WHERE User.user = '${username}' AND Profile.id = '${profileId}' AND ProfileSkill.profileId = Profile.id AND Skill.id = ProfileSkill.skillId`
+          console.log(query3)
+          connection.query(query3, (error, result) => {
+            if (error) {
+              return res.status(500).json({
+                error: error.message
+              })
+            }
+            const user = result[0]
+            const skills = result.map(row => row.skill)
+            user.skill = skills
+            for(let key in user) {
+              req.session.user[key] = user[key]
+            }
+            console.log(user)
+            res.json({result: user})
+          })
+        })
       })
-    })
+    }
   })
 })
 
-//Fin gestion du formulaire
+
+const slugify = (str) => {
+  str = str.replace(/^\s+|\s+$/g, ''); // trim
+  str = str.toLowerCase();
+
+  // remove accents, swap ñ for n, etc
+  const from = "àáäâèéëêìíïîòóöôùúüûñç·/_,:;";
+  const to   = "aaaaeeeeiiiioooouuuunc------";
+
+  for (let i=0, l=from.length ; i<l ; i++)
+    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
 
 
-//Récuperer les informations de la page personnelle
-// app.get('/coordonnées', (req,res) => {
-//   let profileId = req.session.user.id
-//   const query = `SELECT id, lastname, firstname, zipCode, city, photo, linkedin, description FROM Profile WHERE id = '${profileId}'`
-//   console.log(query)
-//   connection.query(query, (error, pagePerso) => {
-//     if (error) {
-//       return res.status(500).json({
-//         error: error.message
-//       })
-//     }
-//     const infosPerso = pagePerso[0]
-//     console.log(infosPerso)
-//     res.json(infosPerso)
-//   })
-// })
+  str = str.replace(/[^a-z0-9 -.]/g, '') // remove invalid chars
+    .replace(/\s+/g, '-') // collapse whitespace and replace by -
+    .replace(/-+/g, '-'); // collapse dashes
 
+  return str
+}
 
 //fonction upload de la photo
 app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, next) {
     //traitement du formulaire
-    fs.rename(req.file.path, './public/images/' + req.file.originalname, function(err) {
+    console.log(req.session.user)
+    const username = req.session.user.user
+    const profileId = req.session.user.id
+
+    const fileName = slugify(`${req.session.user.user}-${req.file.originalname}`)
+    fs.rename(req.file.path, './public/images/' + fileName, function(err) {
       if (err) {
-        res.status(500).json({
+        return res.status(500).json({
           error: error.message
         })
       }
-    //Type de fichier
-      // if (req.file.mimetype !== 'image/jpeg') {
+      //Type de fichier
+      // if (req.file.mimetype !== image/jpeg) {
       //   res.send('Type de fichier non-supporté')
       // }
       //Limite de poids du fichier
-      if (req.file.size > 1300000) {
-        res.send('Fichier trop gros')
+      if (req.file.size > 2000000) {
+        return res.status(413).json({
+          error: 'Fichier trop important (2Mo max autorisé)'
+        })
       }
       //Succès de l'upload
-      else {
-      res.send('Fichier uploadé avec succès')
-      }
+      // res.send('Fichier uploadé avec succès')
+      const updatePhoto = `UPDATE Profile SET photo = '${fileName}' WHERE id = ${req.session.user.id}`
+      connection.query(updatePhoto, (error, resultats) => {
+        if (error) {
+          return res.status(500).json({
+            error: error.message
+          })
+        }
+        const query = `SELECT User.user, User.email, User.password, Profile.id, Profile.lastname, Profile.firstname, Profile.zipCode, Profile.city, Profile.linkedin, Profile.photo, Profile.description, Skill.skill FROM User, Profile, Skill, ProfileSkill WHERE User.user = '${username}' AND Profile.id = '${profileId}' AND ProfileSkill.profileId = Profile.id AND Skill.id = ProfileSkill.skillId`
+        console.log(query)
+        connection.query(query, (error, pagePerso) => {
+          if (error) {
+            return res.status(500).json({
+              error: error.message
+            })
+          }
+          const user = pagePerso[0]
+          const skills = pagePerso.map(row => row.skill)
+          user.skill = skills
+          for(let key in user) {
+            req.session.user[key] = user[key]
+          }
+          console.log(user)
+          res.json(user)
+        })
+      })
     })
     //Fin traitement formulaire
 })
 //fin upload photo
 
-  app.get('/chat/people',(req, res) => {
-    const connectionId = 7
+  app.get('/messagerie/people',(req, res) => {
+    const contactId = req.query.contactId ?
+      Number(req.query.contactId) : undefined
+    const connectionId = req.session.user.id
+    console.log(req.session.user)
     const sql =`SELECT recipientId, senderId FROM Message WHERE senderId = ${connectionId}
     OR recipientId = ${connectionId}`
 
@@ -410,7 +503,8 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
           error: error.message
         })
       }
-      const profileIds = []
+      const profileIds = contactId ? [contactId] : []
+      console.log(profileIds)
       for (let message of results) {
         if (connectionId == message.senderId ) {
           if (profileIds.includes(message.recipientId) === false) {
@@ -426,11 +520,11 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
       }
 
       const finalQuery = `SELECT id, firstname, lastname FROM Profile WHERE id IN (${profileIds.join()}) `
-      console.log(results, profileIds, finalQuery)
+
         connection.query(finalQuery, (error, profiles) =>{
           if (error) return res.status(500).send(error.message);
           // const profilesId = resultats2[0].profileIds
-          console.log(profiles)
+
           res.json(profiles)
 
         })
@@ -438,14 +532,14 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
     })
   })
 
-    app.get('/chat/messages/:otherId',(req, res) => {
-      const connectionId = 7
+    app.get('/messagerie/messages/:otherId',(req, res) => {
+      const connectionId = req.session.user.id
       const otherId = req.params.otherId
-      const sqlMessage = `SELECT message, dateTime, senderId, recipientId FROM Message WHERE (recipientId = ${connectionId}
+      const sqlMessage = `SELECT message,DATE_FORMAT(dateTime, '%H:%i %d/%m/%Y ')  as dateTime, senderId, recipientId FROM Message WHERE (recipientId = ${connectionId}
       AND senderId = ${otherId})
       OR senderId = ${connectionId} AND recipientId = ${otherId}
-      ORDER by dateTime ASC`
-
+      ORDER by Message.dateTime ASC`
+    console.log(req.session.user.id, otherId)
       connection.query(sqlMessage, (error, results)=> {
         if (error) {
           return res.status(500).json({
@@ -459,15 +553,39 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
       })
 
     })
-    app.post('/chat',(req, res) => {
-      const connectionId = 7
+    app.post('/messagerie',(req, res) => {
+      const senderId = req.session.user.id
+      const recipientId = req.body.recipientId
       const message = req.body.message
-      console.log(req.body,req.session)
+      console.log(req.body.message)
+      const query = `INSERT INTO Message (senderId, recipientId, message)
+      VALUES ('${senderId}', '${recipientId}', '${message}')`
 
+
+      connection.query(query, (error, result) => {
+        if (error) {
+          return res.status(500).json({
+            error: error.message
+          })
+        }
+        // const sendedMessage = results
+        // console.log(sendedMessage)
+
+        // res.json({
+          // result: sendedMessage
+        // })
+        const selectQuery = `SELECT message,DATE_FORMAT(dateTime, '%H:%i %d/%m/%Y ')
+          as dateTime, senderId, recipientId FROM Message WHERE id = ${result.insertId}`
+          connection.query(selectQuery, (error, messages) => {
+            if (error) {
+              return res.status(500).json({
+                error: error.message
+              })
+            }
+            res.json(messages[0])
+          })
+      })
   })
-
-    //const queryInsertMessage = `INSERT INTO Message (senderId, recipientId, dateTime, messages)
-    //value ()`
 
 
     app.get('/getProfileData/:profileId', (req, res ) => {
@@ -502,7 +620,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
         connection.query(finalQuery2, (error, pageProfil3) =>{
           if (error) return res.status(500).send(error.message)
               // const profilesId = resultats2[0].profileIds
-          console.log(pageProfil3)
+
             const skillNames = pageProfil3.map(skillObj => {
             return skillObj.skill
           })
@@ -511,7 +629,7 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
           const informationUser = pageProfil[0]
           informationUser.skills = skillNames
 
-          console.log(informationUser, pageProfil3)
+
 
           res.json(informationUser)
 
@@ -521,13 +639,22 @@ app.post('/uploaddufichier', upload.single('monfichier'), function(req, res, nex
     })
 
 
-
-
-
 app.get('*', (req, res) => {
-    console.log(req.session.user)
-    res.send(html(req.session.user))
+
+  const query = `SELECT skill FROM Skill`
+  console.log(query)
+  connection.query(query, (error, result) => {
+    // const skills = result[0]
+    // req.session.skills = skills
+    // res.json(skills)
+    const skills = result
+      .map(row => row.skill)
+      .filter(skill => skill !== null)
+    res.send(html(req.session.user, skills))
     res.end()
+
+  })
+
 })
 
 

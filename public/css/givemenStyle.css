@@ -62,6 +62,39 @@ footer p {
   color: #00FE44;
 }
 
+<<<<<<< HEAD
+/*.footer-align {*/
+ /* position: absolute;*/
+  /*display: block;*/
+/*  margin-left: auto;
+  margin-right: auto;*/
+  /*width: 4%;*/
+/*}*/
+
+@media only screen and (max-width: 768px) {
+  .footer-align {width: auto; text-align: justify;float: none; }
+  /*.logo-2 {width: 40%; margin-right: 50%; margin-left: 75%; }
+  .logo-3 {width: 60%; margin-right: 75%;}*/
+=======
+.contactInfo img {
+  margin-top: 30%;
+  border-radius: 10%;
+  margin-bottom: 2%;
+}
+
+.contactInfo a {
+  background-color: #C4C4C4;
+}
+
+.givemanProfile h1{
+  margin-bottom: 3%;
+}
+
+.givemanProfile img{
+  margin-top: 75%;
+>>>>>>> dev-vanthika
+}
+
 h1 {
   text-align: center;
   font-family: 'Amaranth';
@@ -137,11 +170,53 @@ h2 {
 .position > #searchbar {
   position: absolute;
   top: 35%;
-  left: 35%;
+/*  left: 35%;*/
   background-image: linear-gradient(to right, white, #C4C4C4);
   border: 2px solid grey;
   box-shadow: 5px 10px 9px grey;
   padding: 30px 70px;
+  margin-right: 33% ;
+  margin-left: 33%;
+}
+
+.autocomplete .button {
+  max-width: 15%;
+}
+@media all and (max-width: 500px) {
+  .banniere-intro{
+    display: none;
+  }
+
+  .position > #searchbar {
+    position: relative;
+    width: 100% ;
+    margin-bottom: 5% ;
+    margin-top: 5%; 
+    margin-left: 5%;
+    margin-right: 5%; 
+  }
+
+@media all and (max-width: 530px) {
+  .navbar-brand {
+    display: none;
+  }
+}
+
+/*@media (max-width: 550px) {
+  .justify-footer {
+    margin-right: 33%;
+    margin-left: 33%;
+  }
+}*/
+
+.navbar-toggler-icon {
+  color: blue; 
+
+}
+
+}
+.global {
+
 }
 
 .autocomplete {

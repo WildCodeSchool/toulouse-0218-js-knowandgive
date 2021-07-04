@@ -31,7 +31,11 @@ function getContactInformations(infosPerso){
           <div class="form-group row">
               <label for="email" class="col-sm-4 col-form-label">Email : </label>
               <div class="col-sm-6">
+<<<<<<< HEAD
                   <input type="text" class="form-control" id="email" name="email">
+=======
+                  <input type="text" class="form-control" id="email" name="email" value="${infosPerso.email}">
+>>>>>>> dev-vanthika
               </div>
           </div>
           <div class="form-group row">
@@ -58,11 +62,16 @@ function getDescription(infosPerso){
 }
 
 
+function getSkill(skill){
+  return `<span class="badge badge-pill badge-success">${skill}</span>`
+}
+
+
 const pagePersoHtml = infosPerso => /* @html */ `
 
        <h1>Informations personnelles</h1>
        <div class="container" id="formInfo">
-           <div class="row">
+           <div class="row contactInfo">
                <div class="col-md-6 imgProfil">
                    <!-- Upload de la photo -->
                    <form method="POST" id="file-form" enctype="multipart/form-data" action="/uploaddufichier">
@@ -92,14 +101,9 @@ const pagePersoHtml = infosPerso => /* @html */ `
                <div class="col-md-6">
                   <div class="form-group skills">
                    <h2>Compétences</h2>
-                     <span class="badge badge-pill badge-success">Jardinage</span>
-                     <span class="badge badge-pill badge-success">Famille</span>
-                     <span class="badge badge-pill badge-success">Decoration</span>
-                     <span class="badge badge-pill badge-success">Bricolage</span>
-                     <span class="badge badge-pill badge-success">Enseignement</span>
-                     <span class="badge badge-pill badge-success">Cuisine</span>
-                     <span class="badge badge-pill badge-success">Mode et beauté</span>
-                     <span class="badge badge-pill badge-success">Art</span><br />
+                   ${infosPerso.skill.map(getSkill).join('')}
+
+                     <br />
                      <form id="formSkill" method="POST" action="/competences">
                        <input type="text" class="form-control" id="competence" name="competence">
                      </form>

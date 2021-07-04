@@ -1,6 +1,11 @@
 const render = require('./render')
 function getProfilHtml(informations) {
-  return `<h2 class="profil">A propos de moi</h2>
+  return `<div class="col-md-2">
+    <img src="/images/${informations.photo}" alt="portrait" class="img-fluid"><br/>
+    <a href="/messagerie?contactId=${informations.id}" class="btn btn-primary">Contacter</a>
+  </div>
+  <div class="col-md-10 skills">
+    <h2 class="profil">A propos de moi</h2>
 
     <p class="nom">
     <b>${informations.firstname} ${informations.lastname}</b></p>
@@ -16,19 +21,22 @@ function getSkillBadge(skill) {
   return `<span class="badge badge-pill">
     ${skill}
   </span>`
-
 }
 
 const pageProfilHtml = informations => /* @html */ `
-  <div class="container-fluid">
+  <div class="container-fluid givemanProfile">
     <h1>Bienvenue sur ma page</h1>
     <div class="row">
-        <div class="col-md-2">
+<<<<<<< HEAD
+        
+=======
+        <div class="offset-1 col-md-2 offset-0">
           <img src="" alt="portrait" class=""><br/>
-          <a href="#" class="btn btn-primary">Contacter</a>
+          <a href="/messagerie?contactId=${informations.id}" class="btn btn-primary">Contacter</a>
         </div>
-        <div class="col-md-10 skills">
+        <div class="offset-1 col-md-7 offset-1 skills">
 
+>>>>>>> dev-vanthika
           ${getProfilHtml(informations)}
 
           <h2 class="profil">Mes compétences</h2>
